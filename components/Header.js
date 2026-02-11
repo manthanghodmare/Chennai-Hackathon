@@ -7,13 +7,7 @@ function Header() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollTo('home')}>
-                        <div className="w-10 h-10 rounded-xl bg-[var(--primary)] flex items-center justify-center text-white shadow-lg shadow-teal-500/20 shrink-0">
-                            <Icon name="bus-front" size="text-2xl" />
-                        </div>
-                        <div className="hidden sm:block">
-                            <h1 className="text-xl font-bold text-slate-900 leading-none">CityTransit</h1>
-                            <span className="text-sm text-slate-500 font-bold tracking-tight">LIVE TRACKER</span>
-                        </div>
+                        <Logo size="sm" />
                     </div>
 
                     <div className="hidden md:flex items-center space-x-8">

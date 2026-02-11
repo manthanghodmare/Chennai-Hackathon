@@ -113,8 +113,8 @@ function App() {
                                 <span className="inline-block px-3 py-1 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-300 text-sm font-semibold mb-4 backdrop-blur-sm">
                                     🚀 Live Beta
                                 </span>
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-                                    Smart Transit for <br /> <span className="text-teal-400">Smart Cities</span>
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4">
+                                    Smart Mobility for <br /> <span className="text-teal-400">Smart Cities</span>
                                 </h1>
                                 <p className="text-xl text-slate-300 max-w-lg mb-8">
                                     Real-time tracking, accurate ETAs, and live service alerts for your daily commute.

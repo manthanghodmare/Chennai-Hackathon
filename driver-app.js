@@ -42,13 +42,8 @@ function DriverApp() {
             <nav className="bg-slate-900 text-white shadow-md sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded bg-teal-600 flex items-center justify-center text-white">
-                            <Icon name="shield-check" size="text-lg" />
-                        </div>
-                        <div>
-                            <span className="font-bold text-lg leading-tight block">CityTransit</span>
-                            <span className="text-[10px] text-slate-400 font-medium tracking-wider uppercase">Authority Portal</span>
-                        </div>
+                        <Logo size="sm" className="text-white" />
+                        <span className="text-slate-400 font-normal border-l border-slate-700 pl-3 ml-1 uppercase text-[10px] tracking-widest">Mobility Portal</span>
                     </div>
                     <div className="flex items-center gap-6">
                         <div className="hidden md:block text-right">
@@ -175,7 +170,7 @@ function DriverApp() {
                                                 <div className="flex items-center gap-2">
                                                     <div className="w-20 h-2 bg-slate-100 rounded-full overflow-hidden">
                                                         <div className={`h-full rounded-full transition-all duration-500 ${vehicle.capacity === 'High' ? 'bg-red-500 w-[90%]' :
-                                                                vehicle.capacity === 'Medium' ? 'bg-yellow-500 w-[60%]' : 'bg-green-500 w-[30%]'
+                                                            vehicle.capacity === 'Medium' ? 'bg-yellow-500 w-[60%]' : 'bg-green-500 w-[30%]'
                                                             }`}></div>
                                                     </div>
                                                     <span className="text-xs text-slate-500 font-medium">{vehicle.capacity}</span>

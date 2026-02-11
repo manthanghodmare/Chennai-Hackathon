@@ -5,12 +5,8 @@ function AdminHeader() {
         <header className="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
             <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center">
-                        <Icon name="layout-dashboard" className="text-white" size="text-xl" />
-                    </div>
-                    <div>
-                        <h1 className="font-bold text-lg leading-tight">CityTransit <span className="text-slate-400 font-normal">| Admin</span></h1>
-                    </div>
+                    <Logo size="sm" className="text-white" />
+                    <span className="text-slate-400 font-normal border-l border-slate-700 pl-3 ml-1">Admin Hub</span>
                 </div>
                 <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
                     <a href="#" className="text-white">Overview</a>
@@ -157,7 +153,7 @@ function AdminApp() {
                                                     <td className="px-6 py-4">{v.routeId}</td>
                                                     <td className="px-6 py-4">
                                                         <span className={`px-2 py-1 rounded text-xs font-bold ${v.status === 'On Time' ? 'bg-green-100 text-green-700' :
-                                                                v.status === 'Delayed' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
+                                                            v.status === 'Delayed' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
                                                             }`}>{v.status}</span>
                                                     </td>
                                                     <td className="px-6 py-4">{v.capacity}</td>

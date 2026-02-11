@@ -1,4 +1,4 @@
-// Mock data for the CityTransit application
+// Mock data for the NEXUS application
 
 const ROUTES = [
     {

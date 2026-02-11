@@ -47,12 +47,7 @@ function LoginApp() {
                         <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full -ml-32 -mb-32 blur-3xl"></div>
 
                         <div className="relative z-10">
-                            <div className="flex items-center gap-3 mb-10">
-                                <div className="p-3 bg-white/10 rounded-2xl backdrop-blur-md border border-white/20 shadow-inner">
-                                    <Icon name="bus-front" size="text-2xl" />
-                                </div>
-                                <h2 className="text-2xl font-bold tracking-tight">CityTransit <span className="text-teal-400">Hub</span></h2>
-                            </div>
+                            <Logo size="lg" className="mb-10 text-white" />
                             <h3 className="text-3xl font-extrabold mb-6 leading-tight">Unified Transit Management & Citizen Information Portal</h3>
                             <div className="space-y-6">
                                 <div className="flex gap-4">
@@ -186,7 +181,7 @@ function LoginApp() {
                         <div className="lg:col-span-2">
                             <div className="flex items-center gap-3 mb-6">
                                 <Icon name="bus-front" className="text-teal-400" />
-                                <h4 className="font-black text-xl tracking-tight">CityTransit Authority</h4>
+                                <h4 className="font-black text-xl tracking-tight">NEXUS Mobility Group</h4>
                             </div>
                             <p className="text-sm text-blue-100/40 leading-relaxed max-w-sm font-medium">
                                 A flagship initiative of the Ministry of Housing and Urban Affairs to revolutionize metropolitan connectivity through AI-driven transit intelligence and sustainable infrastructure development.
@@ -222,7 +217,7 @@ function LoginApp() {
                                     <p className="text-[10px] text-teal-400 font-bold uppercase mb-1">National Toll-Free</p>
                                     <p className="text-lg font-black text-white">1800-245-8888</p>
                                 </div>
-                                <p className="text-sm text-blue-100/60 font-medium pl-2">support@citytransit.gov.in</p>
+                                <p className="text-sm text-blue-100/60 font-medium pl-2">support@nexusmobility.gov.in</p>
                             </div>
                         </div>
                     </div>

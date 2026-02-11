@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CityTransit - Live Tracking</title>
-    <meta name="description" content="Real-time public transport tracking for your city. Check bus schedules, live locations, and arrival times.">
-    <meta name="keywords" content="public transport, bus tracker, city transit, real-time arrival, schedule">
-    <meta property="og:title" content="CityTransit - Live Tracking">
-    <meta property="og:description" content="Real-time public transport tracking for your city.">
-    <meta name="twitter:title" content="CityTransit - Live Tracking">
+    <title>NEXUS - Live Tracking</title>
+    <meta name="description"
+        content="NEXUS: Real-time public mobility tracking for your city. Check bus schedules, live locations, and arrival times.">
+    <meta name="keywords" content="public mobility, bus tracker, city transit, real-time arrival, schedule, NEXUS">
+    <meta property="og:title" content="NEXUS - Live Mobility Tracking">
+    <meta property="og:description" content="Real-time public mobility tracking for your city with NEXUS.">
+    <meta name="twitter:title" content="NEXUS - Live Mobility Tracking">
     <meta name="twitter:description" content="Real-time public transport tracking for your city.">
 
     <script src="https://resource.trickle.so/vendor_lib/unpkg/react@18/umd/react.production.min.js"></script>
@@ -18,7 +20,7 @@
     <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
 
     <style type="text/tailwindcss">
-    @layer theme {
+        @layer theme {
         :root {
             --primary: #0d9488; /* Teal 600 */
             --primary-dark: #0f766e; /* Teal 700 */
@@ -87,12 +89,14 @@
     }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
     <script type="text/babel" src="utils/mockData.js"></script>
     <script type="text/babel" src="utils/context.js"></script>
     <script type="text/babel" src="utils/auth.js"></script>
     <script type="text/babel" src="components/Icons.js"></script>
+    <script type="text/babel" src="components/Logo.js"></script>
     <script type="text/babel" src="components/UI.js"></script>
     <script type="text/babel" src="components/AuthUI.js"></script>
     <script type="text/babel" src="components/Header.js"></script>
@@ -103,4 +107,5 @@
     <script type="text/babel" src="components/DashboardStats.js"></script>
     <script type="text/babel" src="tracker-app.js"></script>
 </body>
+
 </html>
