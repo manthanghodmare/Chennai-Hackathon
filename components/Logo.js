@@ -20,30 +20,54 @@ function Logo({ className = "", showText = true, size = "md" }) {
         xl: "text-[12px]"
     };
 
+    const colors = {
+        primary: "#1e3a5f", // Navy blue from image
+        accent: "#f97316"   // Orange from image
+    };
+
     return (
         <div className={`flex items-center gap-3 ${className}`} data-name="nexus-logo">
             {/* Logo Icon */}
             <div className={`${sizes[size]} aspect-square relative`}>
-                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
+                <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm overflow-visible">
                     {/* Main Pin Shape */}
                     <path
-                        d="M50 5C30.7 5 15 20.7 15 40c0 14.5 15 35 35 55 20-20 35-40.5 35-55 0-19.3-15.7-35-35-35z"
-                        fill="#1e3a5f"
+                        d="M50 85C50 85 80 60 80 40C80 23.4 66.6 10 50 10C33.4 10 20 23.4 20 40C20 60 50 85 50 85Z"
+                        fill={colors.primary}
                     />
-                    {/* White Circle */}
-                    <circle cx="50" cy="40" r="22" fill="white" />
-                    {/* Simplified Bus Icon */}
+
+                    {/* White Circle Background for Bus */}
+                    <circle cx="50" cy="40" r="21" fill="white" />
+
+                    {/* Bus Icon Detail (Blue on White Circle) */}
+                    <g transform="translate(32, 30) scale(0.36)">
+                        {/* Bus Body */}
+                        <path
+                            d="M8 10h84c2.2 0 4 1.8 4 4v30c0 4.4-3.6 8-8 8H12c-4.4 0-8-3.6-8-8V14c0-2.2 1.8-4 4-4z"
+                            fill={colors.primary}
+                        />
+                        {/* Windows */}
+                        <rect x="12" y="16" width="14" height="20" rx="2" fill="white" />
+                        <rect x="30" y="16" width="14" height="20" rx="2" fill="white" />
+                        <rect x="48" y="16" width="14" height="20" rx="2" fill="white" />
+                        <rect x="66" y="16" width="14" height="20" rx="2" fill="white" />
+
+                        {/* Door/Tall Window section */}
+                        <rect x="84" y="16" width="8" height="28" rx="2" fill="white" />
+
+                        {/* Wheels */}
+                        <circle cx="28" cy="52" r="8" fill={colors.primary} stroke="white" strokeWidth="3" />
+                        <circle cx="72" cy="52" r="8" fill={colors.primary} stroke="white" strokeWidth="3" />
+                    </g>
+
+                    {/* Bottom Orange Arc */}
                     <path
-                        d="M62 42.5v-6c0-1.4-1.1-2.5-2.5-2.5h-19c-1.4 0-2.5 1.1-2.5 2.5v6c0 0.8 0.7 1.5 1.5 1.5h21c0.8 0 1.5-0.7 1.5-1.5zm-18-5.5h3v3h-3v-3zm5 0h3v3h-3v-3zm5 0h3v3h-3v-3zm5 0h3v3h-3v-3zm-16 11c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                        fill="#1e3a5f"
-                    />
-                    {/* Bottom Orange Curve */}
-                    <path
-                        d="M35 85c0 0 5 10 15 10s15-10 15-10"
+                        d="M38 75C38 75 42 85 50 85s12-10 12-10"
                         fill="none"
-                        stroke="#f97316"
-                        strokeWidth="4"
+                        stroke={colors.accent}
+                        strokeWidth="3.5"
                         lineCap="round"
+                        transform="translate(0, 8)"
                     />
                 </svg>
             </div>
@@ -51,11 +75,11 @@ function Logo({ className = "", showText = true, size = "md" }) {
             {/* Logo Text */}
             {showText && (
                 <div className="flex flex-col">
-                    <h1 className={`${textSizes[size]} font-black tracking-tighter text-[#1e3a5f] leading-none`}>
+                    <h1 className={`${textSizes[size]} font-black tracking-normal text-[#1e3a5f] leading-none`}>
                         NEXUS
                     </h1>
-                    <p className={`${subtitleSizes[size]} font-bold tracking-[0.2em] text-[#f97316] uppercase leading-none mt-1`}>
-                        Smart Link, Small Cities
+                    <p className={`${subtitleSizes[size]} font-bold tracking-[0.05em] text-[#f97316] uppercase leading-none mt-1`}>
+                        SMART LINK, SMALL CITIES
                     </p>
                 </div>
             )}
