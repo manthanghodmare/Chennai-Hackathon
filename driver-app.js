@@ -2,6 +2,18 @@ function DriverApp() {
     const { user, logout } = Auth.useAuth();
     const [vehicles, setVehicles] = React.useState(VEHICLES);
     const [currentTime, setCurrentTime] = React.useState(new Date());
+    const [showDropdown, setShowDropdown] = React.useState(false);
+    const dropdownRef = React.useRef(null);
+
+    React.useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     // Simulate live updates
     React.useEffect(() => {
@@ -39,30 +51,50 @@ function DriverApp() {
 
     return (
         <div className="min-h-screen flex flex-col bg-slate-50" data-name="driver-app" data-file="driver-app.js">
-            <nav className="bg-slate-900 text-white shadow-md sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <Logo size="sm" className="text-white" />
-                        <span className="text-slate-400 font-normal border-l border-slate-700 pl-3 ml-1 uppercase text-[10px] tracking-widest">Mobility Portal</span>
+            <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-md w-full">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <Logo size="lg" />
+                        <span className="text-slate-400 font-bold border-l border-slate-200 pl-5 ml-1 uppercase text-xs tracking-[0.3em]">Mobility Portal</span>
                     </div>
                     <div className="flex items-center gap-6">
                         <div className="hidden md:block text-right">
-                            <p className="text-xs text-slate-400">System Time</p>
-                            <p className="text-sm font-mono font-bold">{currentTime.toLocaleTimeString()}</p>
+                            <p className="text-xs text-slate-500">System Time</p>
+                            <p className="text-sm font-mono font-bold text-slate-900">{currentTime.toLocaleTimeString()}</p>
                         </div>
-                        <div className="h-8 w-px bg-slate-700 hidden md:block"></div>
-                        <div className="flex items-center gap-3">
+                        <div className="h-8 w-px bg-slate-200 hidden md:block"></div>
+                        <div className="flex items-center gap-4">
                             <div className="text-right flex flex-col items-end">
-                                <span className="text-sm font-bold text-white leading-none">{user?.name || 'Dispatcher #42'}</span>
-                                <button
-                                    onClick={() => { logout(); window.location.href = 'index.html'; }}
-                                    className="text-[10px] text-red-400 font-bold uppercase tracking-wider hover:text-red-300 transition-colors"
-                                >
-                                    Log Out
-                                </button>
+                                <span className="text-base font-black text-slate-900 leading-tight">{user?.name || 'Dispatcher #42'}</span>
+                                <span className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold">Driver</span>
                             </div>
-                            <div className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 shadow-inner">
-                                <Icon name="user" size="text-sm" className="text-slate-400" />
+                            <div className="relative" ref={dropdownRef}>
+                                <button
+                                    onClick={() => setShowDropdown(!showDropdown)}
+                                    className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center border-2 border-slate-200 text-[#1E3A8A] hover:bg-slate-200 transition-all hover:scale-105 shadow-sm"
+                                >
+                                    <Icon name="user" size="text-xl" />
+                                </button>
+
+                                {/* Dropdown Menu */}
+                                {showDropdown && (
+                                    <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-100 py-2 overflow-hidden animate-fade-in z-[60]">
+                                        <div className="px-4 py-3 border-b border-slate-50 bg-slate-50/50 mb-1">
+                                            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Signed in as</p>
+                                            <p className="text-sm font-bold text-slate-900 truncate">{user?.name || 'Dispatcher #42'}</p>
+                                        </div>
+                                        <button className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 transition-colors">
+                                            <Icon name="layout-dashboard" size="text-xs" className="text-slate-400" /> Dashboard
+                                        </button>
+                                        <div className="h-px bg-slate-100 my-1 mx-2"></div>
+                                        <button
+                                            onClick={() => { logout(); window.location.href = 'index.html'; }}
+                                            className="w-full text-left px-4 py-2.5 text-[10px] text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors font-black uppercase tracking-[0.2em]"
+                                        >
+                                            <Icon name="log-out" size="text-xs" /> Sign Out
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -102,9 +134,9 @@ function DriverApp() {
                     <div className="flex gap-2 w-full sm:w-auto">
                         <div className="relative flex-1 sm:w-64">
                             <Icon name="search" size="text-sm" className="absolute left-3 top-2.5 text-slate-400" />
-                            <input type="text" placeholder="Search vehicle or route..." className="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none" />
+                            <input type="text" placeholder="Search vehicle or route..." className="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent outline-none bg-white" />
                         </div>
-                        <button className="flex items-center gap-2 bg-[var(--primary)] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[var(--primary-dark)] whitespace-nowrap">
+                        <button className="flex items-center gap-2 bg-[#3B82F6] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#1E3A8A] transition-colors whitespace-nowrap shadow-sm">
                             <Icon name="file-down" size="text-sm" />
                             Export
                         </button>

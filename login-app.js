@@ -69,7 +69,7 @@ function LoginApp() {
             {/* Main Portal Section */}
             <main className="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
                 {/* Animated Background Elements */}
-                <div className="absolute inset-0 bg-[#002147]/5 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-[#1E3A8A]/5 pointer-events-none"></div>
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] opacity-10 pointer-events-none"></div>
 
                 {/* Modern Floating Blobs */}
@@ -78,15 +78,31 @@ function LoginApp() {
 
                 <div className="w-full max-w-xl bg-white rounded-3xl shadow-2xl shadow-blue-900/20 border border-slate-200 overflow-hidden relative z-10 transition-all hover:shadow-blue-900/30 p-10 lg:p-14">
                     {/* Centered Logo */}
-                    <div className="flex justify-center mb-10">
+                    <div className="flex justify-center mb-12 transform scale-110 relative">
                         <Logo size="lg" />
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 hidden lg:block">
+                            {/* Desktop Positioning */}
+                        </div>
+                    </div>
+
+                    {/* Language Selector - Absolute Top Right of Card */}
+                    <div className="absolute top-6 right-6 z-20">
+                        <select
+                            className="bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold rounded-lg py-2 px-3 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider"
+                            defaultValue="en"
+                        >
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="mr">Marathi</option>
+                            <option value="ta">Tamil</option>
+                        </select>
                     </div>
 
                     <div className="mb-10 transition-all duration-500">
-                        <span className="text-teal-600 font-bold text-sm tracking-widest uppercase mb-2 block">{greeting},</span>
-                        <h2 className="text-3xl font-black text-[#002147] mb-2">Sign In to Dashboard</h2>
+                        <span className="text-[#F59E0B] font-bold text-sm tracking-widest uppercase mb-2 block">{greeting},</span>
+                        <h2 className="text-3xl font-black text-[#1E3A8A] mb-2">Sign In to Dashboard</h2>
                         <p className="text-slate-500 font-medium text-sm flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-teal-500 animate-ping"></span>
+                            <span className="w-2 h-2 rounded-full bg-[#F59E0B] animate-ping"></span>
                             {roleData[role].description}
                         </p>
                     </div>
@@ -103,21 +119,21 @@ function LoginApp() {
                             <button
                                 type="button"
                                 onClick={() => setRole('passenger')}
-                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'passenger' ? 'border-[#002147] bg-blue-50 text-[#002147]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
+                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'passenger' ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
                             >
                                 Citizen
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setRole('admin')}
-                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'admin' ? 'border-[#002147] bg-blue-50 text-[#002147]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
+                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'admin' ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
                             >
                                 Authority
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setRole('driver')}
-                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'driver' ? 'border-[#002147] bg-blue-50 text-[#002147]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
+                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'driver' ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
                             >
                                 Driver
                             </button>
@@ -126,7 +142,7 @@ function LoginApp() {
                         <div className="space-y-2">
                             <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block ml-1">User ID / Registered Mobile</label>
                             <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#002147] transition-colors">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#1E3A8A] transition-colors">
                                     <Icon name="user" size="text-sm" />
                                 </div>
                                 <input
@@ -134,7 +150,7 @@ function LoginApp() {
                                     placeholder="Enter your ID or Mobile number"
                                     value={userId}
                                     onChange={(e) => setUserId(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-[#002147] focus:bg-white outline-none transition-all font-medium placeholder:text-slate-400"
+                                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-[#1E3A8A] focus:bg-white outline-none transition-all font-medium placeholder:text-slate-400"
                                 />
                             </div>
                         </div>
@@ -145,7 +161,7 @@ function LoginApp() {
                                 <a href="#" className="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">Forgot Password?</a>
                             </div>
                             <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#002147] transition-colors">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#1E3A8A] transition-colors">
                                     <Icon name="lock" size="text-sm" />
                                 </div>
                                 <input
@@ -153,7 +169,7 @@ function LoginApp() {
                                     placeholder="Enter secure password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-11 pr-12 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-[#002147] focus:bg-white outline-none transition-all font-medium placeholder:text-slate-400"
+                                    className="w-full pl-11 pr-12 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-[#1E3A8A] focus:bg-white outline-none transition-all font-medium placeholder:text-slate-400"
                                 />
                                 <button
                                     type="button"
@@ -169,7 +185,7 @@ function LoginApp() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className={`w-full bg-[#002147] hover:bg-[#003366] text-white py-5 rounded-xl font-bold text-lg shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group ${isLoading ? 'opacity-90 cursor-not-allowed' : ''}`}
+                                className={`w-full bg-[#3B82F6] hover:bg-[#1E3A8A] text-white py-5 rounded-xl font-bold text-lg shadow-xl shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group ${isLoading ? 'opacity-90 cursor-not-allowed' : ''}`}
                             >
                                 {isLoading ? (
                                     <>
@@ -183,6 +199,15 @@ function LoginApp() {
                                     </>
                                 )}
                             </button>
+                        </div>
+
+                        <div className="text-center mt-6">
+                            <p className="text-sm text-slate-500 font-medium">
+                                Don't have an account?{' '}
+                                <a href="#" className="text-[#3B82F6] font-bold hover:text-[#1E3A8A] transition-colors">
+                                    Create New Account
+                                </a>
+                            </p>
                         </div>
 
                         <div className="flex items-center gap-4 py-4 px-6 bg-slate-50 rounded-xl border border-slate-100 mt-6 group">

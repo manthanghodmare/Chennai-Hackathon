@@ -3,36 +3,40 @@ function Header() {
     const { user, logout } = Auth.useAuth();
 
     return (
-        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-sm w-full">
+        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-md w-full">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between items-center h-16">
+                <div className="flex justify-between items-center h-24">
                     <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollTo('home')}>
-                        <Logo size="sm" />
+                        <Logo size="lg" />
                     </div>
 
-                    <div className="hidden md:flex items-center space-x-8">
+                    <div className="hidden md:flex items-center space-x-3">
                         <button
                             onClick={() => setView('home')}
-                            className={`font-semibold text-base transition-colors ${currentView === 'home' ? 'text-[var(--primary)]' : 'text-slate-500 hover:text-[var(--primary)]'}`}
+                            className={`flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 ${currentView === 'home' ? 'bg-[#3B82F6] text-white shadow-lg shadow-blue-500/20' : 'text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]'}`}
                         >
+                            <Icon name="home" size="text-xl" />
                             Home
                         </button>
                         <button
                             onClick={() => setView('routes')}
-                            className={`font-semibold text-base transition-colors ${currentView === 'routes' ? 'text-[var(--primary)]' : 'text-slate-500 hover:text-[var(--primary)]'}`}
+                            className={`flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 ${currentView === 'routes' ? 'bg-[#3B82F6] text-white shadow-lg shadow-blue-500/20' : 'text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]'}`}
                         >
+                            <Icon name="route" size="text-xl" />
                             Routes
                         </button>
                         <button
                             onClick={() => setView('map')}
-                            className={`font-semibold text-base transition-colors ${currentView === 'map' ? 'text-[var(--primary)]' : 'text-slate-500 hover:text-[var(--primary)]'}`}
+                            className={`flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 ${currentView === 'map' ? 'bg-[#3B82F6] text-white shadow-lg shadow-blue-500/20' : 'text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]'}`}
                         >
+                            <Icon name="map" size="text-xl" />
                             Live Map
                         </button>
                         <button
                             onClick={() => setView('alerts')}
-                            className={`font-semibold text-base transition-colors ${currentView === 'alerts' ? 'text-[var(--primary)]' : 'text-slate-500 hover:text-[var(--primary)]'}`}
+                            className={`flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 ${currentView === 'alerts' ? 'bg-[#3B82F6] text-white shadow-lg shadow-blue-500/20' : 'text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]'}`}
                         >
+                            <Icon name="bell" size="text-xl" />
                             Alerts
                         </button>
                     </div>
@@ -42,17 +46,30 @@ function Header() {
                             <Icon name="search" />
                         </button>
 
+                        {/* Language Selector */}
+                        <div className="hidden sm:block">
+                            <select
+                                className="bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold rounded-lg py-2 px-2 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider"
+                                defaultValue="en"
+                            >
+                                <option value="en">Eng</option>
+                                <option value="hi">Hin</option>
+                                <option value="mr">Mar</option>
+                                <option value="ta">Tam</option>
+                            </select>
+                        </div>
+
                         {user ? (
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-4">
                                 <div className="hidden sm:flex flex-col items-end">
-                                    <span className="text-sm font-bold text-slate-900">{user.name}</span>
-                                    <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">{user.role}</span>
+                                    <span className="text-base font-black text-slate-900 leading-tight">{user.name}</span>
+                                    <span className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold">{user.role}</span>
                                 </div>
                                 <div className="relative group">
                                     <button
-                                        className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 text-[var(--primary)] hover:bg-slate-200 transition-colors shadow-inner"
+                                        className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center border-2 border-slate-200 text-[#1E3A8A] hover:bg-slate-200 transition-all hover:scale-105 shadow-sm"
                                     >
-                                        <Icon name="user" size="text-lg" />
+                                        <Icon name="user" size="text-xl" />
                                     </button>
                                     {/* Dropdown with Hover Bridge */}
                                     <div className="absolute right-0 top-full pt-2 w-56 hidden group-hover:block animate-fade-in z-[60]">
@@ -71,9 +88,9 @@ function Header() {
                                             <div className="h-px bg-slate-100 my-1 mx-2"></div>
                                             <button
                                                 onClick={() => { logout(); window.location.href = 'index.html'; }}
-                                                className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors font-bold"
+                                                className="w-full text-left px-4 py-2.5 text-[10px] text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors font-black uppercase tracking-[0.2em]"
                                             >
-                                                <Icon name="log-out" size="text-xs" /> Logout
+                                                <Icon name="log-out" size="text-xs" /> Sign Out
                                             </button>
                                         </div>
                                     </div>

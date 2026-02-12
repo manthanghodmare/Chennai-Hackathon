@@ -1,32 +1,77 @@
 function AdminHeader() {
     const { user, logout } = Auth.useAuth();
+    const [showDropdown, setShowDropdown] = React.useState(false);
+    const dropdownRef = React.useRef(null);
+
+    React.useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
-        <header className="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
-            <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <Logo size="sm" className="text-white" />
-                    <span className="text-slate-400 font-normal border-l border-slate-700 pl-3 ml-1">Admin Hub</span>
+        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-md w-full">
+            <div className="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <Logo size="lg" />
+
                 </div>
-                <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-                    <a href="#" className="text-white">Overview</a>
-                    <a href="#" className="text-slate-400 hover:text-white transition-colors">Fleet</a>
-                    <a href="#" className="text-slate-400 hover:text-white transition-colors">Routes</a>
-                    <a href="#" className="text-slate-400 hover:text-white transition-colors">Reports</a>
+                <nav className="hidden md:flex items-center gap-3">
+                    <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 bg-[#3B82F6] text-white shadow-lg shadow-blue-500/20">Overview</a>
+                    <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]">Fleet</a>
+                    <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]">Routes</a>
+                    <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]">Reports</a>
                 </nav>
                 <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-3 text-right">
+                    {/* Language Selector */}
+                    <div className="hidden sm:block">
+                        <select
+                            className="bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold rounded-lg py-2 px-2 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider"
+                            defaultValue="en"
+                        >
+                            <option value="en">Eng</option>
+                            <option value="hi">Hin</option>
+                            <option value="mr">Mar</option>
+                            <option value="ta">Tam</option>
+                        </select>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-right">
                         <div className="flex flex-col items-end">
-                            <p className="text-sm font-bold leading-none text-white">{user?.name || 'Admin'}</p>
-                            <button
-                                onClick={() => { logout(); window.location.href = 'index.html'; }}
-                                className="text-[10px] font-bold uppercase tracking-widest text-red-400 hover:text-red-300 transition-colors mt-1"
-                            >
-                                Sign Out
-                            </button>
+                            <p className="text-base font-black text-slate-900 leading-tight">{user?.name || 'Admin'}</p>
+                            <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold">Administrator</p>
                         </div>
-                        <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center border border-slate-700 shadow-inner">
-                            <Icon name="user" className="text-slate-400" />
+                        <div className="relative" ref={dropdownRef}>
+                            <button
+                                onClick={() => setShowDropdown(!showDropdown)}
+                                className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center border-2 border-slate-200 text-[#1E3A8A] hover:bg-slate-200 transition-all hover:scale-105 shadow-sm"
+                            >
+                                <Icon name="user" size="text-xl" />
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {showDropdown && (
+                                <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-100 py-2 overflow-hidden animate-fade-in z-[60]">
+                                    <div className="px-4 py-3 border-b border-slate-50 bg-slate-50/50 mb-1">
+                                        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Signed in as</p>
+                                        <p className="text-sm font-bold text-slate-900 truncate">{user?.name || 'Admin'}</p>
+                                    </div>
+                                    <button className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 transition-colors">
+                                        <Icon name="settings" size="text-xs" className="text-slate-400" /> Settings
+                                    </button>
+                                    <div className="h-px bg-slate-100 my-1 mx-2"></div>
+                                    <button
+                                        onClick={() => { logout(); window.location.href = 'index.html'; }}
+                                        className="w-full text-left px-4 py-2.5 text-[10px] text-red-600 hover:bg-red-50 flex items-center gap-3 transition-colors font-black uppercase tracking-[0.2em]"
+                                    >
+                                        <Icon name="log-out" size="text-xs" /> Sign Out
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -99,16 +144,16 @@ function AdminApp() {
 
                     {/* KPI Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <div className="card flex items-center gap-4 border-l-4 border-l-blue-500">
-                            <div className="p-3 bg-blue-50 rounded-lg text-blue-600"><Icon name="bus" /></div>
+                        <div className="card flex items-center gap-4 border-l-4 border-l-[#3B82F6]">
+                            <div className="p-3 bg-blue-50 rounded-lg text-[#3B82F6]"><Icon name="bus" /></div>
                             <div><p className="text-slate-500 text-xs font-bold uppercase">Total Fleet</p><p className="text-2xl font-bold">{vehicles.length}</p></div>
                         </div>
                         <div className="card flex items-center gap-4 border-l-4 border-l-green-500">
                             <div className="p-3 bg-green-50 rounded-lg text-green-600"><Icon name="activity" /></div>
                             <div><p className="text-slate-500 text-xs font-bold uppercase">On Time %</p><p className="text-2xl font-bold">87%</p></div>
                         </div>
-                        <div className="card flex items-center gap-4 border-l-4 border-l-amber-500">
-                            <div className="p-3 bg-amber-50 rounded-lg text-amber-600"><Icon name="users" /></div>
+                        <div className="card flex items-center gap-4 border-l-4 border-l-[#F59E0B]">
+                            <div className="p-3 bg-amber-50 rounded-lg text-[#F59E0B]"><Icon name="users" /></div>
                             <div><p className="text-slate-500 text-xs font-bold uppercase">Current Load</p><p className="text-2xl font-bold">High</p></div>
                         </div>
                         <div className="card flex items-center gap-4 border-l-4 border-l-red-500">
@@ -133,7 +178,7 @@ function AdminApp() {
                             <div className="card p-0 overflow-hidden">
                                 <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                                     <h3 className="font-bold text-slate-800">Live Fleet Status</h3>
-                                    <button className="text-blue-600 text-sm font-medium hover:underline">View Map</button>
+                                    <button className="text-[#3B82F6] text-sm font-medium hover:underline">View Map</button>
                                 </div>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm text-left">
@@ -170,22 +215,22 @@ function AdminApp() {
 
                         {/* Right: Quick Actions & Alerts */}
                         <div className="space-y-8">
-                            <div className="card bg-slate-800 text-white border-none">
-                                <h3 className="font-bold mb-4 flex items-center gap-2"><Icon name="megaphone" /> Broadcast Alert</h3>
+                            <div className="card bg-[#1E3A8A] text-white border-none shadow-xl">
+                                <h3 className="font-bold mb-4 flex items-center gap-2 text-[#F59E0B]"><Icon name="megaphone" /> Broadcast Alert</h3>
                                 <div className="space-y-4">
                                     <div>
-                                        <label className="text-xs text-slate-400 block mb-1">Target</label>
-                                        <select className="w-full bg-slate-700 border-none rounded p-2 text-sm text-white">
+                                        <label className="text-xs text-blue-200/60 block mb-1">Target</label>
+                                        <select className="w-full bg-[#1e293b] border-none rounded p-2 text-sm text-white">
                                             <option>All Passengers</option>
                                             <option>Route 101 Only</option>
                                             <option>Drivers Only</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="text-xs text-slate-400 block mb-1">Message</label>
-                                        <textarea className="w-full bg-slate-700 border-none rounded p-2 text-sm text-white h-20" placeholder="Type alert message..."></textarea>
+                                        <label className="text-xs text-blue-200/60 block mb-1">Message</label>
+                                        <textarea className="w-full bg-[#1e293b] border-none rounded p-2 text-sm text-white h-20" placeholder="Type alert message..."></textarea>
                                     </div>
-                                    <button className="w-full bg-blue-600 hover:bg-blue-500 py-2 rounded font-bold text-sm transition-colors">Send Broadcast</button>
+                                    <button className="w-full bg-[#3B82F6] hover:bg-[#2563EB] py-2 rounded font-bold text-sm transition-colors shadow-lg shadow-blue-500/20">Send Broadcast</button>
                                 </div>
                             </div>
 

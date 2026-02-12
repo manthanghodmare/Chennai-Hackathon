@@ -22,19 +22,19 @@
     <style type="text/tailwindcss">
         @layer theme {
         :root {
-            --primary: #0d9488; /* Teal 600 */
-            --primary-dark: #0f766e; /* Teal 700 */
-            --secondary: #64748b; /* Slate 500 */
-            --bg-light: #f8fafc; /* Slate 50 */
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --primary: #1E3A8A;
+            --secondary: #3B82F6;
+            --accent: #F59E0B;
+            --bg-tech: #F9FAFB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
         }
     }
 
     @layer base {
         body {
-            @apply bg-[var(--bg-light)] text-slate-900 font-sans antialiased overflow-x-hidden;
+            @apply bg-[#F9FAFB] text-[#111827] font-sans antialiased overflow-x-hidden;
         }
         h1, h2, h3, h4, h5, h6 {
             @apply font-bold tracking-tight;
@@ -46,7 +46,7 @@
             @apply bg-white rounded-xl shadow-sm border border-slate-100 p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
         }
         .btn-primary {
-            @apply bg-[var(--primary)] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[var(--primary-dark)] transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-teal-500/30;
+            @apply bg-[var(--primary)] text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-[var(--secondary)] transition-all active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-blue-500/30;
         }
         .btn-outline {
             @apply border border-slate-200 text-slate-700 px-5 py-2.5 rounded-lg font-semibold hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center gap-2;

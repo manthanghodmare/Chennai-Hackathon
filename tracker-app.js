@@ -110,11 +110,8 @@ function App() {
                         </div>
                         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center animate-fade-in z-10">
                             <div className="max-w-2xl">
-                                <span className="inline-block px-3 py-1 rounded-full bg-teal-500/20 border border-teal-500/30 text-teal-300 text-sm font-semibold mb-4 backdrop-blur-sm">
-                                    🚀 Live Beta
-                                </span>
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4">
-                                    Smart Mobility for <br /> <span className="text-teal-400">Smart Cities</span>
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4 text-white">
+                                    Smart Mobility for <br /> <span className="text-[#F59E0B]">Smart Cities</span>
                                 </h1>
                                 <p className="text-xl text-slate-300 max-w-lg mb-8">
                                     Real-time tracking, accurate ETAs, and live service alerts for your daily commute.
@@ -147,7 +144,7 @@ function App() {
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                                     <div className="lg:col-span-2 space-y-8">
                                         <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-100 flex flex-col justify-center items-center text-center">
-                                            <div className="w-16 h-16 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center mb-6">
+                                            <div className="w-16 h-16 bg-[#F59E0B]/10 text-[#F59E0B] rounded-2xl flex items-center justify-center mb-6">
                                                 <Icon name="map-unfold" size="text-3xl" />
                                             </div>
                                             <h2 className="text-2xl font-black text-slate-800 mb-2">Ready to explore?</h2>
@@ -177,8 +174,8 @@ function App() {
                                             <div className="flex items-center justify-between mb-6">
                                                 <h3 className="font-black text-slate-800 flex items-center gap-2">
                                                     <span className="relative flex h-3 w-3">
-                                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-                                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-teal-500"></span>
+                                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F59E0B] opacity-75"></span>
+                                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-[#F59E0B]"></span>
                                                     </span>
                                                     Live Activity Feed
                                                 </h3>
@@ -186,10 +183,10 @@ function App() {
                                             </div>
                                             <div className="space-y-4">
                                                 {[
-                                                    { id: 1, type: 'status', msg: 'Vehicle #402 just left Central Station', time: '1 min ago', icon: 'bus-front', color: 'text-teal-500 bg-teal-50' },
-                                                    { id: 2, type: 'delay', msg: 'Route 12B experiencing slight delays', time: '4 mins ago', icon: 'clock', color: 'text-amber-500 bg-amber-50' },
-                                                    { id: 3, type: 'success', msg: 'New schedule for Weekend transit published', time: '12 mins ago', icon: 'calendar-check', color: 'text-indigo-500 bg-indigo-50' },
-                                                    { id: 4, type: 'info', msg: 'High occupancy reported on Route 10A', time: '15 mins ago', icon: 'users', color: 'text-blue-500 bg-blue-50' }
+                                                    { id: 1, type: 'status', msg: 'Vehicle #402 just left Central Station', time: '1 min ago', icon: 'bus-front', color: 'text-[#3B82F6] bg-[#3B82F6]/10' },
+                                                    { id: 2, type: 'delay', msg: 'Route 12B experiencing slight delays', time: '4 mins ago', icon: 'clock', color: 'text-[#F59E0B] bg-[#F59E0B]/10' },
+                                                    { id: 3, type: 'success', msg: 'New schedule for Weekend transit published', time: '12 mins ago', icon: 'calendar-check', color: 'text-[#10B981] bg-[#10B981]/10' },
+                                                    { id: 4, type: 'info', msg: 'High occupancy reported on Route 10A', time: '15 mins ago', icon: 'users', color: 'text-[#3B82F6] bg-[#3B82F6]/10' }
                                                 ].map(item => (
                                                     <div key={item.id} className="flex items-start gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors group cursor-default">
                                                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center shadow-sm ${item.color}`}>
@@ -212,11 +209,11 @@ function App() {
 
                                     <div className="space-y-6">
                                         <EcoWidget />
-                                        <div className="bg-indigo-600 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
+                                        <div className="bg-[#1E3A8A] rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
                                             <h3 className="font-bold mb-2">Need Help?</h3>
-                                            <p className="text-indigo-100 text-sm mb-4">Our AI assistant is ready to help you plan your commute.</p>
-                                            <button className="w-full py-2 bg-white text-indigo-600 font-bold rounded-lg text-sm shadow-md">Open Chat</button>
+                                            <p className="text-blue-100 text-sm mb-4">Our AI assistant is ready to help you plan your commute.</p>
+                                            <button className="w-full py-2 bg-[#3B82F6] text-white hover:bg-[#1E3A8A] transition-colors font-bold rounded-lg text-sm shadow-md">Open Chat</button>
                                         </div>
                                     </div>
                                 </div>

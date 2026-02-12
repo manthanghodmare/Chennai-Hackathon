@@ -1,28 +1,28 @@
 function Logo({ className = "", showText = true, size = "md" }) {
     const sizes = {
-        sm: "h-8",
-        md: "h-12",
-        lg: "h-16",
-        xl: "h-24"
+        sm: "h-10",
+        md: "h-14",
+        lg: "h-20",
+        xl: "h-32"
     };
 
     const textSizes = {
-        sm: "text-lg",
-        md: "text-2xl",
-        lg: "text-4xl",
-        xl: "text-5xl"
+        sm: "text-xl",
+        md: "text-3xl",
+        lg: "text-5xl",
+        xl: "text-7xl"
     };
 
     const subtitleSizes = {
-        sm: "text-[6px]",
-        md: "text-[8px]",
-        lg: "text-[10px]",
-        xl: "text-[12px]"
+        sm: "text-[7px]",
+        md: "text-[10px]",
+        lg: "text-[12px]",
+        xl: "text-[16px]"
     };
 
     const colors = {
-        primary: "#1e3a5f", // Navy blue from image
-        accent: "#f97316"   // Orange from image
+        primary: "#1E3A8A", // Deep Blue
+        accent: "#F59E0B"   // Amber
     };
 
     return (
@@ -75,10 +75,10 @@ function Logo({ className = "", showText = true, size = "md" }) {
             {/* Logo Text */}
             {showText && (
                 <div className="flex flex-col">
-                    <h1 className={`${textSizes[size]} font-black tracking-normal text-[#1e3a5f] leading-none`}>
+                    <h1 className={`${textSizes[size]} font-black tracking-tight text-[#1E3A8A] leading-none uppercase drop-shadow-sm`}>
                         NEXUS
                     </h1>
-                    <p className={`${subtitleSizes[size]} font-bold tracking-[0.05em] text-[#f97316] uppercase leading-none mt-1`}>
+                    <p className={`${subtitleSizes[size]} font-bold tracking-[0.2em] text-[#F59E0B] uppercase leading-none mt-1.5`}>
                         SMART LINK, SMALL CITIES
                     </p>
                 </div>
