@@ -4,6 +4,15 @@ function LoginApp() {
     const [showPassword, setShowPassword] = React.useState(false);
     const [role, setRole] = React.useState('passenger');
     const [error, setError] = React.useState('');
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [greeting, setGreeting] = React.useState('');
+
+    React.useEffect(() => {
+        const hour = new Date().getHours();
+        if (hour < 12) setGreeting('Good Morning');
+        else if (hour < 17) setGreeting('Good Afternoon');
+        else setGreeting('Good Evening');
+    }, []);
 
     const handleLogin = (e) => {
         if (e) e.preventDefault();
@@ -19,12 +28,35 @@ function LoginApp() {
             return;
         }
 
-        Auth.login(role, userId);
+        setIsLoading(true);
+        setError('');
 
-        // Redirect based on role
-        if (role === 'admin') window.location.href = 'admin.html';
-        else if (role === 'driver') window.location.href = 'driver.html';
-        else window.location.href = 'tracker.html';
+        // Simulate network delay for interactivity
+        setTimeout(() => {
+            Auth.login(role, userId);
+            // Redirect based on role
+            if (role === 'admin') window.location.href = 'admin.html';
+            else if (role === 'driver') window.location.href = 'driver.html';
+            else window.location.href = 'tracker.html';
+        }, 1500);
+    };
+
+    const roleData = {
+        passenger: {
+            label: 'Citizen',
+            description: 'Access live bus tracking, ticket bookings, and personal transport history.',
+            icon: 'user'
+        },
+        admin: {
+            label: 'Authority',
+            description: 'Full access to fleet management, driver dispatch, and network analytics.',
+            icon: 'shield-check'
+        },
+        driver: {
+            label: 'Driver',
+            description: 'Open the console to manage your assigned route and passenger capacity.',
+            icon: 'bus-front'
+        }
     };
 
 
@@ -35,9 +67,14 @@ function LoginApp() {
 
 
             {/* Main Portal Section */}
-            <main className="flex-grow flex items-center justify-center p-6 relative">
+            <main className="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
+                {/* Animated Background Elements */}
                 <div className="absolute inset-0 bg-[#002147]/5 pointer-events-none"></div>
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] opacity-10 pointer-events-none"></div>
+
+                {/* Modern Floating Blobs */}
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-teal-500/10 rounded-full blur-[120px] animate-pulse"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
 
                 <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 bg-white rounded-3xl shadow-2xl shadow-blue-900/20 border border-slate-200 overflow-hidden relative z-10 transition-all hover:shadow-blue-900/30">
 
@@ -71,10 +108,14 @@ function LoginApp() {
                     </div>
 
                     {/* Login Form Column */}
-                    <div className="lg:col-span-7 p-10 lg:p-14 bg-white">
-                        <div className="mb-10">
-                            <h2 className="text-3xl font-black text-[#002147] mb-3">Sign In to Dashboard</h2>
-                            <p className="text-slate-500 font-medium italic">Please provide your official credentials or citizen ID</p>
+                    <div className="lg:col-span-7 p-10 lg:p-14 bg-white relative">
+                        <div className="mb-10 transition-all duration-500">
+                            <span className="text-teal-600 font-bold text-sm tracking-widest uppercase mb-2 block">{greeting},</span>
+                            <h2 className="text-3xl font-black text-[#002147] mb-2">Sign In to Dashboard</h2>
+                            <p className="text-slate-500 font-medium text-sm flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-teal-500 animate-ping"></span>
+                                {roleData[role].description}
+                            </p>
                         </div>
 
                         {error && (
@@ -154,10 +195,20 @@ function LoginApp() {
                             <div className="pt-4">
                                 <button
                                     type="submit"
-                                    className="w-full bg-[#002147] hover:bg-[#003366] text-white py-5 rounded-xl font-bold text-lg shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group"
+                                    disabled={isLoading}
+                                    className={`w-full bg-[#002147] hover:bg-[#003366] text-white py-5 rounded-xl font-bold text-lg shadow-xl shadow-blue-900/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group ${isLoading ? 'opacity-90 cursor-not-allowed' : ''}`}
                                 >
-                                    <span>Access Dashboard</span>
-                                    <Icon name="arrow-right" className="group-hover:translate-x-1 transition-transform" />
+                                    {isLoading ? (
+                                        <>
+                                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                            <span>Accessing Dashboard...</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span>Access Dashboard</span>
+                                            <Icon name="arrow-right" className="group-hover:translate-x-1 transition-transform" />
+                                        </>
+                                    )}
                                 </button>
                             </div>
 
