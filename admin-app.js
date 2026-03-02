@@ -1,4 +1,4 @@
-function AdminHeader() {
+function AdminHeader({ currentView, setView }) {
     const { user, logout } = Auth.useAuth();
     const [showDropdown, setShowDropdown] = React.useState(false);
     const dropdownRef = React.useRef(null);
@@ -13,18 +13,32 @@ function AdminHeader() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const navItems = [
+        { id: 'overview', label: 'Overview' },
+        { id: 'fleet', label: 'Fleet Map' },
+        { id: 'alerts', label: 'Alerts' },
+        { id: 'reports', label: 'Reports' }
+    ];
+
     return (
         <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-slate-200 shadow-md w-full">
             <div className="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <Logo size="lg" />
-
                 </div>
                 <nav className="hidden md:flex items-center gap-3">
-                    <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 bg-[#3B82F6] text-white shadow-lg shadow-blue-500/20">Overview</a>
-                    <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]">Fleet</a>
-                    <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]">Routes</a>
-                    <a href="#" className="flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]">Reports</a>
+                    {navItems.map(item => (
+                        <button
+                            key={item.id}
+                            onClick={() => setView(item.id)}
+                            className={`px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-105 ${currentView === item.id
+                                ? 'bg-[#3B82F6] text-white shadow-lg shadow-blue-500/20'
+                                : 'text-slate-600 hover:bg-slate-100 hover:text-[#1E3A8A]'
+                                }`}
+                        >
+                            {item.label}
+                        </button>
+                    ))}
                 </nav>
                 <div className="flex items-center gap-4">
                     {/* Language Selector */}
@@ -126,6 +140,7 @@ function AnalyticsChart() {
 
 function AdminApp() {
     const [vehicles, setVehicles] = React.useState(VEHICLES);
+    const [currentView, setCurrentView] = React.useState('overview'); // overview, fleet, alerts
 
     // Simulation
     React.useEffect(() => {
@@ -138,117 +153,200 @@ function AdminApp() {
     return (
         <AccessGuard role="admin">
             <div className="min-h-screen bg-slate-50 pb-12" data-name="admin-app" data-file="admin-app.js">
-                <AdminHeader />
+                <AdminHeader currentView={currentView} setView={setCurrentView} />
 
                 <main className="max-w-7xl mx-auto px-4 mt-8 space-y-8">
 
                     {/* KPI Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <div className="card flex items-center gap-4 border-l-4 border-l-[#3B82F6]">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+                        <div className="card flex items-center gap-4 border-l-4 border-l-[#3B82F6] hover:scale-105 transition-all cursor-pointer" onClick={() => setCurrentView('fleet')}>
                             <div className="p-3 bg-blue-50 rounded-lg text-[#3B82F6]"><Icon name="bus" /></div>
-                            <div><p className="text-slate-500 text-xs font-bold uppercase">Total Fleet</p><p className="text-2xl font-bold">{vehicles.length}</p></div>
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Buses Running</p><p className="text-2xl font-black text-slate-900">{vehicles.length}</p></div>
                         </div>
+
+                        <div className="card flex items-center gap-4 border-l-4 border-l-amber-500 hover:scale-105 transition-all cursor-pointer" onClick={() => setCurrentView('overview')}>
+                            <div className="p-3 bg-amber-50 rounded-lg text-amber-600"><Icon name="clock-alert" /></div>
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Delayed Buses</p><p className="text-2xl font-black text-slate-900">{vehicles.filter(v => v.status === 'Delayed').length}</p></div>
+                        </div>
+
+                        <div className="card flex items-center gap-4 border-l-4 border-l-slate-400 hover:scale-105 transition-all cursor-pointer">
+                            <div className="p-3 bg-slate-100 rounded-lg text-slate-600"><Icon name="power-off" /></div>
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Offline Units</p><p className="text-2xl font-black text-slate-900">0</p></div>
+                        </div>
+
                         <div className="card flex items-center gap-4 border-l-4 border-l-green-500">
                             <div className="p-3 bg-green-50 rounded-lg text-green-600"><Icon name="activity" /></div>
-                            <div><p className="text-slate-500 text-xs font-bold uppercase">On Time %</p><p className="text-2xl font-bold">87%</p></div>
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">On Time %</p><p className="text-2xl font-black text-slate-900">87%</p></div>
                         </div>
+
                         <div className="card flex items-center gap-4 border-l-4 border-l-[#F59E0B]">
                             <div className="p-3 bg-amber-50 rounded-lg text-[#F59E0B]"><Icon name="users" /></div>
-                            <div><p className="text-slate-500 text-xs font-bold uppercase">Current Load</p><p className="text-2xl font-bold">High</p></div>
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">System Load</p><p className="text-2xl font-black text-slate-900">Low</p></div>
                         </div>
-                        <div className="card flex items-center gap-4 border-l-4 border-l-red-500">
+
+                        <div className="card flex items-center gap-4 border-l-4 border-l-red-500 transition-all hover:scale-105 cursor-pointer" onClick={() => setCurrentView('alerts')}>
                             <div className="p-3 bg-red-50 rounded-lg text-red-600"><Icon name="triangle-alert" /></div>
-                            <div><p className="text-slate-500 text-xs font-bold uppercase">Critical Alerts</p><p className="text-2xl font-bold">1</p></div>
+                            <div><p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Critical Alerts</p><p className="text-2xl font-black text-slate-900">{ALERTS.length}</p></div>
                         </div>
                     </div>
 
-                    {/* Main Content Split */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-                        {/* Left: Analytics */}
-                        <div className="lg:col-span-2 space-y-8">
-                            <div className="card">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h3 className="font-bold text-slate-800">System Performance</h3>
-                                    <select className="text-xs border rounded px-2 py-1 bg-slate-50"><option>Today</option><option>Yesterday</option></select>
-                                </div>
-                                <AnalyticsChart />
-                            </div>
-
-                            <div className="card p-0 overflow-hidden">
-                                <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                                    <h3 className="font-bold text-slate-800">Live Fleet Status</h3>
-                                    <button className="text-[#3B82F6] text-sm font-medium hover:underline">View Map</button>
-                                </div>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-sm text-left">
-                                        <thead className="bg-slate-50 text-slate-500 font-medium border-b">
-                                            <tr>
-                                                <th className="px-6 py-3">Vehicle</th>
-                                                <th className="px-6 py-3">Route</th>
-                                                <th className="px-6 py-3">Status</th>
-                                                <th className="px-6 py-3">Capacity</th>
-                                                <th className="px-6 py-3 text-right">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-slate-100">
-                                            {vehicles.map(v => (
-                                                <tr key={v.id} className="hover:bg-slate-50">
-                                                    <td className="px-6 py-4 font-medium">{v.id}</td>
-                                                    <td className="px-6 py-4">{v.routeId}</td>
-                                                    <td className="px-6 py-4">
-                                                        <span className={`px-2 py-1 rounded text-xs font-bold ${v.status === 'On Time' ? 'bg-green-100 text-green-700' :
-                                                            v.status === 'Delayed' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
-                                                            }`}>{v.status}</span>
-                                                    </td>
-                                                    <td className="px-6 py-4">{v.capacity}</td>
-                                                    <td className="px-6 py-4 text-right">
-                                                        <button className="text-slate-400 hover:text-blue-600"><Icon name="settings" size="text-sm" /></button>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Right: Quick Actions & Alerts */}
-                        <div className="space-y-8">
-                            <div className="card bg-[#1E3A8A] text-white border-none shadow-xl">
-                                <h3 className="font-bold mb-4 flex items-center gap-2 text-[#F59E0B]"><Icon name="megaphone" /> Broadcast Alert</h3>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label className="text-xs text-blue-200/60 block mb-1">Target</label>
-                                        <select className="w-full bg-[#1e293b] border-none rounded p-2 text-sm text-white">
-                                            <option>All Passengers</option>
-                                            <option>Route 101 Only</option>
-                                            <option>Drivers Only</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="text-xs text-blue-200/60 block mb-1">Message</label>
-                                        <textarea className="w-full bg-[#1e293b] border-none rounded p-2 text-sm text-white h-20" placeholder="Type alert message..."></textarea>
-                                    </div>
-                                    <button className="w-full bg-[#3B82F6] hover:bg-[#2563EB] py-2 rounded font-bold text-sm transition-colors shadow-lg shadow-blue-500/20">Send Broadcast</button>
-                                </div>
-                            </div>
-
-                            <div className="card">
-                                <h3 className="font-bold text-slate-800 mb-4">Delay Reports</h3>
-                                <div className="space-y-3">
-                                    <div className="p-3 bg-red-50 rounded-lg border border-red-100 text-sm">
-                                        <div className="flex justify-between items-start mb-1">
-                                            <span className="font-bold text-red-800">Bus #V2</span>
-                                            <span className="text-xs text-red-500">2m ago</span>
+                    {/* View Switcher */}
+                    {currentView === 'overview' && (
+                        <div className="space-y-8 animate-fade-in">
+                            {/* Critical Monitoring Row */}
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                {/* Delay Monitor */}
+                                <div className="lg:col-span-2 card border-l-4 border-l-red-500 bg-white">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <div className="flex items-center gap-2">
+                                            <div className="relative flex h-3 w-3">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                                            </div>
+                                            <h3 className="font-black text-slate-800 uppercase tracking-wider text-sm">Real-time Delay Monitor</h3>
                                         </div>
-                                        <p className="text-red-700">Reporting heavy traffic at Market Square. Est delay +10m.</p>
+                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active Scanning</span>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {vehicles.filter(v => v.status === 'Delayed').map(v => (
+                                            <div key={v.id} className="flex items-center justify-between p-4 bg-red-50 rounded-xl border border-red-100 group">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm text-red-600">
+                                                        <Icon name="bus" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="font-black text-slate-900">Vehicle {v.id}</p>
+                                                        <p className="text-xs text-red-600 font-bold uppercase">Delayed • Route {v.routeId}</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    <button onClick={() => setCurrentView('fleet')} className="px-4 py-2 bg-white text-slate-700 rounded-lg text-xs font-bold border border-slate-200 hover:bg-slate-50 transition-all shadow-sm">
+                                                        Track on Map
+                                                    </button>
+                                                    <button onClick={() => setCurrentView('alerts')} className="px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700 transition-all shadow-md shadow-red-500/20">
+                                                        Notify Users
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {vehicles.filter(v => v.status === 'Delayed').length === 0 && (
+                                            <div className="text-center py-8">
+                                                <div className="w-12 h-12 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                                                    <Icon name="check" />
+                                                </div>
+                                                <p className="text-slate-500 font-bold text-sm text-center">No major delays detected. System running smoothly.</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Quick Schedule Card */}
+                                <div className="card bg-slate-900 text-white border-none shadow-2xl relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -mr-16 -mt-16 blur-3xl group-hover:bg-blue-500/20 transition-all"></div>
+                                    <h3 className="font-black text-[#F59E0B] mb-6 flex items-center gap-2 uppercase tracking-wider text-sm">
+                                        <Icon name="calendar" size="text-xs" />
+                                        Schedule Management
+                                    </h3>
+                                    <div className="space-y-6 relative z-10">
+                                        <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                                            <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">Upcoming Maintenance</p>
+                                            <p className="text-sm font-bold text-blue-300">Tram #T12 - Tomorrow 02:00 AM</p>
+                                        </div>
+                                        <div className="p-4 bg-white/5 rounded-xl border border-white/10">
+                                            <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">Next Shift Change</p>
+                                            <p className="text-sm font-bold text-emerald-300">All Routes - 06:00 AM</p>
+                                        </div>
+                                        <button className="w-full py-4 bg-white text-slate-900 font-black rounded-xl text-xs uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-95">
+                                            Manage Full Schedule
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Middle Row: Route Status & Fleet table */}
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                                {/* Route Status Grid */}
+                                <div className="card lg:col-span-1">
+                                    <h3 className="font-black text-slate-800 uppercase tracking-wider text-sm mb-6">Route Operations</h3>
+                                    <div className="grid grid-cols-1 gap-4">
+                                        {ROUTES.map(route => {
+                                            const routeVehicles = vehicles.filter(v => v.routeId === route.id);
+                                            const hasDelay = routeVehicles.some(v => v.status === 'Delayed');
+                                            return (
+                                                <div key={route.id} className="flex items-center justify-between p-4 rounded-xl border border-slate-100 hover:border-slate-200 transition-all cursor-pointer group" onClick={() => setCurrentView('fleet')}>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-8 h-8 rounded-lg ${route.color} flex items-center justify-center text-white text-[10px] font-black shadow-sm group-hover:scale-110 transition-transform`}>
+                                                            {route.number}
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-sm font-bold text-slate-800">{route.name}</p>
+                                                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{route.type} • {routeVehicles.length} Active</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase ${hasDelay ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>
+                                                        {hasDelay ? 'Attention' : 'Optimal'}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
+                                {/* Main Fleet Status Table */}
+                                <div className="card lg:col-span-2 p-0 overflow-hidden flex flex-col">
+                                    <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                                        <h3 className="font-black text-slate-800 uppercase tracking-wider text-sm">System Performance & Analytics</h3>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => setCurrentView('fleet')} className="px-4 py-2 bg-[#3B82F6] text-white rounded-lg text-xs font-bold hover:bg-[#2563EB] transition-all shadow-md shadow-blue-500/20">Analyze All</button>
+                                        </div>
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm text-left">
+                                            <thead className="bg-[#1E3A8A] text-white font-bold text-[10px] uppercase tracking-widest">
+                                                <tr>
+                                                    <th className="px-6 py-4">Fleet ID</th>
+                                                    <th className="px-6 py-4">Deployment</th>
+                                                    <th className="px-6 py-4">Health Status</th>
+                                                    <th className="px-6 py-4">Load Factor</th>
+                                                    <th className="px-6 py-4 text-right">Monitoring</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                {vehicles.map(v => (
+                                                    <tr key={v.id} className="hover:bg-slate-50 transition-colors">
+                                                        <td className="px-6 py-4 font-black text-slate-900">#{v.id}</td>
+                                                        <td className="px-6 py-4 font-bold text-slate-600">RT-{v.routeId}</td>
+                                                        <td className="px-6 py-4">
+                                                            <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${v.status === 'On Time' ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' :
+                                                                v.status === 'Delayed' ? 'bg-red-50 text-red-700 border border-red-100' : 'bg-blue-50 text-blue-700 border border-blue-100'
+                                                                }`}>{v.status}</span>
+                                                        </td>
+                                                        <td className="px-6 py-4 font-bold text-slate-500">{v.capacity}</td>
+                                                        <td className="px-6 py-4 text-right">
+                                                            <button onClick={() => setCurrentView('fleet')} className="text-[#3B82F6] hover:text-blue-800 transition-colors p-2 hover:bg-blue-50 rounded-lg">
+                                                                <Icon name="search" size="text-sm" />
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    )}
 
-                    </div>
+                    {currentView === 'fleet' && (
+                        <div className="animate-fade-in">
+                            <AdminMap vehicles={vehicles} />
+                        </div>
+                    )}
+
+                    {currentView === 'alerts' && (
+                        <AdminAlerts alerts={ALERTS} />
+                    )}
+
                 </main>
             </div>
         </AccessGuard>

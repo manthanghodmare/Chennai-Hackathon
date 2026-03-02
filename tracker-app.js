@@ -141,6 +141,36 @@ function App() {
                                     alertsCount={ALERTS.length}
                                 />
 
+                                {/* New Live Tracking Section */}
+                                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 mb-8 animate-fade-in group">
+                                    <div className="grid grid-cols-1 lg:grid-cols-2">
+                                        <div className="p-2 h-full min-h-[250px] lg:min-h-[300px]">
+                                            <MapPreview />
+                                        </div>
+                                        <div className="p-8 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-white to-slate-50">
+                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold mb-4 w-fit border border-blue-100">
+                                                <span className="relative flex h-2 w-2">
+                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                                                </span>
+                                                LIVE CONNECTED
+                                            </div>
+                                            <h2 className="text-3xl lg:text-4xl font-black text-slate-800 mb-4 tracking-tight">Track Your Ride</h2>
+                                            <p className="text-slate-500 mb-8 max-w-md text-lg leading-relaxed">Get real-time locations of all active buses and precise arrival times for every stop in the network.</p>
+                                            <button
+                                                onClick={() => setCurrentView('map')}
+                                                className="group/btn relative px-8 py-4 bg-slate-900 text-white rounded-xl font-bold flex items-center justify-center gap-3 overflow-hidden transition-all hover:bg-slate-800 hover:shadow-2xl hover:shadow-slate-900/20 active:scale-95 self-start"
+                                            >
+                                                <span className="relative z-10 flex items-center gap-2">
+                                                    <Icon name="map-pin" />
+                                                    Start Tracking
+                                                </span>
+                                                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                                     <div className="lg:col-span-2 space-y-8">
                                         <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-100 flex flex-col justify-center items-center text-center">
