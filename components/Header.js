@@ -39,6 +39,13 @@ function Header() {
                             <Icon name="bell" size="text-xl" />
                             Alerts
                         </button>
+                        <button
+                            onClick={() => setView('sustainability')}
+                            className={`flex items-center gap-3 px-6 py-3 rounded-full font-black text-lg transition-all duration-300 hover:scale-110 ${currentView === 'sustainability' ? 'bg-[#10B981] text-white shadow-lg shadow-emerald-500/20' : 'text-slate-600 hover:bg-slate-100 hover:text-[#064E3B]'}`}
+                        >
+                            <Icon name="leaf" size="text-xl" />
+                            Sustainability
+                        </button>
                     </div>
 
                     <div className="flex items-center gap-3 sm:gap-4">
@@ -81,7 +88,7 @@ function Header() {
                                             <button onClick={() => {
                                                 if (user.role === 'admin') window.location.href = 'admin.html';
                                                 else if (user.role === 'driver') window.location.href = 'driver.html';
-                                                else showToast('Profile settings coming soon');
+                                                else setView('profile');
                                             }} className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-3 transition-colors">
                                                 <Icon name="layout-dashboard" size="text-xs" className="text-slate-400" /> Dashboard
                                             </button>

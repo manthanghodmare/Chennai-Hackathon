@@ -1,6 +1,7 @@
 function EcoWidget() {
+    const { setView } = useAppContext();
     const [savedCO2, setSavedCO2] = React.useState(1240); // kg
-    
+
     // Simulate live counter
     React.useEffect(() => {
         const interval = setInterval(() => {
@@ -10,7 +11,10 @@ function EcoWidget() {
     }, []);
 
     return (
-        <div className="bg-emerald-50 rounded-xl p-5 border border-emerald-100 flex items-center justify-between animate-fade-in shadow-sm">
+        <div
+            onClick={() => setView('sustainability')}
+            className="bg-emerald-50 rounded-xl p-5 border border-emerald-100 flex items-center justify-between animate-fade-in shadow-sm cursor-pointer hover:bg-emerald-100/50 transition-colors group"
+        >
             <div>
                 <div className="flex items-center gap-2 mb-1">
                     <span className="bg-emerald-100 text-emerald-700 p-1.5 rounded-lg">

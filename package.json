@@ -1,0 +1,19 @@
+{
+  "name": "nexus-mobility",
+  "version": "1.0.0",
+  "description": "Nexus Mobility Dashboard - Smart City Transit System",
+  "private": true,
+  "scripts": {
+    "build": "powershell -Command \"New-Item -ItemType Directory -Force -Path www; Copy-Item index.html,tracker.html,driver.html,driver-portal.html,admin.html,login-app.js,tracker-app.js,driver-console.js,driver-app.js,admin-app.js www/ -Force; Copy-Item components,utils www/ -Recurse -Force\"",
+    "sync": "npm run build && npx cap sync android",
+    "open:android": "npx cap open android",
+    "android": "npm run sync && npm run open:android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.1.0",
+    "@capacitor/cli": "^8.1.0",
+    "@capacitor/core": "^8.1.0",
+    "@capacitor/splash-screen": "^8.0.1",
+    "@capacitor/status-bar": "^8.0.1"
+  }
+}

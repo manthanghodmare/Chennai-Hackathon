@@ -1,0 +1,112 @@
+# Nexus Mobility Dashboard - System Overview
+
+## 1. Introduction: What is Nexus Mobility?
+This is a **Smart City Transit Management System** designed for modern metropolitan needs. It connects **Citizens**, **Drivers**, and **Authorities** on a single platform to improve public transport efficiency.
+
+## 2. The Login Portal (`login-app.js`)
+The entry point is designed to be secure, professional, and accessible.
+- **Role-Based Access:** Three distinct buttons for **Citizen**, **Authority**, and **Driver**. Each role unlocks a different dashboard.
+- **Government Branding:** Uses official colors (Blue/Teal/White) and "Digital India" / "Ministry" style footers to build trust.
+- **Smart Features:**
+  - **Time-Based Greeting:** Changes from "Good Morning" to "Good Evening" automatically.
+  - **Language Support:** Dropdown for **English, Hindi, Marathi, Tamil** (New Addition).
+  - **Create Account Link:** Easy sign-up option for new users.
+  - **Security Warning:** Animated badge reminding users this is a monitored government system.
+
+## 3. The Passenger Dashboard (`tracker-app.js`)
+This is the main view for citizens. It focuses on **Real-Time Information**.
+- **Live Map:** Shows vehicles moving in real-time across the city.
+- **Route Planner:** Users can search for routes (e.g., "101 Downtown Loop") and see stops.
+- **Service Alerts:** A dedicated section for delays, roadworks, or schedule changes.
+- **Smart Widgets:**
+  - **Eco-Impact:** Shows CO2 saved by taking the bus vs. a car.
+  - **Live Activity Feed:** Updates like "Bus #402 left Central Station 1 min ago."
+  - **AI Chat Assistant:** A prominent "Need Help?" card for future AI integration.
+
+## 4. The Driver Console (`driver-console.js`)
+A simplified, high-visibility interface for bus drivers on the move.
+- **Clean White Theme:** High contrast for readability in daylight (New Design).
+- **Control Center:**
+  - **Big "Start/End Trip" Button:** The primary action is massive and color-coded (Green/Red).
+  - **Route Info Card:** Clearly shows "Next Stop" and "Scheduled Arrival Time."
+- **Quick Actions:** One-tap buttons for **"Report Delay"** and **"Request Maintenance"**.
+- **SOS Button:** A dedicated emergency button that triggers a confirmation modal to prevent accidental presses.
+- **Standardized Header:** Aligned with other apps, featuring the language selector and profile actions.
+
+## 5. The Admin Hub (`admin-app.js`)
+The command center for transport authorities to manage the fleet.
+- **Fleet Overview Cards:** Instant stats on **Total Fleet**, **On-Time %**, **Current Load**, and **Critical Alerts**.
+- **Analytics Chart:** A visual graph showing Passenger Load vs. Active Fleet usage throughout the day.
+- **Live Fleet Table:** A detailed list of every vehicle with status (On Time, Delayed), capacity, and action buttons.
+- **Broadcast System:** A tool to send alerts to specific groups (e.g., "All Passengers on Route 101").
+
+## 6. Detailed Feature Checklist (Everything Built)
+Here is the exhaustive list of every feature currently implemented in the system, organized by module.
+
+### A. Core System & Security
+- [x] **Secure Login:** ID/Password input with validation.
+- [x] **Role-Based Routing:** Redirects to specific dashboards based on role (Citizen/Admin/Driver).
+- [x] **Session Management:** "Sign Out" functionality clears session and redirects to login.
+- [x] **Global Branding:** "Nexus Mobility" logo and "Digital India" footer across all pages.
+- [x] **Mobile Responsiveness:** All views adapt to mobile, tablet, and desktop screens.
+
+### B. Login Page Specifics
+- [ ] **Dynamic Background:** Animated tech particles and gradient effects.
+- [ ] **Password Visibility:** Toggle eye icon to show/hide password.
+- [ ] **Time-Sensitive Greeting:** "Good Morning/Afternoon/Evening" based on system time.
+- [ ] **Account Creation:** Link to "Create New Account" (Frontend only).
+- [ ] **Language Selector:** Dropdown for standardizing language preference.
+
+### C. Passenger App Features
+- [ ] **Interactive Map:** Simulated live vehicle tracking.
+- [ ] **Route Search:** Modal to find specific bus routes.
+- [ ] **Live Stats:** Counters for "Active Routes" and "Vehicles on Road".
+- [ ] **Activity Feed:** Scrolling list of recent system events.
+- [ ] **Eco-Widget:** Visual indicator of environmental impact.
+- [ ] **Navigation:** Bottom tabs for Mobile, Top bar for Desktop (Home, Routes, Map, Alerts).
+
+### D. Driver Console Features
+- [ ] **Trip Management:** Toggle button for "Start Trip" (Green) and "End Trip" (Red).
+- [ ] **Route Display:** Shows Current Route ID and Destination.
+- [ ] **Status Indicators:** "LIVE" vs "IDLE" badges.
+- [ ] **Quick Reporting:** One-touch buttons for Delay and Maintenance.
+- [ ] **SOS System:** Two-step emergency activation (Click -> Confirm).
+
+### E. Admin Dashboard Features
+- [ ] **KPI Cards:** High-level metrics (Total Fleet, On-Time %, Alerts).
+- [ ] **Analytics Graph:** Line chart visualizing passenger load trends.
+- [ ] **Live Fleet Table:** Row-by-row status of every vehicle.
+- [ ] **Broadcast Tool:** Form to send system-wide messages.
+- [ ] **Vehicle Status:** Color-coded badges (On Time = Green, Delayed = Red).
+
+## 7. Common User Flows (Walkthroughs)
+
+### Flow 1: A Citizen checks for a bus
+1.  User logs in as **Citizen**.
+2.  Lands on **Home Dashboard**.
+3.  Sees "Live Activity Feed" to check for immediate delays.
+4.  Clicks **"Find Route"** or **"Live Map"**.
+5.  Views the bus moving in real-time.
+
+### Flow 2: A Driver starts their shift
+1.  User logs in as **Driver**.
+2.  Lands on **Driver Console**.
+3.  Sees assigned vehicle (e.g., "BUS-V1").
+4.  Clicks big green **"Start Trip"** button. Status changes to **LIVE**.
+5.  If traffic is bad, clicks **"Report Delay"**.
+
+### Flow 3: An Admin monitors the system
+1.  User logs in as **Authority**.
+2.  Lands on **Admin Hub**.
+3.  Notices a "Critical Alert" on the KPI card.
+4.  Checks the **Live Fleet Table** to identify the delayed bus.
+5.  Uses **Broadcast Alert** to notify passengers on that route.
+
+## 8. Technical Architecture (For Dev Team)
+- **`index.html`**: The entry point (Login).
+- **`tracker-app.js`**: Main Passenger Application logic.
+- **`driver-console.js`**: Driver Interface logic.
+- **`admin-app.js`**: Admin Dashboard logic.
+- **`components/`**: Folder containing shared UI bits like `Header.js`, `Logo.js`, `Footer.js`.
+- **`Auth.js`**: Utility file handling login state and session storage.
+

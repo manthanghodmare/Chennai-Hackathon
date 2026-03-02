@@ -126,14 +126,46 @@ function AnalyticsChart() {
 
 function AdminApp() {
     const [vehicles, setVehicles] = React.useState(VEHICLES);
+    const [showMap, setShowMap] = React.useState(false);
+    const [alertText, setAlertText] = React.useState('');
+    const [alertTarget, setAlertTarget] = React.useState('All Passengers');
 
-    // Simulation
+    // Real-time Firestore Sync
     React.useEffect(() => {
-        const interval = setInterval(() => {
-            setVehicles(prev => simulateMovement(prev));
-        }, 1000);
-        return () => clearInterval(interval);
+        const { db } = window.firebaseApp;
+        const unsubscribe = db.collection('vehicles').onSnapshot((snapshot) => {
+            const updatedVehicles = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            if (updatedVehicles.length > 0) {
+                setVehicles(updatedVehicles);
+            }
+        }, (error) => {
+            console.error("Admin Firestore Error:", error);
+        });
+        return () => unsubscribe();
     }, []);
+
+    const handleBroadcast = async () => {
+        if (!alertText.trim()) return;
+
+        const { db } = window.firebaseApp;
+        try {
+            await db.collection('alerts').add({
+                type: 'warning',
+                message: alertText,
+                target: alertTarget,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                active: true
+            });
+            setAlertText('');
+            alert('Alert broadcasted successfully!');
+        } catch (error) {
+            console.error("Error broadcasting alert:", error);
+            alert('Failed to send broadcast.');
+        }
+    };
 
     return (
         <AccessGuard role="admin">
@@ -175,41 +207,52 @@ function AdminApp() {
                                 <AnalyticsChart />
                             </div>
 
-                            <div className="card p-0 overflow-hidden">
+                            <div className="card p-0 overflow-hidden shadow-xl shadow-slate-200/50">
                                 <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                                     <h3 className="font-bold text-slate-800">Live Fleet Status</h3>
-                                    <button className="text-[#3B82F6] text-sm font-medium hover:underline">View Map</button>
+                                    <button
+                                        onClick={() => setShowMap(!showMap)}
+                                        className="btn-secondary text-xs"
+                                    >
+                                        {showMap ? 'Back to Table' : 'View Geographical Map'}
+                                    </button>
                                 </div>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-sm text-left">
-                                        <thead className="bg-slate-50 text-slate-500 font-medium border-b">
-                                            <tr>
-                                                <th className="px-6 py-3">Vehicle</th>
-                                                <th className="px-6 py-3">Route</th>
-                                                <th className="px-6 py-3">Status</th>
-                                                <th className="px-6 py-3">Capacity</th>
-                                                <th className="px-6 py-3 text-right">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y divide-slate-100">
-                                            {vehicles.map(v => (
-                                                <tr key={v.id} className="hover:bg-slate-50">
-                                                    <td className="px-6 py-4 font-medium">{v.id}</td>
-                                                    <td className="px-6 py-4">{v.routeId}</td>
-                                                    <td className="px-6 py-4">
-                                                        <span className={`px-2 py-1 rounded text-xs font-bold ${v.status === 'On Time' ? 'bg-green-100 text-green-700' :
-                                                            v.status === 'Delayed' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
-                                                            }`}>{v.status}</span>
-                                                    </td>
-                                                    <td className="px-6 py-4">{v.capacity}</td>
-                                                    <td className="px-6 py-4 text-right">
-                                                        <button className="text-slate-400 hover:text-blue-600"><Icon name="settings" size="text-sm" /></button>
-                                                    </td>
+                                {showMap ? (
+                                    <div className="h-[500px] w-full p-4">
+                                        <GoogleMap vehicles={vehicles} />
+                                    </div>
+                                ) : (
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm text-left">
+                                            <thead className="bg-slate-50 text-slate-500 font-medium border-b">
+                                                <tr>
+                                                    <th className="px-6 py-3">Vehicle</th>
+                                                    <th className="px-6 py-3">Route</th>
+                                                    <th className="px-6 py-3">Status</th>
+                                                    <th className="px-6 py-3">Capacity</th>
+                                                    <th className="px-6 py-3 text-right">Action</th>
                                                 </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-100">
+                                                {vehicles.map(v => (
+                                                    <tr key={v.id} className="hover:bg-slate-50">
+                                                        <td className="px-6 py-4 font-medium">{v.id}</td>
+                                                        <td className="px-6 py-4">{v.routeId}</td>
+                                                        <td className="px-6 py-4">
+                                                            <span className={`px-2 py-1 rounded text-xs font-bold ${v.status === 'On Time' ? 'bg-green-100 text-green-700' :
+                                                                v.status === 'Delayed' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
+                                                                }`}>{v.status}</span>
+                                                        </td>
+                                                        <td className="px-6 py-4">{v.capacity}</td>
+                                                        <td className="px-6 py-4 text-right">
+                                                            <button className="text-slate-400 hover:text-blue-600"><Icon name="settings" size="text-sm" /></button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -220,7 +263,11 @@ function AdminApp() {
                                 <div className="space-y-4">
                                     <div>
                                         <label className="text-xs text-blue-200/60 block mb-1">Target</label>
-                                        <select className="w-full bg-[#1e293b] border-none rounded p-2 text-sm text-white">
+                                        <select
+                                            value={alertTarget}
+                                            onChange={(e) => setAlertTarget(e.target.value)}
+                                            className="w-full bg-[#1e293b] border-none rounded p-2 text-sm text-white outline-none focus:ring-1 focus:ring-blue-500"
+                                        >
                                             <option>All Passengers</option>
                                             <option>Route 101 Only</option>
                                             <option>Drivers Only</option>
@@ -228,9 +275,19 @@ function AdminApp() {
                                     </div>
                                     <div>
                                         <label className="text-xs text-blue-200/60 block mb-1">Message</label>
-                                        <textarea className="w-full bg-[#1e293b] border-none rounded p-2 text-sm text-white h-20" placeholder="Type alert message..."></textarea>
+                                        <textarea
+                                            value={alertText}
+                                            onChange={(e) => setAlertText(e.target.value)}
+                                            className="w-full bg-[#1e293b] border-none rounded p-2 text-sm text-white h-20 outline-none focus:ring-1 focus:ring-blue-500 resize-none"
+                                            placeholder="Type alert message..."
+                                        ></textarea>
                                     </div>
-                                    <button className="w-full bg-[#3B82F6] hover:bg-[#2563EB] py-2 rounded font-bold text-sm transition-colors shadow-lg shadow-blue-500/20">Send Broadcast</button>
+                                    <button
+                                        onClick={handleBroadcast}
+                                        className="w-full bg-[#3B82F6] hover:bg-[#2563EB] py-2 rounded font-bold text-sm transition-colors shadow-lg shadow-blue-500/20 uppercase tracking-widest"
+                                    >
+                                        Send Broadcast
+                                    </button>
                                 </div>
                             </div>
 

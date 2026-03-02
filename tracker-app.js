@@ -41,6 +41,7 @@ function App() {
     const [activeModal, setActiveModal] = React.useState(null); // 'schedule', 'search'
     const [toasts, setToasts] = React.useState([]);
     const [currentView, setCurrentView] = React.useState('home'); // 'home', 'routes', 'map', 'alerts'
+    const [isAIChatOpen, setIsAIChatOpen] = React.useState(false);
 
     // Toast Helper
     const showToast = (message, type = 'info') => {
@@ -68,13 +69,26 @@ function App() {
         }
     };
 
-    // Simulation Effect
+    // Real-time Firestore Sync
     React.useEffect(() => {
-        const interval = setInterval(() => {
-            setVehicles(prev => simulateMovement(prev));
-        }, 1000); // Update every second
+        const { db } = window.firebaseApp;
 
-        return () => clearInterval(interval);
+        // Listen to the 'vehicles' collection for real-world updates
+        const unsubscribe = db.collection('vehicles').onSnapshot((snapshot) => {
+            const updatedVehicles = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+
+            if (updatedVehicles.length > 0) {
+                setVehicles(updatedVehicles);
+            }
+        }, (error) => {
+            console.error("Firestore Sync Error:", error);
+            showToast("Failed to sync live data. Using offline mode.", "warning");
+        });
+
+        return () => unsubscribe();
     }, []);
 
     const activeRoute = ROUTES.find(r => r.id === activeRouteId);
@@ -90,6 +104,13 @@ function App() {
         currentView,
         setView: setCurrentView
     };
+
+    // Global View Switcher
+    React.useEffect(() => {
+        const handleSetView = (e) => setCurrentView(e.detail);
+        window.addEventListener('set-view', handleSetView);
+        return () => window.removeEventListener('set-view', handleSetView);
+    }, []);
 
     return (
         <AppContext.Provider value={contextValue}>
@@ -213,7 +234,12 @@ function App() {
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
                                             <h3 className="font-bold mb-2">Need Help?</h3>
                                             <p className="text-blue-100 text-sm mb-4">Our AI assistant is ready to help you plan your commute.</p>
-                                            <button className="w-full py-2 bg-[#3B82F6] text-white hover:bg-[#1E3A8A] transition-colors font-bold rounded-lg text-sm shadow-md">Open Chat</button>
+                                            <button
+                                                onClick={() => setIsAIChatOpen(true)}
+                                                className="w-full py-2 bg-[#3B82F6] text-white hover:bg-[#1E3A8A] transition-colors font-bold rounded-lg text-sm shadow-md"
+                                            >
+                                                Open Chat
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -237,7 +263,7 @@ function App() {
 
                         {currentView === 'map' && (
                             <div className="animate-fade-in h-[600px] lg:h-[700px]">
-                                <RouteDetail route={activeRoute} vehicles={vehicles} fullScreen={true} />
+                                <GoogleMap route={activeRoute} vehicles={vehicles} fullScreen={true} />
                             </div>
                         )}
 
@@ -262,10 +288,19 @@ function App() {
                                 ))}
                             </div>
                         )}
+
+                        {currentView === 'sustainability' && (
+                            <SustainabilityView />
+                        )}
+
+                        {currentView === 'profile' && (
+                            <ProfileView />
+                        )}
                     </main>
 
                     <Footer />
                     <ToastContainer toasts={toasts} />
+                    <AIChat isOpen={isAIChatOpen} onClose={() => setIsAIChatOpen(false)} />
 
                     {/* Modals */}
                     {activeModal?.type === 'schedule' && (
