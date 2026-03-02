@@ -14,31 +14,37 @@ function LoginApp() {
         else setGreeting('Good Evening');
     }, []);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         if (e) e.preventDefault();
 
         if (!userId || !password) {
-            setError('Please enter both User ID and Password.');
-            return;
-        }
-
-        // Mock validation
-        if (password.length < 4) {
-            setError('Password must be at least 4 characters long.');
+            setError('Please enter both Email/ID and Password.');
             return;
         }
 
         setIsLoading(true);
         setError('');
 
-        // Simulate network delay for interactivity
-        setTimeout(() => {
-            Auth.login(role, userId);
-            // Redirect based on role
+        try {
+            // Attempt login with Firebase
+            await Auth.login(role, userId, password);
+
+            // Success! Redirect based on role
             if (role === 'admin') window.location.href = 'admin.html';
             else if (role === 'driver') window.location.href = 'driver.html';
             else window.location.href = 'tracker.html';
-        }, 1500);
+        } catch (err) {
+            console.error(err);
+            const { isMockMode } = window.firebaseApp;
+            if (isMockMode) {
+                setError("Demo Mode: Using mock authentication. Credentials are not required to be real.");
+                // For a better UX in demo mode, we could even just let them through
+                // but for now, we'll just show the nice message.
+            } else {
+                setError(err.message || 'Authentication failed. Please check your credentials.');
+            }
+            setIsLoading(false);
+        }
     };
 
     const roleData = {

@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#1E3A8A">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Authority Dashboard - NEXUS</title>
     <meta name="robots" content="noindex">
 
@@ -12,6 +16,8 @@
     <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js"></script>
+    <!-- Google Maps Platform SDK -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_MAPS_API_KEY&libraries=geometry"></script>
     <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
 
     <style type="text/tailwindcss">
@@ -34,12 +40,21 @@
     <div id="root"></div>
     <script>const ChartJS = window.Chart;</script>
     <script type="text/babel" src="utils/mockData.js"></script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="utils/firebase-config.js"></script>
+
     <script type="text/babel" src="utils/auth.js"></script>
     <script type="text/babel" src="components/Icons.js"></script>
     <script type="text/babel" src="components/Logo.js"></script>
     <script type="text/babel" src="components/AdminMap.js"></script>
     <script type="text/babel" src="components/AdminAlerts.js"></script>
     <script type="text/babel" src="components/AuthUI.js"></script>
+    <script type="text/babel" src="components/GoogleMap.js"></script>
     <script type="text/babel" src="admin-app.js"></script>
 </body>
 

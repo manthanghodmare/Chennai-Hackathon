@@ -15,9 +15,48 @@ function DriverConsole() {
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const toggleTrip = () => {
-        setIsOnTrip(!isOnTrip);
+    const toggleTrip = async () => {
+        const { db } = window.firebaseApp;
+        const newStatus = !isOnTrip;
+        setIsOnTrip(newStatus);
+
+        try {
+            await db.collection('vehicles').doc('BUS-V1').set({
+                status: newStatus ? 'On Time' : 'Idle',
+                onTrip: newStatus,
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+        } catch (err) {
+            console.error("Firestore Update Error:", err);
+        }
     };
+
+    // Location Simulation for Driver
+    React.useEffect(() => {
+        if (!isOnTrip) return;
+
+        const { db } = window.firebaseApp;
+        let index = 0;
+
+        // Use coordinates from mockData if available, or just mock some path
+        const interval = setInterval(async () => {
+            const lat = 13.0827 + (Math.sin(index / 10) * 0.01);
+            const lng = 80.2707 + (Math.cos(index / 10) * 0.01);
+
+            try {
+                await db.collection('vehicles').doc('BUS-V1').update({
+                    latitude: lat,
+                    longitude: lng,
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (err) {
+                console.error("Location Update Error:", err);
+            }
+            index++;
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [isOnTrip]);
 
     return (
         <AccessGuard role="driver">

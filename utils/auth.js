@@ -1,17 +1,47 @@
 const Auth = {
     KEY: 'ct_auth_user',
 
-    login: (role, name) => {
-        const user = { role, name, id: Date.now() };
-        localStorage.setItem(Auth.KEY, JSON.stringify(user));
-        // Dispatch custom event for cross-component updates
-        window.dispatchEvent(new Event('auth-change'));
-        return user;
+    login: async (role, email, password) => {
+        try {
+            const { auth, isMockMode } = window.firebaseApp;
+            let user;
+
+            if (isMockMode) {
+                console.log("Mock Login Success for:", email);
+                user = {
+                    role,
+                    name: email.split('@')[0],
+                    email: email,
+                    id: 'mock-uid-' + Date.now()
+                };
+            } else {
+                const result = await auth.signInWithEmailAndPassword(email, password);
+                user = {
+                    role,
+                    name: result.user.displayName || email.split('@')[0],
+                    email: result.user.email,
+                    id: result.user.uid
+                };
+            }
+
+            localStorage.setItem(Auth.KEY, JSON.stringify(user));
+            window.dispatchEvent(new Event('auth-change'));
+            return user;
+        } catch (error) {
+            console.error("Auth Error:", error);
+            throw error;
+        }
     },
 
-    logout: () => {
-        localStorage.removeItem(Auth.KEY);
-        window.dispatchEvent(new Event('auth-change'));
+    logout: async () => {
+        try {
+            const { auth } = window.firebaseApp;
+            await auth.signOut();
+            localStorage.removeItem(Auth.KEY);
+            window.dispatchEvent(new Event('auth-change'));
+        } catch (error) {
+            console.error("Logout Error:", error);
+        }
     },
 
     getUser: () => {
@@ -27,18 +57,22 @@ const Auth = {
         const [user, setUser] = React.useState(Auth.getUser());
 
         React.useEffect(() => {
+            const { auth } = window.firebaseApp;
+
+            // Listen for Firebase Auth state changes
+            const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+                if (!firebaseUser) {
+                    localStorage.removeItem(Auth.KEY);
+                    setUser(null);
+                }
+            });
+
             const handleAuthChange = () => setUser(Auth.getUser());
             window.addEventListener('auth-change', handleAuthChange);
 
-            // Listen for changes in other tabs
-            const handleStorageChange = (e) => {
-                if (e.key === Auth.KEY) setUser(Auth.getUser());
-            };
-            window.addEventListener('storage', handleStorageChange);
-
             return () => {
+                unsubscribe();
                 window.removeEventListener('auth-change', handleAuthChange);
-                window.removeEventListener('storage', handleStorageChange);
             };
         }, []);
 

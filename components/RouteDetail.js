@@ -72,6 +72,13 @@ function RouteDetail({ route, vehicles, fullScreen }) {
                 </div>
                 <div className="flex items-center gap-3">
                     <button
+                        onClick={() => window.dispatchEvent(new CustomEvent('set-view', { detail: 'map' }))}
+                        className="btn-primary text-sm bg-indigo-600 hover:bg-indigo-700"
+                    >
+                        <Icon name="map" size="text-sm" />
+                        View on Real Map
+                    </button>
+                    <button
                         onClick={() => openModal('schedule', { route })}
                         className="btn-outline text-sm bg-white hover:bg-slate-50"
                     >

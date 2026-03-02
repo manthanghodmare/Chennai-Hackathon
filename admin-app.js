@@ -141,14 +141,46 @@ function AnalyticsChart() {
 function AdminApp() {
     const [vehicles, setVehicles] = React.useState(VEHICLES);
     const [currentView, setCurrentView] = React.useState('overview'); // overview, fleet, alerts
+    const [showMap, setShowMap] = React.useState(false);
+    const [alertText, setAlertText] = React.useState('');
+    const [alertTarget, setAlertTarget] = React.useState('All Passengers');
 
-    // Simulation
+    // Real-time Firestore Sync
     React.useEffect(() => {
-        const interval = setInterval(() => {
-            setVehicles(prev => simulateMovement(prev));
-        }, 1000);
-        return () => clearInterval(interval);
+        const { db } = window.firebaseApp;
+        const unsubscribe = db.collection('vehicles').onSnapshot((snapshot) => {
+            const updatedVehicles = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            if (updatedVehicles.length > 0) {
+                setVehicles(updatedVehicles);
+            }
+        }, (error) => {
+            console.error("Admin Firestore Error:", error);
+        });
+        return () => unsubscribe();
     }, []);
+
+    const handleBroadcast = async () => {
+        if (!alertText.trim()) return;
+
+        const { db } = window.firebaseApp;
+        try {
+            await db.collection('alerts').add({
+                type: 'warning',
+                message: alertText,
+                target: alertTarget,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                active: true
+            });
+            setAlertText('');
+            alert('Alert broadcasted successfully!');
+        } catch (error) {
+            console.error("Error broadcasting alert:", error);
+            alert('Failed to send broadcast.');
+        }
+    };
 
     return (
         <AccessGuard role="admin">
@@ -190,7 +222,7 @@ function AdminApp() {
                         </div>
                     </div>
 
-                    {/* View Switcher */}
+                    {/* View Switcher/Main Content */}
                     {currentView === 'overview' && (
                         <div className="space-y-8 animate-fade-in">
                             {/* Critical Monitoring Row */}

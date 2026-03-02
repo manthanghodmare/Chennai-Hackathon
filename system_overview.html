@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Mobility - System Overview</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            max-width: 210mm;
+            /* A4 Width */
+            margin: 0 auto;
+            padding: 40px;
+            background-color: white;
+        }
+
+        h1 {
+            color: #0F172A;
+            font-size: 32px;
+            font-weight: 900;
+            border-bottom: 3px solid #0F172A;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #1E3A8A;
+            /* Brand Blue */
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            border-left: 5px solid #F59E0B;
+            /* Brand Amber */
+            padding-left: 15px;
+        }
+
+        h3 {
+            color: #475569;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+
+        li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+        }
+
+        li::before {
+            content: "•";
+            color: #3B82F6;
+            font-weight: bold;
+            position: absolute;
+            left: 5px;
+        }
+
+        code {
+            background-color: #F1F5F9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            color: #EF4444;
+            font-size: 0.9em;
+        }
+
+        /* Checklist Style */
+        .checklist li::before {
+            content: "✓";
+            color: #10B981;
+        }
+
+        .note-box {
+            background-color: #EFF6FF;
+            border-left: 4px solid #3B82F6;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Print Button & Styles */
+        @media print {
+            body {
+                max-width: 100%;
+                margin: 0;
+                padding: 20mm;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
+
+            .print-controls {
+                display: none;
+            }
+        }
+
+        .print-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #E2E8F0;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: #2563EB;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #1D4ED8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="print-controls no-print">
+        <span style="font-size: 14px; color: #64748B; font-weight: 500;">Ready to Export?</span>
+        <button onclick="window.print()" class="btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9V2h12v7"></path>
+                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                <path d="M6 14h12v8H6z"></path>
+            </svg>
+            Save as PDF
+        </button>
+    </div>
+
+    <h1>Nexus Mobility Dashboard - System Overview</h1>
+
+    <div class="note-box">
+        <strong>Document Purpose:</strong> Technical and functional overview for team onboarding and system
+        understanding.
+        <br><em>Generated on: 2026-02-12</em>
+    </div>
+
+    <h2>1. Introduction: What is Nexus Mobility?</h2>
+    <p>This is a <strong>Smart City Transit Management System</strong> designed for modern metropolitan needs. It
+        connects <strong>Citizens</strong>, <strong>Drivers</strong>, and <strong>Authorities</strong> on a single
+        platform to improve public transport efficiency.</p>
+
+    <h2>2. The Login Portal (<code>login-app.js</code>)</h2>
+    <p>The entry point is designed to be secure, professional, and accessible.</p>
+    <ul>
+        <li><strong>Role-Based Access:</strong> Three distinct buttons for <strong>Citizen</strong>,
+            <strong>Authority</strong>, and <strong>Driver</strong>. Each role unlocks a different dashboard.</li>
+        <li><strong>Government Branding:</strong> Uses official colors (Blue/Teal/White) and "Digital India" /
+            "Ministry" style footers to build trust.</li>
+        <li><strong>Smart Features:</strong>
+            <ul>
+                <li><strong>Time-Based Greeting:</strong> Changes from "Good Morning" to "Good Evening" automatically.
+                </li>
+                <li><strong>Language Support:</strong> Dropdown for <strong>English, Hindi, Marathi, Tamil</strong> (New
+                    Addition).</li>
+                <li><strong>Create Account Link:</strong> Easy sign-up option for new users.</li>
+                <li><strong>Security Warning:</strong> Animated badge reminding users this is a monitored government
+                    system.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>3. The Passenger Dashboard (<code>tracker-app.js</code>)</h2>
+    <p>This is the main view for citizens. It focuses on <strong>Real-Time Information</strong>.</p>
+    <ul>
+        <li><strong>Live Map:</strong> Shows vehicles moving in real-time across the city.</li>
+        <li><strong>Route Planner:</strong> Users can search for routes (e.g., "101 Downtown Loop") and see stops.</li>
+        <li><strong>Service Alerts:</strong> A dedicated section for delays, roadworks, or schedule changes.</li>
+        <li><strong>Smart Widgets:</strong>
+            <ul>
+                <li><strong>Eco-Impact:</strong> Shows CO2 saved by taking the bus vs. a car.</li>
+                <li><strong>Live Activity Feed:</strong> Updates like "Bus #402 left Central Station 1 min ago."</li>
+                <li><strong>AI Chat Assistant:</strong> A prominent "Need Help?" card for future AI integration.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>4. The Driver Console (<code>driver-console.js</code>)</h2>
+    <p>A simplified, high-visibility interface for bus drivers on the move.</p>
+    <ul>
+        <li><strong>Clean White Theme:</strong> High contrast for readability in daylight (New Design).</li>
+        <li><strong>Control Center:</strong>
+            <ul>
+                <li><strong>Big "Start/End Trip" Button:</strong> The primary action is massive and color-coded
+                    (Green/Red).</li>
+                <li><strong>Route Info Card:</strong> Clearly shows "Next Stop" and "Scheduled Arrival Time."</li>
+            </ul>
+        </li>
+        <li><strong>Quick Actions:</strong> One-tap buttons for <strong>"Report Delay"</strong> and <strong>"Request
+                Maintenance"</strong>.</li>
+        <li><strong>SOS Button:</strong> A dedicated emergency button that triggers a confirmation modal to prevent
+            accidental presses.</li>
+        <li><strong>Standardized Header:</strong> Aligned with other apps, featuring the language selector and profile
+            actions.</li>
+    </ul>
+
+    <h2>5. The Admin Hub (<code>admin-app.js</code>)</h2>
+    <p>The command center for transport authorities to manage the fleet.</p>
+    <ul>
+        <li><strong>Fleet Overview Cards:</strong> Instant stats on <strong>Total Fleet</strong>, <strong>On-Time
+                %</strong>, <strong>Current Load</strong>, and <strong>Critical Alerts</strong>.</li>
+        <li><strong>Analytics Chart:</strong> A visual graph showing Passenger Load vs. Active Fleet usage throughout
+            the day.</li>
+        <li><strong>Live Fleet Table:</strong> A detailed list of every vehicle with status (On Time, Delayed),
+            capacity, and action buttons.</li>
+        <li><strong>Broadcast System:</strong> A tool to send alerts to specific groups (e.g., "All Passengers on Route
+            101").</li>
+    </ul>
+
+    <h2>6. Detailed Feature Checklist</h2>
+    <p>Here is the exhaustive list of every feature currently implemented in the system, organized by module.</p>
+
+    <h3>A. Core System & Security</h3>
+    <ul class="checklist">
+        <li><strong>Secure Login:</strong> ID/Password input with validation.</li>
+        <li><strong>Role-Based Routing:</strong> Redirects to specific dashboards based on role (Citizen/Admin/Driver).
+        </li>
+        <li><strong>Session Management:</strong> "Sign Out" functionality clears session and redirects to login.</li>
+        <li><strong>Global Branding:</strong> "Nexus Mobility" logo and "Digital India" footer across all pages.</li>
+        <li><strong>Mobile Responsiveness:</strong> All views adapt to mobile, tablet, and desktop screens.</li>
+    </ul>
+
+    <h3>B. Login Page Specifics</h3>
+    <ul class="checklist">
+        <li><strong>Dynamic Background:</strong> Animated tech particles and gradient effects.</li>
+        <li><strong>Password Visibility:</strong> Toggle eye icon to show/hide password.</li>
+        <li><strong>Time-Sensitive Greeting:</strong> "Good Morning/Afternoon/Evening" based on system time.</li>
+        <li><strong>Account Creation:</strong> Link to "Create New Account" (Frontend only).</li>
+        <li><strong>Language Selector:</strong> Dropdown for standardizing language preference.</li>
+    </ul>
+
+    <h3>C. Passenger App Features</h3>
+    <ul class="checklist">
+        <li><strong>Interactive Map:</strong> Simulated live vehicle tracking.</li>
+        <li><strong>Route Search:</strong> Modal to find specific bus routes.</li>
+        <li><strong>Live Stats:</strong> Counters for "Active Routes" and "Vehicles on Road".</li>
+        <li><strong>Activity Feed:</strong> Scrolling list of recent system events.</li>
+        <li><strong>Eco-Widget:</strong> Visual indicator of environmental impact.</li>
+        <li><strong>Navigation:</strong> Bottom tabs for Mobile, Top bar for Desktop (Home, Routes, Map, Alerts).</li>
+    </ul>
+
+    <h3>D. Driver Console Features</h3>
+    <ul class="checklist">
+        <li><strong>Trip Management:</strong> Toggle button for "Start Trip" (Green) and "End Trip" (Red).</li>
+        <li><strong>Route Display:</strong> Shows Current Route ID and Destination.</li>
+        <li><strong>Status Indicators:</strong> "LIVE" vs "IDLE" badges.</li>
+        <li><strong>Quick Reporting:</strong> One-touch buttons for Delay and Maintenance.</li>
+        <li><strong>SOS System:</strong> Two-step emergency activation (Click -> Confirm).</li>
+    </ul>
+
+    <h3>E. Admin Dashboard Features</h3>
+    <ul class="checklist">
+        <li><strong>KPI Cards:</strong> High-level metrics (Total Fleet, On-Time %, Alerts).
+        <li><strong>Analytics Graph:</strong> Line chart visualizing passenger load trends.</li>
+        <li><strong>Live Fleet Table:</strong> Row-by-row status of every vehicle.</li>
+        <li><strong>Broadcast Tool:</strong> Form to send system-wide messages.</li>
+        <li><strong>Vehicle Status:</strong> Color-coded badges (On Time = Green, Delayed = Red).</li>
+    </ul>
+
+    <h2>7. Common User Flows (Walkthroughs)</h2>
+
+    <h3>Flow 1: A Citizen checks for a bus</h3>
+    <ol>
+        <li>User logs in as <strong>Citizen</strong>.</li>
+        <li>Lands on <strong>Home Dashboard</strong>.</li>
+        <li>Sees "Live Activity Feed" to check for immediate delays.</li>
+        <li>Clicks <strong>"Find Route"</strong> or <strong>"Live Map"</strong>.</li>
+        <li>Views the bus moving in real-time.</li>
+    </ol>
+
+    <h3>Flow 2: A Driver starts their shift</h3>
+    <ol>
+        <li>User logs in as <strong>Driver</strong>.</li>
+        <li>Lands on <strong>Driver Console</strong>.</li>
+        <li>Sees assigned vehicle (e.g., "BUS-V1").</li>
+        <li>Clicks big green <strong>"Start Trip"</strong> button. Status changes to <strong>LIVE</strong>.</li>
+        <li>If traffic is bad, clicks <strong>"Report Delay"</strong>.</li>
+    </ol>
+
+    <h3>Flow 3: An Admin monitors the system</h3>
+    <ol>
+        <li>User logs in as <strong>Authority</strong>.</li>
+        <li>Lands on <strong>Admin Hub</strong>.</li>
+        <li>Notices a "Critical Alert" on the KPI card.</li>
+        <li>Checks the <strong>Live Fleet Table</strong> to identify the delayed bus.</li>
+        <li>Uses <strong>Broadcast Alert</strong> to notify passengers on that route.</li>
+    </ol>
+
+    <h2>8. Technical Architecture (For Dev Team)</h2>
+    <ul>
+        <li><strong><code>index.html</code></strong>: The entry point (Login).</li>
+        <li><strong><code>tracker-app.js</code></strong>: Main Passenger Application logic.</li>
+        <li><strong><code>driver-console.js</code></strong>: Driver Interface logic.</li>
+        <li><strong><code>admin-app.js</code></strong>: Admin Dashboard logic.</li>
+        <li><strong><code>components/</code></strong>: Folder containing shared UI bits like <code>Header.js</code>,
+            <code>Logo.js</code>, <code>Footer.js</code>.</li>
+        <li><strong><code>Auth.js</code></strong>: Utility file handling login state and session storage.</li>
+    </ul>
+
+</body>
+
+</html>
