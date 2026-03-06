@@ -21,22 +21,22 @@ function AIChat({ isOpen, onClose }) {
         setIsLoading(true);
 
         try {
-            // Placeholder for AI API call (e.g., Gemini or OpenAI)
-            // System Prompt: "You are a helpful transit assistant for Nexus Mobility in Chennai. 
-            // Help users with routes, ETAs, and general city navigation."
-
-            // Simulating API latency
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Call the real Gemini API via our utility
+            const aiText = await window.callGemini(input, messages);
 
             const aiResponse = {
                 id: Date.now() + 1,
-                text: `I've received your query about "${userMsg.text}". In a real integration, I would now use the Nexus Live API to give you accurate route info!`,
+                text: aiText,
                 sender: 'ai'
             };
 
             setMessages(prev => [...prev, aiResponse]);
         } catch (error) {
-            setMessages(prev => [...prev, { id: Date.now(), text: "Sorry, I'm having trouble connecting right now.", sender: 'ai' }]);
+            setMessages(prev => [...prev, {
+                id: Date.now(),
+                text: "Sorry, I'm having trouble connecting to the Nexus brain right now. Please check if the API key is configured.",
+                sender: 'ai'
+            }]);
         } finally {
             setIsLoading(false);
         }
@@ -67,8 +67,8 @@ function AIChat({ isOpen, onClose }) {
                 {messages.map(m => (
                     <div key={m.id} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                         <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${m.sender === 'user'
-                                ? 'bg-indigo-600 text-white rounded-br-none'
-                                : 'bg-white text-slate-700 shadow-sm border border-slate-100 rounded-bl-none'
+                            ? 'bg-indigo-600 text-white rounded-br-none'
+                            : 'bg-white text-slate-700 shadow-sm border border-slate-100 rounded-bl-none'
                             }`}>
                             {m.text}
                         </div>
