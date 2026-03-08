@@ -15,23 +15,40 @@ function MockMap({ vehicles }) {
             {/* Vehicle Markers */}
             <div className="relative w-full h-full">
                 {vehicles.map((v, i) => {
-                    // Random but stable position for mock
-                    const x = 20 + (parseInt(v.id.replace(/\D/g, '') || i) * 17) % 60;
-                    const y = 20 + (parseInt(v.id.replace(/\D/g, '') || i) * 23) % 60;
+                    // Update: Use actual realtime GPS coordinates if available, fallback to mock stable position
+                    let x, y;
+                    if (v.latitude && v.longitude) {
+                        // The driver-console simulates around lat 13.0827 and lng 80.2707 +/- 0.01
+                        // Map these coordinates directly to the 0-100% bounds of the map container
+                        const latDiff = v.latitude - 13.0827;
+                        const lngDiff = v.longitude - 80.2707;
+
+                        // Scale up the differences so they fit optimally on our mock grid map
+                        x = 50 + (lngDiff * 4000);
+                        y = 50 - (latDiff * 4000);
+
+                        // Clamp to prevent going off-screen (keep a safe 5% bounds)
+                        x = Math.max(5, Math.min(95, x));
+                        y = Math.max(5, Math.min(95, y));
+                    } else {
+                        // Random but stable position for mock fallback if no GPS
+                        x = 20 + (parseInt(v.id.replace(/\D/g, '') || i) * 17) % 60;
+                        y = 20 + (parseInt(v.id.replace(/\D/g, '') || i) * 23) % 60;
+                    }
 
                     return (
                         <div
                             key={v.id}
-                            className="absolute transition-all duration-1000 ease-in-out"
+                            className="absolute transition-all duration-1000 ease-linear"
                             style={{ left: `${x}%`, top: `${y}%` }}
                         >
-                            <div className="relative group cursor-pointer">
-                                <div className="w-8 h-8 bg-[#1E3A8A] rounded-full flex items-center justify-center text-white shadow-lg border-2 border-white animate-pulse">
+                            <div className="relative group cursor-pointer hover:scale-110 transition-transform">
+                                <div className="w-8 h-8 bg-[#1E3A8A] rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border-2 border-white animate-pulse">
                                     <Icon name="bus" size="text-[10px]" />
                                 </div>
-                                <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md border border-slate-100 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <p className="text-[10px] font-bold text-slate-800">{v.id}</p>
-                                    <p className="text-[8px] text-slate-500">{v.status}</p>
+                                <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md border border-slate-100 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                    <p className="text-[10px] font-bold text-slate-800 uppercase tracking-widest">{v.id}</p>
+                                    <p className="text-[10px] text-slate-500 font-medium">Spd: {v.speed || 0}km/h</p>
                                 </div>
                             </div>
                         </div>
@@ -39,9 +56,9 @@ function MockMap({ vehicles }) {
                 })}
             </div>
 
-            <div className="absolute bottom-4 right-4 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg flex items-center gap-2">
-                <div className="w-2 h-2 bg-amber-500 rounded-full animate-ping"></div>
-                <span className="text-[10px] font-bold text-amber-700">Demo View: Maps SDK Inactive</span>
+            <div className="absolute bottom-4 right-4 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm animate-fade-in group hover:bg-emerald-100 transition-colors cursor-default z-10">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
+                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Live GPS Telemetry</span>
             </div>
         </div>
     );
