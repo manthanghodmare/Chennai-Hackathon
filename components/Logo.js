@@ -75,7 +75,7 @@ function Logo({ className = "", showText = true, size = "md" }) {
             {/* Logo Text */}
             {showText && (
                 <div className="flex flex-col">
-                    <h1 className={`${textSizes[size]} font-black tracking-tight text-[#1E3A8A] leading-none uppercase drop-shadow-sm`}>
+                    <h1 className={`${textSizes[size]} font-black tracking-tight text-[#1E3A8A] dark:text-white leading-none uppercase drop-shadow-sm transition-colors duration-500`}>
                         NEXUS
                     </h1>
                     <p className={`${subtitleSizes[size]} font-bold tracking-[0.2em] text-[#F59E0B] uppercase leading-none mt-1.5`}>

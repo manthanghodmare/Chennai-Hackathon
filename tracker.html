@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1E3A8A">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -21,6 +21,19 @@
     <script src="https://resource.trickle.so/vendor_lib/unpkg/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://resource.trickle.so/vendor_lib/unpkg/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <script>
+        // Prevent FOUC by applying theme before React mounts
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     <link href="https://resource.trickle.so/vendor_lib/unpkg/lucide-static@0.516.0/font/lucide.css" rel="stylesheet">
     <!-- Google Maps Platform SDK -->
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_MAPS_API_KEY&libraries=geometry"></script>
@@ -40,7 +53,7 @@
 
     @layer base {
         body {
-            @apply bg-[#F9FAFB] text-[#111827] font-sans antialiased overflow-x-hidden;
+            @apply bg-[#F9FAFB] dark:bg-slate-950 text-[#111827] dark:text-slate-100 font-sans antialiased overflow-x-hidden transition-colors duration-500;
         }
         h1, h2, h3, h4, h5, h6 {
             @apply font-bold tracking-tight;
@@ -110,6 +123,7 @@
 
     <script type="text/babel" src="utils/auth.js"></script>
     <script type="text/babel" src="components/Icons.js"></script>
+    <script type="text/babel" src="components/ThemeToggle.js"></script>
     <script type="text/babel" src="components/Logo.js"></script>
     <script type="text/babel" src="components/UI.js"></script>
     <script type="text/babel" src="components/AuthUI.js"></script>

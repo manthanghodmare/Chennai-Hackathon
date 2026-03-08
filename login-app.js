@@ -68,46 +68,42 @@ function LoginApp() {
 
 
     return (
-        <div className="min-h-screen flex flex-col bg-slate-50 font-sans" data-name="login-page" data-file="login-app.js">
-
-
-
+        <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 font-sans transition-colors duration-500" data-name="login-page" data-file="login-app.js">
             {/* Main Portal Section */}
             <main className="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
+                {/* Theme and Language Controls - Moved Outside for better visibility */}
+                <div className="absolute top-8 right-8 z-50 flex items-center bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl p-2 border border-white/20 dark:border-slate-800/20 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-white/60 dark:hover:bg-slate-800/60">
+                    <ThemeToggle />
+                    <div className="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-2"></div>
+                    <select
+                        className="bg-transparent text-slate-700 dark:text-slate-200 text-xs font-black rounded-lg py-1.5 px-2 outline-none cursor-pointer uppercase tracking-widest transition-colors"
+                        defaultValue="en"
+                    >
+                        <option value="en" className="bg-white dark:bg-slate-900">EN</option>
+                        <option value="hi" className="bg-white dark:bg-slate-900">HI</option>
+                        <option value="mr" className="bg-white dark:bg-slate-900">MR</option>
+                        <option value="ta" className="bg-white dark:bg-slate-900">TA</option>
+                    </select>
+                </div>
+
                 {/* Animated Background Elements */}
-                <div className="absolute inset-0 bg-[#1E3A8A]/5 pointer-events-none"></div>
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] opacity-10 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-[#1E3A8A]/5 dark:bg-[#1E3A8A]/10 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/gplay.png')] opacity-10 pointer-events-none dark:invert"></div>
 
                 {/* Modern Floating Blobs */}
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-teal-500/10 rounded-full blur-[120px] animate-pulse"></div>
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-teal-500/10 dark:bg-teal-400/5 rounded-full blur-[120px] animate-pulse"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }}></div>
 
-                <div className="w-full max-w-xl bg-white rounded-3xl shadow-2xl shadow-blue-900/20 border border-slate-200 overflow-hidden relative z-10 transition-all hover:shadow-blue-900/30 p-10 lg:p-14">
+                <div className="w-full max-w-xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-blue-900/20 dark:shadow-black/40 border border-slate-200 dark:border-slate-800 overflow-hidden relative z-10 transition-all hover:shadow-blue-900/30 p-10 lg:p-14">
                     {/* Centered Logo */}
-                    <div className="flex justify-center mb-12 transform scale-110 relative">
+                    <div className="flex justify-center mb-12 relative">
                         <Logo size="lg" />
-                        <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 hidden lg:block">
-                            {/* Desktop Positioning */}
-                        </div>
-                    </div>
-
-                    {/* Language Selector - Absolute Top Right of Card */}
-                    <div className="absolute top-6 right-6 z-20">
-                        <select
-                            className="bg-slate-50 border border-slate-200 text-slate-600 text-xs font-bold rounded-lg py-2 px-3 outline-none focus:border-blue-500 cursor-pointer uppercase tracking-wider"
-                            defaultValue="en"
-                        >
-                            <option value="en">English</option>
-                            <option value="hi">Hindi</option>
-                            <option value="mr">Marathi</option>
-                            <option value="ta">Tamil</option>
-                        </select>
                     </div>
 
                     <div className="mb-10 transition-all duration-500">
                         <span className="text-[#F59E0B] font-bold text-sm tracking-widest uppercase mb-2 block">{greeting},</span>
-                        <h2 className="text-3xl font-black text-[#1E3A8A] mb-2">Sign In to Dashboard</h2>
-                        <p className="text-slate-500 font-medium text-sm flex items-center gap-2">
+                        <h2 className="text-3xl font-black text-[#1E3A8A] dark:text-blue-400 mb-2">Sign In to Dashboard</h2>
+                        <p className="text-slate-500 dark:text-slate-400 font-medium text-sm flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-[#F59E0B] animate-ping"></span>
                             {roleData[role].description}
                         </p>
@@ -125,30 +121,30 @@ function LoginApp() {
                             <button
                                 type="button"
                                 onClick={() => setRole('passenger')}
-                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'passenger' ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
+                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'passenger' ? 'border-[#1E3A8A] dark:border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-[#1E3A8A] dark:text-blue-400' : 'border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600 hover:border-slate-200 dark:hover:border-slate-700'}`}
                             >
                                 Citizen
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setRole('admin')}
-                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'admin' ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
+                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'admin' ? 'border-[#1E3A8A] dark:border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-[#1E3A8A] dark:text-blue-400' : 'border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600 hover:border-slate-200 dark:hover:border-slate-700'}`}
                             >
                                 Authority
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setRole('driver')}
-                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'driver' ? 'border-[#1E3A8A] bg-blue-50 text-[#1E3A8A]' : 'border-slate-100 text-slate-400 hover:border-slate-200'}`}
+                                className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'driver' ? 'border-[#1E3A8A] dark:border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-[#1E3A8A] dark:text-blue-400' : 'border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600 hover:border-slate-200 dark:hover:border-slate-700'}`}
                             >
                                 Driver
                             </button>
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block ml-1">User ID / Registered Mobile</label>
+                            <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block ml-1">User ID / Registered Mobile</label>
                             <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#1E3A8A] transition-colors">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-600 group-focus-within:text-[#1E3A8A] dark:group-focus-within:text-blue-400 transition-colors">
                                     <Icon name="user" size="text-sm" />
                                 </div>
                                 <input
@@ -156,18 +152,18 @@ function LoginApp() {
                                     placeholder="Enter your ID or Mobile number"
                                     value={userId}
                                     onChange={(e) => setUserId(e.target.value)}
-                                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-[#1E3A8A] focus:bg-white outline-none transition-all font-medium placeholder:text-slate-400"
+                                    className="w-full pl-11 pr-4 py-4 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-xl focus:border-[#1E3A8A] dark:focus:border-blue-500 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all font-medium placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-white"
                                 />
                             </div>
                         </div>
 
                         <div className="space-y-2">
                             <div className="flex justify-between items-center ml-1">
-                                <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Password</label>
-                                <a href="#" className="text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors">Forgot Password?</a>
+                                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Password</label>
+                                <a href="#" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">Forgot Password?</a>
                             </div>
                             <div className="relative group">
-                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#1E3A8A] transition-colors">
+                                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-600 group-focus-within:text-[#1E3A8A] dark:group-focus-within:text-blue-400 transition-colors">
                                     <Icon name="lock" size="text-sm" />
                                 </div>
                                 <input
@@ -175,12 +171,12 @@ function LoginApp() {
                                     placeholder="Enter secure password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-11 pr-12 py-4 bg-slate-50 border-2 border-slate-100 rounded-xl focus:border-[#1E3A8A] focus:bg-white outline-none transition-all font-medium placeholder:text-slate-400"
+                                    className="w-full pl-11 pr-12 py-4 bg-slate-50 dark:bg-slate-800/50 border-2 border-slate-100 dark:border-slate-800 rounded-xl focus:border-[#1E3A8A] dark:focus:border-blue-500 focus:bg-white dark:focus:bg-slate-800 outline-none transition-all font-medium placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-white"
                                 />
                                 <button
                                     type="button"
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 dark:text-slate-600 hover:text-slate-600 dark:hover:text-slate-400 transition-colors"
                                 >
                                     <Icon name={showPassword ? "eye-off" : "eye"} size="text-lg" />
                                 </button>
@@ -191,7 +187,7 @@ function LoginApp() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className={`w-full bg-[#3B82F6] hover:bg-[#1E3A8A] text-white py-5 rounded-xl font-bold text-lg shadow-xl shadow-blue-500/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group ${isLoading ? 'opacity-90 cursor-not-allowed' : ''}`}
+                                className={`w-full bg-[#3B82F6] dark:bg-blue-600 hover:bg-[#1E3A8A] dark:hover:bg-blue-700 text-white py-5 rounded-xl font-bold text-lg shadow-xl shadow-blue-500/20 dark:shadow-blue-900/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3 group ${isLoading ? 'opacity-90 cursor-not-allowed' : ''}`}
                             >
                                 {isLoading ? (
                                     <>
@@ -208,19 +204,19 @@ function LoginApp() {
                         </div>
 
                         <div className="text-center mt-6">
-                            <p className="text-sm text-slate-500 font-medium">
+                            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                                 Don't have an account?{' '}
-                                <a href="#" className="text-[#3B82F6] font-bold hover:text-[#1E3A8A] transition-colors">
+                                <a href="#" className="text-[#3B82F6] dark:text-blue-400 font-bold hover:text-[#1E3A8A] dark:hover:text-blue-300 transition-colors">
                                     Create New Account
                                 </a>
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-4 py-4 px-6 bg-slate-50 rounded-xl border border-slate-100 mt-6 group">
-                            <div className="p-2 bg-amber-100 text-amber-700 rounded-lg group-hover:scale-110 transition-transform">
+                        <div className="flex items-center gap-4 py-4 px-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800 mt-6 group">
+                            <div className="p-2 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 rounded-lg group-hover:scale-110 transition-transform">
                                 <Icon name="shield-alert" size="text-lg" />
                             </div>
-                            <p className="text-[11px] text-slate-600 leading-tight font-semibold">
+                            <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-tight font-semibold">
                                 WARNING: This is a secure Government System. Authorized users only. Activity is monitored and logged.
                             </p>
                         </div>

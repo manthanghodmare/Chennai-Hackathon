@@ -115,34 +115,34 @@ function App() {
     return (
         <AppContext.Provider value={contextValue}>
             <AccessGuard role="passenger" redirectUrl="index.html">
-                <div className="min-h-screen flex flex-col bg-[var(--bg-light)] font-sans" data-name="app" data-file="tracker-app.js">
+                <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 font-sans transition-colors duration-500" data-name="app" data-file="tracker-app.js">
                     <Header />
 
                     {/* Hero Section */}
-                    <div id="home" className="relative bg-slate-900 text-white overflow-hidden h-[400px] lg:h-[500px] group">
+                    <div id="home" className="relative bg-slate-900 dark:bg-black text-white overflow-hidden h-[400px] lg:h-[500px] group transition-colors duration-500">
                         <div className="absolute inset-0">
                             <img
                                 src={heroImage}
                                 alt="City Transit Background"
-                                className="w-full h-full object-cover opacity-40 transition-transform duration-[20s] ease-in-out transform scale-100 group-hover:scale-110"
+                                className="w-full h-full object-cover opacity-40 dark:opacity-30 transition-transform duration-[20s] ease-in-out transform scale-100 group-hover:scale-110"
                                 style={{ animation: 'slowZoom 20s infinite alternate' }}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-slate-900/40"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-slate-900/40 dark:from-black dark:via-black/60 dark:to-transparent"></div>
                         </div>
                         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center animate-fade-in z-10">
                             <div className="max-w-2xl">
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4 text-white">
-                                    Smart Mobility for <br /> <span className="text-[#F59E0B]">Smart Cities</span>
+                                    Smart Mobility for <br /> <span className="text-amber-500 dark:text-amber-400">Smart Cities</span>
                                 </h1>
-                                <p className="text-xl text-slate-300 max-w-lg mb-8">
+                                <p className="text-xl text-slate-300 dark:text-slate-400 max-w-lg mb-8 transition-colors">
                                     Real-time tracking, accurate ETAs, and live service alerts for your daily commute.
                                 </p>
                                 <div className="flex gap-4">
-                                    <button onClick={() => setCurrentView('map')} className="btn-primary">
+                                    <button onClick={() => setCurrentView('map')} className="btn-primary shadow-xl shadow-blue-500/20 active:scale-95 transition-all">
                                         Start Tracking
                                         <Icon name="arrow-right" size="text-sm" />
                                     </button>
-                                    <button onClick={() => openModal('search')} className="btn-outline bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-white/20">
+                                    <button onClick={() => openModal('search')} className="btn-outline bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-white/20 active:scale-95 transition-all">
                                         <Icon name="search" size="text-sm" />
                                         Find Route
                                     </button>
@@ -163,24 +163,24 @@ function App() {
                                 />
 
                                 {/* New Live Tracking Section */}
-                                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100 mb-8 animate-fade-in group">
+                                <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-800 mb-8 animate-fade-in group transition-colors duration-500">
                                     <div className="grid grid-cols-1 lg:grid-cols-2">
                                         <div className="p-2 h-full min-h-[250px] lg:min-h-[300px]">
                                             <MapPreview />
                                         </div>
-                                        <div className="p-8 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-white to-slate-50">
-                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold mb-4 w-fit border border-blue-100">
+                                        <div className="p-8 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 transition-colors">
+                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold mb-4 w-fit border border-blue-100 dark:border-blue-800 transition-colors">
                                                 <span className="relative flex h-2 w-2">
                                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                                                 </span>
                                                 LIVE CONNECTED
                                             </div>
-                                            <h2 className="text-3xl lg:text-4xl font-black text-slate-800 mb-4 tracking-tight">Track Your Ride</h2>
-                                            <p className="text-slate-500 mb-8 max-w-md text-lg leading-relaxed">Get real-time locations of all active buses and precise arrival times for every stop in the network.</p>
+                                            <h2 className="text-3xl lg:text-4xl font-black text-slate-800 dark:text-white mb-4 tracking-tight transition-colors">Track Your Ride</h2>
+                                            <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-md text-lg leading-relaxed transition-colors">Get real-time locations of all active buses and precise arrival times for every stop in the network.</p>
                                             <button
                                                 onClick={() => setCurrentView('map')}
-                                                className="group/btn relative px-8 py-4 bg-slate-900 text-white rounded-xl font-bold flex items-center justify-center gap-3 overflow-hidden transition-all hover:bg-slate-800 hover:shadow-2xl hover:shadow-slate-900/20 active:scale-95 self-start"
+                                                className="group/btn relative px-8 py-4 bg-slate-900 dark:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-3 overflow-hidden transition-all hover:bg-slate-800 dark:hover:bg-slate-700 hover:shadow-2xl hover:shadow-slate-900/20 active:scale-95 self-start"
                                             >
                                                 <span className="relative z-10 flex items-center gap-2">
                                                     <Icon name="map-pin" />
@@ -194,62 +194,62 @@ function App() {
 
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                                     <div className="lg:col-span-2 space-y-8">
-                                        <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-100 flex flex-col justify-center items-center text-center">
-                                            <div className="w-16 h-16 bg-[#F59E0B]/10 text-[#F59E0B] rounded-2xl flex items-center justify-center mb-6">
+                                        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-8 border border-slate-100 dark:border-slate-800 flex flex-col justify-center items-center text-center transition-colors">
+                                            <div className="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-6">
                                                 <Icon name="map-unfold" size="text-3xl" />
                                             </div>
-                                            <h2 className="text-2xl font-black text-slate-800 mb-2">Ready to explore?</h2>
-                                            <p className="text-slate-500 max-w-sm mb-6">Dive into the live interactive map to track any vehicle across the city.</p>
-                                            <button onClick={() => setCurrentView('map')} className="btn-primary w-full sm:w-auto">Open Live Map</button>
+                                            <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-2 transition-colors">Ready to explore?</h2>
+                                            <p className="text-slate-500 dark:text-slate-400 max-w-sm mb-6 transition-colors">Dive into the live interactive map to track any vehicle across the city.</p>
+                                            <button onClick={() => setCurrentView('map')} className="btn-primary w-full sm:w-auto shadow-lg shadow-blue-500/10">Open Live Map</button>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="card group cursor-pointer" onClick={() => setCurrentView('routes')}>
-                                                <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                                            <div className="card group cursor-pointer bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-900 transition-all duration-300" onClick={() => setCurrentView('routes')}>
+                                                <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                                                     <Icon name="route" />
                                                 </div>
-                                                <h3 className="font-bold text-slate-800 mb-1">Browse Routes</h3>
-                                                <p className="text-slate-500 text-sm">Full schedules and stop timings for all lines.</p>
+                                                <h3 className="font-bold text-slate-800 dark:text-white mb-1 transition-colors">Browse Routes</h3>
+                                                <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors">Full schedules and stop timings for all lines.</p>
                                             </div>
-                                            <div className="card group cursor-pointer" onClick={() => setCurrentView('alerts')}>
-                                                <div className="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-600 group-hover:text-white transition-all">
+                                            <div className="card group cursor-pointer bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-amber-200 dark:hover:border-amber-900 transition-all duration-300" onClick={() => setCurrentView('alerts')}>
+                                                <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-600 group-hover:text-white transition-all">
                                                     <Icon name="bell" />
                                                 </div>
-                                                <h3 className="font-bold text-slate-800 mb-1">Service Alerts</h3>
-                                                <p className="text-slate-500 text-sm">Stay updated on delays and roadworks.</p>
+                                                <h3 className="font-bold text-slate-800 dark:text-white mb-1 transition-colors">Service Alerts</h3>
+                                                <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors">Stay updated on delays and roadworks.</p>
                                             </div>
                                         </div>
 
                                         {/* Live Activity Feed */}
-                                        <div className="bg-white rounded-2xl shadow-xl p-6 border border-slate-100">
+                                        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-6 border border-slate-100 dark:border-slate-800 transition-colors">
                                             <div className="flex items-center justify-between mb-6">
-                                                <h3 className="font-black text-slate-800 flex items-center gap-2">
+                                                <h3 className="font-black text-slate-800 dark:text-white flex items-center gap-2 transition-colors">
                                                     <span className="relative flex h-3 w-3">
-                                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F59E0B] opacity-75"></span>
-                                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-[#F59E0B]"></span>
+                                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
+                                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
                                                     </span>
                                                     Live Activity Feed
                                                 </h3>
-                                                <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Real-time</span>
+                                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">Real-time</span>
                                             </div>
                                             <div className="space-y-4">
                                                 {[
-                                                    { id: 1, type: 'status', msg: 'Vehicle #402 just left Central Station', time: '1 min ago', icon: 'bus-front', color: 'text-[#3B82F6] bg-[#3B82F6]/10' },
-                                                    { id: 2, type: 'delay', msg: 'Route 12B experiencing slight delays', time: '4 mins ago', icon: 'clock', color: 'text-[#F59E0B] bg-[#F59E0B]/10' },
-                                                    { id: 3, type: 'success', msg: 'New schedule for Weekend transit published', time: '12 mins ago', icon: 'calendar-check', color: 'text-[#10B981] bg-[#10B981]/10' },
-                                                    { id: 4, type: 'info', msg: 'High occupancy reported on Route 10A', time: '15 mins ago', icon: 'users', color: 'text-[#3B82F6] bg-[#3B82F6]/10' }
+                                                    { id: 1, type: 'status', msg: 'Vehicle #402 just left Central Station', time: '1 min ago', icon: 'bus-front', color: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' },
+                                                    { id: 2, type: 'delay', msg: 'Route 12B experiencing slight delays', time: '4 mins ago', icon: 'clock', color: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20' },
+                                                    { id: 3, type: 'success', msg: 'New schedule for Weekend transit published', time: '12 mins ago', icon: 'calendar-check', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20' },
+                                                    { id: 4, type: 'info', msg: 'High occupancy reported on Route 10A', time: '15 mins ago', icon: 'users', color: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' }
                                                 ].map(item => (
-                                                    <div key={item.id} className="flex items-start gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors group cursor-default">
-                                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center shadow-sm ${item.color}`}>
+                                                    <div key={item.id} className="flex items-start gap-4 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group cursor-default">
+                                                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center shadow-sm ${item.color} transition-colors`}>
                                                             <Icon name={item.icon} size="text-sm" />
                                                         </div>
                                                         <div className="flex-1">
-                                                            <p className="text-base font-bold text-slate-700 group-hover:text-slate-900 transition-colors">{item.msg}</p>
-                                                            <p className="text-xs text-slate-400 font-medium mt-0.5">{item.time}</p>
+                                                            <p className="text-base font-bold text-slate-700 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{item.msg}</p>
+                                                            <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5 transition-colors">{item.time}</p>
                                                         </div>
                                                         <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                                                            <button className="p-1.5 hover:bg-white rounded-md border border-transparent hover:border-slate-200 shadow-sm transition-all" title="View Details">
-                                                                <Icon name="chevron-right" size="text-xs" className="text-slate-400" />
+                                                            <button className="p-1.5 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-md border border-slate-200 dark:border-slate-600 shadow-sm transition-all" title="View Details">
+                                                                <Icon name="chevron-right" size="text-xs" className="text-slate-400 dark:text-slate-500" />
                                                             </button>
                                                         </div>
                                                     </div>
@@ -260,13 +260,13 @@ function App() {
 
                                     <div className="space-y-6">
                                         <EcoWidget />
-                                        <div className="bg-[#1E3A8A] rounded-2xl p-6 text-white shadow-xl relative overflow-hidden">
+                                        <div className="bg-blue-900 dark:bg-blue-950 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden transition-colors">
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
                                             <h3 className="font-bold mb-2">Need Help?</h3>
                                             <p className="text-blue-100 text-sm mb-4">Our AI assistant is ready to help you plan your commute.</p>
                                             <button
                                                 onClick={() => setIsAIChatOpen(true)}
-                                                className="w-full py-2 bg-[#3B82F6] text-white hover:bg-[#1E3A8A] transition-colors font-bold rounded-lg text-sm shadow-md"
+                                                className="w-full py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white transition-colors font-bold rounded-lg text-sm shadow-md"
                                             >
                                                 Open Chat
                                             </button>
@@ -300,19 +300,23 @@ function App() {
                         {currentView === 'alerts' && (
                             <div className="max-w-3xl mx-auto space-y-6 animate-fade-in pt-12 lg:pt-20">
                                 <div className="flex items-center justify-between mb-2">
-                                    <h2 className="text-2xl font-black text-slate-800">Service Alerts</h2>
-                                    <span className="badge bg-amber-100 text-amber-700">{ALERTS.length} Active</span>
+                                    <h2 className="text-2xl font-black text-slate-800 dark:text-white transition-colors">Service Alerts</h2>
+                                    <span className="badge bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 transition-colors">{ALERTS.length} Active</span>
                                 </div>
                                 {ALERTS.map(alert => (
-                                    <div key={alert.id} className={`p-6 rounded-2xl border-2 shadow-sm flex gap-4 ${alert.type === 'warning' ? 'bg-amber-50 border-amber-100' : 'bg-blue-50 border-blue-100'
+                                    <div key={alert.id} className={`p-6 rounded-2xl border-2 shadow-sm flex gap-4 transition-all duration-300 ${alert.type === 'warning'
+                                        ? 'bg-amber-50 dark:bg-amber-900/10 border-amber-100 dark:border-amber-900/30'
+                                        : 'bg-blue-50 dark:bg-blue-900/10 border-blue-100 dark:border-blue-900/30'
                                         }`}>
-                                        <div className={`shrink-0 w-12 h-12 rounded-xl flex items-center justify-center ${alert.type === 'warning' ? 'bg-amber-200 text-amber-800' : 'bg-blue-200 text-blue-800'
+                                        <div className={`shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${alert.type === 'warning'
+                                            ? 'bg-amber-200 dark:bg-amber-800/40 text-amber-800 dark:text-amber-400'
+                                            : 'bg-blue-200 dark:bg-blue-800/40 text-blue-800 dark:text-blue-400'
                                             }`}>
                                             <Icon name={alert.type === 'warning' ? 'triangle-alert' : 'info'} size="text-xl" />
                                         </div>
                                         <div>
-                                            <h4 className="font-bold text-slate-900 mb-1">{alert.type === 'warning' ? 'Important Alert' : 'Service Notice'}</h4>
-                                            <p className="text-slate-600 leading-relaxed">{alert.message}</p>
+                                            <h4 className="font-bold text-slate-900 dark:text-white mb-1 transition-colors">{alert.type === 'warning' ? 'Important Alert' : 'Service Notice'}</h4>
+                                            <p className="text-slate-600 dark:text-slate-400 leading-relaxed transition-colors">{alert.message}</p>
                                         </div>
                                     </div>
                                 ))}

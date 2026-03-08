@@ -20,12 +20,13 @@
             "showSpinner": false,
             "androidSpinnerStyle": "large",
             "spinnerColor": "#FFFFFF",
-            "splashFullScreen": true,
-            "splashImmersive": true
+            "splashFullScreen": false,
+            "splashImmersive": false
         },
         "StatusBar": {
             "style": "dark",
-            "backgroundColor": "#1E3A8A"
+            "backgroundColor": "#FFFFFF",
+            "overlaysWebView": false
         }
     }
 }

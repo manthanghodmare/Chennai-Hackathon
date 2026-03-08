@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1E3A8A">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,7 +30,7 @@
         }
     }
     @layer base {
-        body { @apply bg-[#F9FAFB] text-[#111827] font-sans antialiased; }
+        body { @apply bg-[#F9FAFB] dark:bg-slate-950 text-[#111827] dark:text-slate-100 font-sans antialiased transition-colors duration-500; }
     }
     .card { @apply bg-white p-6 rounded-xl border border-slate-200 shadow-sm; }
     </style>
@@ -50,6 +50,7 @@
 
     <script type="text/babel" src="utils/auth.js"></script>
     <script type="text/babel" src="components/Icons.js"></script>
+    <script type="text/babel" src="components/ThemeToggle.js"></script>
     <script type="text/babel" src="components/Logo.js"></script>
     <script type="text/babel" src="components/AdminMap.js"></script>
     <script type="text/babel" src="components/AdminAlerts.js"></script>
