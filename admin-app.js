@@ -184,6 +184,27 @@ function AdminApp() {
         }
     };
 
+    const handleClearAllTracking = async () => {
+        if (!confirm("Are you sure you want to clear ALL live tracking data? This action cannot be undone.")) return;
+
+        const { db } = window.firebaseApp;
+        try {
+            const snapshot = await db.collection('vehicles').get();
+            const docs = [];
+            snapshot.forEach(doc => docs.push(doc));
+
+            for (const doc of docs) {
+                await db.collection('vehicles').doc(doc.id).delete();
+            }
+
+            alert('All live tracking data has been cleared.');
+            setVehicles([]);
+        } catch (error) {
+            console.error("Error clearing tracking data:", error);
+            alert('Failed to clear data. Please check console for details.');
+        }
+    };
+
     return (
         <AccessGuard role="admin">
             <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-12 transition-colors duration-500" data-name="admin-app" data-file="admin-app.js">
@@ -364,7 +385,15 @@ function AdminApp() {
                                         <h3 className="font-black text-slate-800 dark:text-white uppercase tracking-wider text-sm">Fleet Performance Analytics</h3>
                                         <div className="flex gap-2">
                                             <button className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-[10px] font-bold text-blue-600 dark:text-blue-400 rounded-lg">Day</button>
-                                            <button className="px-3 py-1 text-[10px] font-bold text-slate-400">Week</button>
+                                            <button className="px-3 py-1 text-[10px] font-bold text-slate-400 dark:text-slate-500">Week</button>
+                                            <button
+                                                onClick={handleClearAllTracking}
+                                                className="px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-900/40 transition-all border border-red-100 dark:border-red-900/30"
+                                            >
+                                                <Icon name="trash-2" size="text-xs" className="mr-1" />
+                                                Clear All Tracking
+                                            </button>
+                                            <button onClick={() => setCurrentView('fleet')} className="px-4 py-2 bg-[#3B82F6] text-white rounded-lg text-xs font-bold hover:bg-[#2563EB] transition-all shadow-md shadow-blue-500/20">Analyze All</button>
                                         </div>
                                     </div>
                                     <AnalyticsChart />
