@@ -14,11 +14,30 @@ function LoginApp() {
         else setGreeting('Good Evening');
     }, []);
 
+    const validatePassword = (pass) => {
+        const requirements = [
+            { id: 'length', text: 'At least 8 characters', test: (p) => p.length >= 8 },
+            { id: 'upper', text: 'One uppercase letter', test: (p) => /[A-Z]/.test(p) },
+            { id: 'lower', text: 'One lowercase letter', test: (p) => /[a-z]/.test(p) },
+            { id: 'number', text: 'One number', test: (p) => /\d/.test(p) },
+            { id: 'symbol', text: 'One special symbol (@$!%*?&)', test: (p) => /[@$!%*?&]/.test(p) }
+        ];
+        return requirements.map(r => ({ ...r, met: r.test(pass) }));
+    };
+
+    const passwordRequirements = validatePassword(password);
+    const isPasswordValid = passwordRequirements.every(r => r.met);
+
     const handleLogin = async (e) => {
         if (e) e.preventDefault();
 
         if (!userId || !password) {
             setError('Please enter both Email/ID and Password.');
+            return;
+        }
+
+        if (!isPasswordValid) {
+            setError('Please fulfill all password security requirements.');
             return;
         }
 
@@ -38,8 +57,6 @@ function LoginApp() {
             const { isMockMode } = window.firebaseApp;
             if (isMockMode) {
                 setError("Demo Mode: Using mock authentication. Credentials are not required to be real.");
-                // For a better UX in demo mode, we could even just let them through
-                // but for now, we'll just show the nice message.
             } else {
                 setError(err.message || 'Authentication failed. Please check your credentials.');
             }
@@ -181,6 +198,22 @@ function LoginApp() {
                                     <Icon name={showPassword ? "eye-off" : "eye"} size="text-lg" />
                                 </button>
                             </div>
+
+                            {/* Password Requirements List */}
+                            {password.length > 0 && (
+                                <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-slate-100 dark:border-slate-800/50">
+                                    {passwordRequirements.map(req => (
+                                        <div key={req.id} className="flex items-center gap-2 transition-all duration-300">
+                                            <div className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${req.met ? 'bg-emerald-500 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-400'}`}>
+                                                {req.met ? <Icon name="check" size="text-[10px]" /> : <div className="w-1 h-1 bg-current rounded-full"></div>}
+                                            </div>
+                                            <span className={`text-[10px] font-bold tracking-tight transition-colors ${req.met ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-500'}`}>
+                                                {req.text}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
 
                         <div className="pt-4">
