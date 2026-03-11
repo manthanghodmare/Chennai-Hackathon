@@ -5,11 +5,11 @@ function ToastContainer({ toasts }) {
                 <div
                     key={toast.id}
                     className={`bg-slate-900 dark:bg-slate-800 text-white px-4 py-3 rounded-lg shadow-xl shadow-slate-900/20 dark:shadow-black/40 flex items-center gap-3 animate-fade-in pointer-events-auto min-w-[300px] border-l-4 transition-colors ${toast.type === 'success' ? 'border-emerald-500' :
-                            toast.type === 'error' ? 'border-red-500' : 'border-blue-500'
+                        toast.type === 'error' ? 'border-red-500' : 'border-blue-500'
                         }`}
                 >
                     <div className={`p-1 rounded-full ${toast.type === 'success' ? 'bg-emerald-500/20 text-emerald-400' :
-                            toast.type === 'error' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
+                        toast.type === 'error' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
                         }`}>
                         <Icon name={toast.type === 'success' ? 'check' : toast.type === 'error' ? 'circle-alert' : 'info'} size="text-xs" />
                     </div>
@@ -81,40 +81,118 @@ function ScheduleModal({ route, onClose }) {
 
 function SearchModal({ onClose, routes }) {
     const [query, setQuery] = React.useState('');
+    const [source, setSource] = React.useState('');
+    const [destination, setDestination] = React.useState('');
 
-    const filteredRoutes = routes.filter(r =>
-        r.name.toLowerCase().includes(query.toLowerCase()) ||
-        r.number.includes(query)
-    );
+    // Get all unique stops for the dropdowns
+    const allStops = React.useMemo(() => {
+        const stops = new Set();
+        routes.forEach(r => r.stops.forEach(s => stops.add(s.name)));
+        return Array.from(stops).sort();
+    }, [routes]);
+
+    const filteredRoutes = routes.filter(r => {
+        const matchesQuery = r.name.toLowerCase().includes(query.toLowerCase()) || r.number.includes(query);
+
+        if (!source && !destination) return matchesQuery;
+
+        const sourceIndex = r.stops.findIndex(s => s.name === source);
+        const destIndex = r.stops.findIndex(s => s.name === destination);
+
+        if (source && destination) {
+            return matchesQuery && sourceIndex !== -1 && destIndex !== -1 && sourceIndex < destIndex;
+        } else if (source) {
+            return matchesQuery && sourceIndex !== -1;
+        } else if (destination) {
+            return matchesQuery && destIndex !== -1;
+        }
+
+        return matchesQuery;
+    });
 
     return (
-        <Modal isOpen={true} onClose={onClose} title="Search Transit">
-            <div className="relative mb-6">
-                <Icon name="search" className="absolute left-3 top-3 text-slate-400 dark:text-slate-500" />
-                <input
-                    type="text"
-                    autoFocus
-                    placeholder="Search for route number or name..."
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-[var(--primary)] focus:border-transparent outline-none transition-all"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                />
+        <Modal isOpen={true} onClose={onClose} title="Where is my Bus? (Search)">
+            <div className="space-y-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="relative">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase mb-1 block ml-1">From (Source)</label>
+                        <select
+                            className="w-full pl-3 pr-8 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl outline-none text-sm transition-all focus:ring-2 focus:ring-blue-500"
+                            value={source}
+                            onChange={(e) => setSource(e.target.value)}
+                        >
+                            <option value="">Any Station</option>
+                            {allStops.map(stop => <option key={stop} value={stop}>{stop}</option>)}
+                        </select>
+                    </div>
+                    <div className="relative">
+                        <label className="text-[10px] font-bold text-slate-400 uppercase mb-1 block ml-1">To (Destination)</label>
+                        <select
+                            className="w-full pl-3 pr-8 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl outline-none text-sm transition-all focus:ring-2 focus:ring-blue-500"
+                            value={destination}
+                            onChange={(e) => setDestination(e.target.value)}
+                        >
+                            <option value="">Any Station</option>
+                            {allStops.map(stop => <option key={stop} value={stop}>{stop}</option>)}
+                        </select>
+                    </div>
+                </div>
+
+                <div className="relative">
+                    <Icon name="search" className="absolute left-3 top-3.5 text-slate-400 dark:text-slate-500" />
+                    <input
+                        type="text"
+                        placeholder="Search by Bus Name or Number..."
+                        className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                </div>
             </div>
 
             <div className="space-y-2">
-                <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3">Results</p>
-                {filteredRoutes.length > 0 ? filteredRoutes.map(route => (
-                    <button key={route.id} onClick={onClose} className="w-full flex items-center gap-3 p-3 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-all border border-transparent hover:border-slate-100 dark:hover:border-slate-700 text-left active:scale-[0.98]">
-                        <span className={`px-2.5 py-1 rounded-lg text-xs font-bold text-white shadow-sm ${route.color}`}>{route.number}</span>
-                        <div>
-                            <p className="font-bold text-slate-800 dark:text-slate-200 text-sm">{route.name}</p>
-                            <p className="text-xs text-slate-500 dark:text-slate-400">{route.type}</p>
-                        </div>
-                    </button>
-                )) : (
+                <div className="flex justify-between items-center mb-3">
+                    <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Available Buses</p>
+                    <span className="text-[10px] bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-slate-500">{filteredRoutes.length} found</span>
+                </div>
+
+                {filteredRoutes.length > 0 ? filteredRoutes.map(route => {
+                    // Calculate quick ETA if source is selected
+                    let etaText = route.type;
+                    if (source) {
+                        const stop = route.stops.find(s => s.name === source);
+                        if (stop) etaText = `Passing through ${source}`;
+                    }
+
+                    return (
+                        <button
+                            key={route.id}
+                            onClick={() => {
+                                window.dispatchEvent(new CustomEvent('set-route', { detail: route.id }));
+                                onClose();
+                            }}
+                            className="w-full flex items-center gap-3 p-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-2xl transition-all border border-slate-100 dark:border-slate-800 text-left active:scale-[0.98] group"
+                        >
+                            <span className={`w-12 h-10 flex items-center justify-center rounded-xl text-xs font-black text-white shadow-lg ${route.color} group-hover:scale-110 transition-transform`}>
+                                {route.number}
+                            </span>
+                            <div className="flex-1">
+                                <p className="font-bold text-slate-800 dark:text-slate-100 text-sm">{route.name}</p>
+                                <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">{etaText}</p>
+                            </div>
+                            <Icon name="chevron-right" size="text-xs" className="text-slate-300 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                    );
+                }) : (
                     <div className="text-center py-12 text-slate-400 dark:text-slate-600">
                         <Icon name="search-x" size="text-4xl" className="mx-auto mb-4 opacity-50" />
-                        <p className="font-medium">No routes found matching "<span className="text-slate-900 dark:text-slate-200">{query}</span>"</p>
+                        <p className="font-medium">No buses found for this trip.</p>
+                        <button
+                            onClick={() => { setSource(''); setDestination(''); setQuery(''); }}
+                            className="mt-4 text-xs font-bold text-blue-500 hover:underline"
+                        >
+                            Clear filters
+                        </button>
                     </div>
                 )}
             </div>

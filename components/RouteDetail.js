@@ -101,16 +101,22 @@ function RouteDetail({ route, vehicles, fullScreen }) {
             <div className="p-6 md:p-8 overflow-y-auto flex-1 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 custom-scrollbar transition-colors">
                 <div className="flex justify-between items-end mb-8">
                     <div>
-                        <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-widest mb-1 transition-colors">Route & Tracking</h3>
-                        <p className="text-xs text-slate-400 dark:text-slate-500 transition-colors">Real-time positions updated every second</p>
+                        <h3 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-widest mb-1">Live Status Timeline</h3>
+                        <div className="flex items-center gap-2">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-tighter">Tracking Live</p>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-3 text-xs font-medium text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 shadow-sm transition-colors">
+                    <div className="flex items-center gap-3 text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm transition-colors uppercase tracking-widest">
                         <div className="flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-slate-800 dark:bg-slate-200"></span> Stop
+                            <span className="w-2 h-2 rounded-full bg-indigo-600"></span> Current
                         </div>
                         <div className="w-px h-3 bg-slate-200 dark:bg-slate-700"></div>
                         <div className="flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-600"></span> Passed
+                            <span className="w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></span> Arriving
                         </div>
                     </div>
                 </div>
@@ -135,9 +141,13 @@ function RouteDetail({ route, vehicles, fullScreen }) {
                             return (
                                 <div key={index} className="relative flex items-start gap-8 group">
                                     {/* Stop Dot */}
-                                    <div className={`w-12 h-12 rounded-full border-[5px] border-white dark:border-slate-900 shadow-md flex items-center justify-center z-10 shrink-0 transition-all duration-300 group-hover:scale-110 ${isFirstOrLast ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-800 ring-4 ring-slate-50 dark:ring-slate-900/50 text-slate-400 dark:text-slate-500'
+                                    <div className={`w-12 h-12 rounded-full border-[5px] border-white dark:border-slate-900 shadow-lg flex items-center justify-center z-10 shrink-0 transition-all duration-300 group-hover:scale-110 ${isFirstOrLast ? 'bg-indigo-600 dark:bg-blue-600 text-white' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-800 ring-4 ring-slate-50 dark:ring-slate-950 text-slate-400'
                                         }`}>
-                                        <div className={`w-4 h-4 rounded-full transition-colors ${isFirstOrLast ? 'bg-white dark:bg-slate-900' : 'bg-slate-300 dark:bg-slate-600 group-hover:bg-indigo-500 dark:group-hover:bg-indigo-400'}`}></div>
+                                        {isFirstOrLast ? (
+                                            <Icon name="map-pin" size="text-sm" />
+                                        ) : (
+                                            <div className="w-3 h-3 bg-slate-200 dark:bg-slate-700 rounded-full group-hover:bg-indigo-500 dark:group-hover:bg-blue-400 transition-colors"></div>
+                                        )}
                                     </div>
 
                                     {/* Stop Info */}
@@ -145,10 +155,10 @@ function RouteDetail({ route, vehicles, fullScreen }) {
                                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                                             <div>
                                                 <div className="flex items-center gap-2">
-                                                    <p className={`font-bold transition-colors ${isFirstOrLast ? 'text-slate-900 dark:text-white text-lg' : 'text-slate-700 dark:text-slate-300'}`}>
+                                                    <p className={`font-bold transition-colors ${isFirstOrLast ? 'text-slate-900 dark:text-white text-lg' : 'text-slate-700 dark:text-slate-200'}`}>
                                                         {stop.name}
                                                     </p>
-                                                    {index === 2 && <span className="text-[10px] font-bold bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 rounded transition-colors uppercase tracking-wider">Busy</span>}
+                                                    {index === 2 && <span className="text-[10px] font-bold bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-1.5 rounded transition-colors uppercase tracking-wider border border-amber-200 dark:border-amber-800/50">Busy</span>}
                                                 </div>
                                                 <p className="text-xs text-slate-400 dark:text-slate-500 font-mono mt-0.5 transition-colors">
                                                     STOP ID: {1000 + index + parseInt(route.id)}
