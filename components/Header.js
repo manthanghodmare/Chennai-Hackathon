@@ -10,38 +10,38 @@ function Header() {
                         <Logo size="lg" />
                     </div>
 
-                    <div className="hidden md:flex items-center bg-white/5 dark:bg-slate-900/40 rounded-full p-1.5 border border-white/10 backdrop-blur-md shadow-inner">
+                    <div className="hidden md:flex items-center bg-white/5 dark:bg-slate-900/40 rounded-full p-1 border border-white/10 backdrop-blur-md shadow-inner">
                         <button
                             onClick={() => setView('home')}
-                            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 ${currentView === 'home' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'home' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="home" size="text-xs" />
                             Home
                         </button>
                         <button
                             onClick={() => setView('routes')}
-                            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 ${currentView === 'routes' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'routes' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="route" size="text-xs" />
                             Routes
                         </button>
                         <button
                             onClick={() => setView('map')}
-                            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 ${currentView === 'map' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'map' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="map" size="text-xs" />
                             Live Map
                         </button>
                         <button
                             onClick={() => setView('alerts')}
-                            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 ${currentView === 'alerts' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'alerts' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="bell" size="text-xs" />
                             Alerts
                         </button>
                         <button
                             onClick={() => setView('sustainability')}
-                            className={`flex items-center gap-2.5 px-6 py-2.5 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 ${currentView === 'sustainability' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 scale-105' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'sustainability' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="leaf" size="text-xs" />
                             Sustainability
