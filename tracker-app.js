@@ -205,15 +205,6 @@ function App() {
 
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                                     <div className="lg:col-span-2 space-y-8">
-                                        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-8 border border-slate-100 dark:border-slate-800 flex flex-col justify-center items-center text-center transition-colors">
-                                            <div className="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-6">
-                                                <Icon name="map-unfold" size="text-3xl" />
-                                            </div>
-                                            <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-2 transition-colors">Ready to explore?</h2>
-                                            <p className="text-slate-500 dark:text-slate-400 max-w-sm mb-6 transition-colors">Dive into the live interactive map to track any vehicle across the city.</p>
-                                            <button onClick={() => setCurrentView('map')} className="btn-primary w-full sm:w-auto shadow-lg shadow-blue-500/10">Open Live Map</button>
-                                        </div>
-
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="card group cursor-pointer bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-indigo-200 dark:hover:border-indigo-900 transition-all duration-300" onClick={() => setCurrentView('routes')}>
                                                 <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-all">
