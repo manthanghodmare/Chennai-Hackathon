@@ -1,20 +1,21 @@
 function ToastContainer({ toasts }) {
     return (
-        <div className="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none">
+        <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4 pointer-events-none">
             {toasts.map(toast => (
                 <div
                     key={toast.id}
-                    className={`bg-slate-900 dark:bg-slate-800 text-white px-4 py-3 rounded-lg shadow-xl shadow-slate-900/20 dark:shadow-black/40 flex items-center gap-3 animate-fade-in pointer-events-auto min-w-[300px] border-l-4 transition-colors ${toast.type === 'success' ? 'border-emerald-500' :
-                        toast.type === 'error' ? 'border-red-500' : 'border-blue-500'
+                    className={`bg-[#0F172A]/90 backdrop-blur-xl text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-4 animate-fade-in pointer-events-auto min-w-[320px] border border-white/5 transition-all ${toast.type === 'success' ? 'border-l-4 border-l-emerald-500' :
+                        toast.type === 'error' ? 'border-l-4 border-l-red-500' : 'border-l-4 border-l-blue-500'
                         }`}
                 >
-                    <div className={`p-1 rounded-full ${toast.type === 'success' ? 'bg-emerald-500/20 text-emerald-400' :
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${toast.type === 'success' ? 'bg-emerald-500/20 text-emerald-400' :
                         toast.type === 'error' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'
                         }`}>
-                        <Icon name={toast.type === 'success' ? 'check' : toast.type === 'error' ? 'circle-alert' : 'info'} size="text-xs" />
+                        <Icon name={toast.type === 'success' ? 'check' : toast.type === 'error' ? 'circle-alert' : 'info'} size="text-sm" />
                     </div>
-                    <div>
-                        <p className="text-sm font-medium">{toast.message}</p>
+                    <div className="flex-1">
+                        <p className="text-xs font-black uppercase tracking-[0.2em] mb-0.5 opacity-50">{toast.type}</p>
+                        <p className="text-sm font-bold text-white">{toast.message}</p>
                     </div>
                 </div>
             ))}
@@ -26,16 +27,19 @@ function Modal({ isOpen, onClose, title, children }) {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-            <div className="absolute inset-0 bg-slate-900/60 dark:bg-black/70 backdrop-blur-sm" onClick={onClose}></div>
-            <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg max-h-[80vh] flex flex-col animate-fade-in relative z-10 overflow-hidden transition-colors duration-500 border border-transparent dark:border-slate-800">
-                <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50 transition-colors">
-                    <h3 className="font-bold text-lg text-slate-900 dark:text-white">{title}</h3>
-                    <button onClick={onClose} className="p-2 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
-                        <Icon name="x" size="text-lg" />
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 lg:p-8">
+            <div className="absolute inset-0 bg-[#020617]/80 backdrop-blur-md" onClick={onClose}></div>
+            <div className="bg-[#0F172A] border border-white/5 rounded-[2.5rem] shadow-[0_0_100px_rgba(0,0,0,0.5)] w-full max-w-xl max-h-[90vh] flex flex-col animate-fade-in relative z-10 overflow-hidden transition-all duration-500">
+                <div className="p-8 pb-4 flex justify-between items-center bg-white/5">
+                    <div>
+                        <p className="text-[10px] font-black text-blue-400 uppercase tracking-[0.3em] mb-1">System Interface</p>
+                        <h3 className="font-black text-2xl text-white tracking-tighter">{title}</h3>
+                    </div>
+                    <button onClick={onClose} className="w-12 h-12 flex items-center justify-center text-slate-500 hover:text-white hover:bg-white/10 rounded-2xl transition-all active:scale-90">
+                        <Icon name="x" size="text-xl" />
                     </button>
                 </div>
-                <div className="p-6 overflow-y-auto custom-scrollbar">
+                <div className="p-8 pt-6 overflow-y-auto custom-scrollbar flex-1">
                     {children}
                 </div>
             </div>
@@ -111,39 +115,45 @@ function SearchModal({ onClose, routes }) {
     });
 
     return (
-        <Modal isOpen={true} onClose={onClose} title="Where is my Bus? (Search)">
-            <div className="space-y-4 mb-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="relative">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase mb-1 block ml-1">From (Source)</label>
-                        <select
-                            className="w-full pl-3 pr-8 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl outline-none text-sm transition-all focus:ring-2 focus:ring-blue-500"
-                            value={source}
-                            onChange={(e) => setSource(e.target.value)}
-                        >
-                            <option value="">Any Station</option>
-                            {allStops.map(stop => <option key={stop} value={stop}>{stop}</option>)}
-                        </select>
+        <Modal isOpen={true} onClose={onClose} title="Where is my Bus?">
+            <div className="space-y-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block ml-1">Departure Station</label>
+                        <div className="relative group">
+                            <select
+                                className="w-full pl-4 pr-10 py-4 bg-white/5 border border-white/5 text-white rounded-2xl outline-none text-sm appearance-none transition-all focus:border-blue-500/50 focus:bg-white/10"
+                                value={source}
+                                onChange={(e) => setSource(e.target.value)}
+                            >
+                                <option value="" className="bg-slate-900">All Stations</option>
+                                {allStops.map(stop => <option key={stop} value={stop} className="bg-slate-900">{stop}</option>)}
+                            </select>
+                            <Icon name="chevron-down" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-blue-400 transition-colors" size="text-xs" />
+                        </div>
                     </div>
-                    <div className="relative">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase mb-1 block ml-1">To (Destination)</label>
-                        <select
-                            className="w-full pl-3 pr-8 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl outline-none text-sm transition-all focus:ring-2 focus:ring-blue-500"
-                            value={destination}
-                            onChange={(e) => setDestination(e.target.value)}
-                        >
-                            <option value="">Any Station</option>
-                            {allStops.map(stop => <option key={stop} value={stop}>{stop}</option>)}
-                        </select>
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block ml-1">Destination Station</label>
+                        <div className="relative group">
+                            <select
+                                className="w-full pl-4 pr-10 py-4 bg-white/5 border border-white/5 text-white rounded-2xl outline-none text-sm appearance-none transition-all focus:border-blue-500/50 focus:bg-white/10"
+                                value={destination}
+                                onChange={(e) => setDestination(e.target.value)}
+                            >
+                                <option value="" className="bg-slate-900">All Stations</option>
+                                {allStops.map(stop => <option key={stop} value={stop} className="bg-slate-900">{stop}</option>)}
+                            </select>
+                            <Icon name="chevron-down" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-blue-400 transition-colors" size="text-xs" />
+                        </div>
                     </div>
                 </div>
 
-                <div className="relative">
-                    <Icon name="search" className="absolute left-3 top-3.5 text-slate-400 dark:text-slate-500" />
+                <div className="relative group">
+                    <Icon name="search" className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
                     <input
                         type="text"
                         placeholder="Search by Bus Name or Number..."
-                        className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm"
+                        className="w-full pl-12 pr-4 py-4 bg-white/5 border border-white/5 text-white rounded-2xl focus:border-blue-500/50 focus:bg-white/10 outline-none transition-all text-sm font-medium placeholder:text-slate-600"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />

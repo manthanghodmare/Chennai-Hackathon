@@ -119,35 +119,44 @@ function App() {
                     <Header />
 
                     {/* Hero Section */}
-                    <div id="home" className="relative bg-slate-900 dark:bg-black text-white overflow-hidden h-[400px] lg:h-[500px] group transition-colors duration-500">
+                    <div id="home" className="relative bg-slate-950 text-white overflow-hidden h-[500px] lg:h-[650px] group transition-all duration-700">
                         <div className="absolute inset-0">
                             <img
                                 src={heroImage}
                                 alt="City Transit Background"
-                                className="w-full h-full object-cover opacity-40 dark:opacity-30 transition-transform duration-[20s] ease-in-out transform scale-100 group-hover:scale-110"
-                                style={{ animation: 'slowZoom 20s infinite alternate' }}
+                                className="w-full h-full object-cover opacity-60 dark:opacity-40 transition-transform duration-[30s] ease-out transform scale-100 group-hover:scale-110"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-slate-900/40 dark:from-black dark:via-black/60 dark:to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A] to-transparent opacity-60"></div>
                         </div>
-                        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center animate-fade-in z-10">
-                            <div className="max-w-2xl">
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-4 text-white">
-                                    Smart Mobility for <br /> <span className="text-amber-500 dark:text-amber-400">Smart Cities</span>
+                        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 h-full flex flex-col justify-center animate-fade-in z-10">
+                            <div className="max-w-3xl">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-6 backdrop-blur-md">
+                                    <Icon name="globe" size="text-[10px]" />
+                                    Next-Gen Urban Transit
+                                </div>
+                                <h1 className="text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter mb-6 leading-[0.9] text-white">
+                                    Smart Mobility <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">For Smart Cities</span>
                                 </h1>
-                                <p className="text-xl text-slate-300 dark:text-slate-400 max-w-lg mb-8 transition-colors">
-                                    Real-time tracking, accurate ETAs, and live service alerts for your daily commute.
+                                <p className="text-lg md:text-xl text-slate-300 max-w-xl mb-10 leading-relaxed font-medium">
+                                    Experience the future of urban transit with real-time tracking, accurate ETAs, and high-precision route planning at your fingertips.
                                 </p>
-                                <div className="flex gap-4">
-                                    <button onClick={() => setCurrentView('map')} className="btn-primary shadow-xl shadow-blue-500/20 active:scale-95 transition-all">
-                                        Start Tracking
-                                        <Icon name="arrow-right" size="text-sm" />
+                                <div className="flex flex-wrap gap-4">
+                                    <button onClick={() => setCurrentView('map')} className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-black uppercase tracking-widest text-xs shadow-2xl shadow-blue-600/40 active:scale-95 transition-all flex items-center gap-3">
+                                        Start Live Tracking
+                                        <Icon name="arrow-right" size="text-xs" />
                                     </button>
-                                    <button onClick={() => openModal('search')} className="btn-outline bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-white/20 active:scale-95 transition-all">
-                                        <Icon name="search" size="text-sm" />
-                                        Find Route
+                                    <button onClick={() => openModal('search')} className="px-8 py-4 bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 rounded-full font-black uppercase tracking-widest text-xs backdrop-blur-md active:scale-95 transition-all flex items-center gap-3">
+                                        <Icon name="search" size="text-xs" />
+                                        Find Your Route
                                     </button>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Elegant Scroll Indicator */}
+                        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-30">
+                            <Icon name="chevron-down" size="text-2xl" />
                         </div>
                     </div>
 
@@ -163,30 +172,32 @@ function App() {
                                 />
 
                                 {/* New Live Tracking Section */}
-                                <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-100 dark:border-slate-800 mb-8 animate-fade-in group transition-colors duration-500">
+                                <div className="bg-[#0F172A] rounded-[2rem] shadow-2xl overflow-hidden border border-white/5 mb-12 animate-fade-in group transition-all duration-500 hover:border-blue-500/30">
                                     <div className="grid grid-cols-1 lg:grid-cols-2">
-                                        <div className="p-2 h-full min-h-[250px] lg:min-h-[300px]">
-                                            <MapPreview />
+                                        <div className="p-4 h-full min-h-[300px] lg:min-h-[400px]">
+                                            <div className="h-full rounded-2xl overflow-hidden border border-white/5">
+                                                <MapPreview />
+                                            </div>
                                         </div>
-                                        <div className="p-8 lg:p-12 flex flex-col justify-center bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 transition-colors">
-                                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold mb-4 w-fit border border-blue-100 dark:border-blue-800 transition-colors">
+                                        <div className="p-10 lg:p-16 flex flex-col justify-center bg-gradient-to-br from-[#1E293B] to-[#0F172A]">
+                                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-black mb-6 w-fit border border-blue-500/20 tracking-widest">
                                                 <span className="relative flex h-2 w-2">
                                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                                                 </span>
                                                 LIVE CONNECTED
                                             </div>
-                                            <h2 className="text-3xl lg:text-4xl font-black text-slate-800 dark:text-white mb-4 tracking-tight transition-colors">Track Your Ride</h2>
-                                            <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-md text-lg leading-relaxed transition-colors">Get real-time locations of all active buses and precise arrival times for every stop in the network.</p>
+                                            <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight leading-none">Track Your Ride <br /><span className="text-slate-500 opacity-50 underline decoration-blue-500 underline-offset-8">In Real-Time</span></h2>
+                                            <p className="text-slate-400 mb-10 max-w-md text-lg leading-relaxed font-medium">Get precise locations of every vehicle and accurate arrival predictions powered by our smart city network.</p>
                                             <button
                                                 onClick={() => setCurrentView('map')}
-                                                className="group/btn relative px-8 py-4 bg-slate-900 dark:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-3 overflow-hidden transition-all hover:bg-slate-800 dark:hover:bg-slate-700 hover:shadow-2xl hover:shadow-slate-900/20 active:scale-95 self-start"
+                                                className="group/btn relative px-10 py-5 bg-white text-slate-950 rounded-2xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-4 overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(59,130,246,0.2)] active:scale-95 self-start"
                                             >
-                                                <span className="relative z-10 flex items-center gap-2">
+                                                <span className="relative z-10 flex items-center gap-3">
                                                     <Icon name="map-pin" />
-                                                    Start Tracking
+                                                    Explore Live Map
                                                 </span>
-                                                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
+                                                <div className="absolute inset-0 bg-blue-500 opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
                                             </button>
                                         </div>
                                     </div>
