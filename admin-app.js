@@ -205,6 +205,39 @@ function AdminApp() {
         }
     };
 
+    const handleSeedCity = async () => {
+        if (!confirm("This will overwrite current tracking data with demo vehicles. Proceed?")) return;
+
+        const { db } = window.firebaseApp;
+        try {
+            // Clear existing first
+            const snapshot = await db.collection('vehicles').get();
+            for (const doc of snapshot.docs) {
+                await db.collection('vehicles').doc(doc.id).delete();
+            }
+
+            const seedVehicles = [
+                { id: 'v1', routeId: '101', latitude: 13.0827, longitude: 80.2707, speed: 45, status: 'On Time', capacity: 'Low', onTrip: true },
+                { id: 'v2', routeId: '101', latitude: 13.0850, longitude: 80.2750, speed: 30, status: 'Delayed', capacity: 'High', onTrip: true },
+                { id: 'v3', routeId: '202', latitude: 13.0900, longitude: 80.2800, speed: 55, status: 'On Time', capacity: 'Medium', onTrip: true },
+                { id: 'v4', routeId: '305', latitude: 13.0750, longitude: 80.2600, speed: 40, status: 'Early', capacity: 'Low', onTrip: true },
+                { id: 'v5', routeId: '202', latitude: 13.0800, longitude: 80.2650, speed: 0, status: 'Idle', capacity: 'Minimal', onTrip: false }
+            ];
+
+            for (const v of seedVehicles) {
+                await db.collection('vehicles').doc(v.id).set({
+                    ...v,
+                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+
+            alert('City successfully seeded with 5 demo vehicles!');
+        } catch (error) {
+            console.error("Seeding Error:", error);
+            alert('Failed to seed city.');
+        }
+    };
+
     return (
         <AccessGuard role="admin">
             <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-12 transition-colors duration-500" data-name="admin-app" data-file="admin-app.js">
@@ -386,6 +419,13 @@ function AdminApp() {
                                         <div className="flex gap-2">
                                             <button className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-[10px] font-bold text-blue-600 dark:text-blue-400 rounded-lg">Day</button>
                                             <button className="px-3 py-1 text-[10px] font-bold text-slate-400 dark:text-slate-500">Week</button>
+                                            <button
+                                                onClick={handleSeedCity}
+                                                className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all border border-emerald-100 dark:border-emerald-900/30"
+                                            >
+                                                <Icon name="database" size="text-xs" className="mr-1" />
+                                                Seed City Demo
+                                            </button>
                                             <button
                                                 onClick={handleClearAllTracking}
                                                 className="px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-xs font-bold hover:bg-red-100 dark:hover:bg-red-900/40 transition-all border border-red-100 dark:border-red-900/30"
