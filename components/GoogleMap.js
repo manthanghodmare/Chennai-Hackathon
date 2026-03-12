@@ -1,37 +1,67 @@
 function MockMap({ vehicles }) {
     return (
-        <div className="w-full h-full bg-slate-50 relative overflow-hidden flex items-center justify-center">
-            {/* Grid Pattern */}
-            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#1e293b 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
+        <div className="w-full h-full bg-[#0F172A] relative overflow-hidden flex items-center justify-center cursor-default group/mockmap">
+            {/* Detailed City Infrastructure SVG */}
+            <svg className="absolute inset-0 w-full h-full opacity-[0.15] transition-transform duration-[20s] ease-in-out group-hover/mockmap:scale-105" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+                {/* Background Base */}
+                <rect width="1000" height="600" fill="#020617" />
 
-            {/* Roads Simulation */}
-            <svg className="absolute inset-0 w-full h-full opacity-[0.05]" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 100 Q 250 150 500 100 T 1000 100" stroke="#1e293b" strokeWidth="40" fill="none" />
-                <path d="M200 0 V 1000" stroke="#1e293b" strokeWidth="40" fill="none" />
-                <path d="M600 0 V 1000" stroke="#1e293b" strokeWidth="40" fill="none" />
-                <path d="M0 400 H 1000" stroke="#1e293b" strokeWidth="40" fill="none" />
+                {/* Water Bodies (Coastal City feel) */}
+                <path d="M850 0 C 900 150, 800 450, 950 600 H 1000 V 0 Z" fill="#1e293b" />
+                <path d="M0 250 Q 150 230, 300 280 T 600 260 T 900 300 L 1000 320" stroke="#1e293b" strokeWidth="30" fill="none" />
+                <circle cx="150" cy="120" r="40" fill="#1e293b" />
+
+                {/* Parks / Green Zones */}
+                <rect x="50" y="50" width="120" height="80" rx="20" fill="#064e3b" opacity="0.4" />
+                <rect x="700" y="400" width="180" height="120" rx="30" fill="#064e3b" opacity="0.3" />
+                <circle cx="450" cy="500" r="60" fill="#064e3b" opacity="0.2" />
+
+                {/* Major Arterial Roads (Highways) */}
+                <g stroke="#334155" strokeWidth="15" fill="none" strokeLinecap="round">
+                    <path d="M0 300 H 1000" />
+                    <path d="M350 0 V 600" />
+                    <path d="M750 0 V 600" />
+                    <path d="M0 100 Q 500 150, 1000 50" stroke="#4a5568" strokeWidth="8" strokeDasharray="15,10" />
+                </g>
+
+                {/* Urban Grid - Secondary Streets */}
+                <g stroke="#1e293b" strokeWidth="4" fill="none">
+                    {[100, 200, 400, 500, 700, 800, 900].map(x => <path key={`v-${x}`} d={`M${x} 0 V 600`} />)}
+                    {[50, 150, 350, 450, 550].map(y => <path key={`h-${y}`} d={`M0 ${y} H 1000`} />)}
+                </g>
+
+                {/* Building Density Simulation */}
+                <g fill="#0f172a" stroke="#1e293b" strokeWidth="1">
+                    {Array.from({ length: 15 }).map((_, i) => (
+                        <rect
+                            key={`b-${i}`}
+                            x={100 + (i * 60) % 800}
+                            y={100 + (i * 80) % 400}
+                            width={30 + (i % 3) * 10}
+                            height={30 + (i % 2) * 10}
+                            rx="4"
+                        />
+                    ))}
+                </g>
             </svg>
+
+            {/* Scanning Laser Beam */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-0 left-0 w-1 h-full bg-blue-500/10 blur-xl animate-[sweep_8s_linear_infinite]"></div>
+            </div>
 
             {/* Vehicle Markers */}
             <div className="relative w-full h-full">
                 {vehicles.map((v, i) => {
-                    // Update: Use actual realtime GPS coordinates if available, fallback to mock stable position
                     let x, y;
                     if (v.latitude && v.longitude) {
-                        // The driver-console simulates around lat 13.0827 and lng 80.2707 +/- 0.01
-                        // Map these coordinates directly to the 0-100% bounds of the map container
                         const latDiff = v.latitude - 13.0827;
                         const lngDiff = v.longitude - 80.2707;
-
-                        // Scale up the differences so they fit optimally on our mock grid map
                         x = 50 + (lngDiff * 4000);
                         y = 50 - (latDiff * 4000);
-
-                        // Clamp to prevent going off-screen (keep a safe 5% bounds)
                         x = Math.max(5, Math.min(95, x));
                         y = Math.max(5, Math.min(95, y));
                     } else {
-                        // Random but stable position for mock fallback if no GPS
                         x = 20 + (parseInt(v.id.replace(/\D/g, '') || i) * 17) % 60;
                         y = 20 + (parseInt(v.id.replace(/\D/g, '') || i) * 23) % 60;
                     }
@@ -42,13 +72,26 @@ function MockMap({ vehicles }) {
                             className="absolute transition-all duration-1000 ease-linear"
                             style={{ left: `${x}%`, top: `${y}%` }}
                         >
-                            <div className="relative group cursor-pointer hover:scale-110 transition-transform">
-                                <div className="w-8 h-8 bg-[#1E3A8A] rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/30 border-2 border-white animate-pulse">
-                                    <Icon name="bus" size="text-[10px]" />
+                            <div className="relative group cursor-pointer">
+                                {/* Beacon Glow */}
+                                <div className={`absolute -inset-4 rounded-full blur-xl opacity-20 animate-pulse ${v.status === 'delayed' ? 'bg-amber-500' : 'bg-blue-500'}`}></div>
+
+                                {/* Marker Body */}
+                                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center text-white shadow-2xl border-2 transition-all group-hover:scale-110 active:scale-95 ${v.status === 'delayed' ? 'bg-amber-600 border-amber-400/50 shadow-amber-900/40' : 'bg-blue-600 border-blue-400/50 shadow-blue-900/40'}`}>
+                                    <Icon name="bus" size="text-sm" />
                                 </div>
-                                <div className="absolute top-10 left-1/2 -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md border border-slate-100 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                                    <p className="text-[10px] font-bold text-slate-800 uppercase tracking-widest">{v.id}</p>
-                                    <p className="text-[10px] text-slate-500 font-medium">Spd: {v.speed || 0}km/h</p>
+
+                                {/* Detailed Tooltip */}
+                                <div className="absolute top-12 left-1/2 -translate-x-1/2 bg-[#0F172A]/95 backdrop-blur-xl p-3 rounded-2xl shadow-2xl border border-white/10 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all z-[100] scale-90 group-hover:scale-100">
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <div className={`w-2 h-2 rounded-full animate-ping ${v.status === 'delayed' ? 'bg-amber-500' : 'bg-emerald-500'}`}></div>
+                                        <p className="text-xs font-black text-white uppercase tracking-[0.2em]">{v.id}</p>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-[10px] text-slate-400 font-bold flex justify-between gap-4">SPEED: <span className="text-white">{v.speed || 0} km/h</span></p>
+                                        <p className="text-[10px] text-slate-400 font-bold flex justify-between gap-4">CAPACITY: <span className="text-white">{v.capacity || '0/40'}</span></p>
+                                        <p className="text-[10px] text-slate-400 font-bold flex justify-between gap-4">STATUS: <span className={v.status === 'delayed' ? 'text-amber-400' : 'text-emerald-400'}>{v.status?.toUpperCase()}</span></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -56,10 +99,17 @@ function MockMap({ vehicles }) {
                 })}
             </div>
 
-            <div className="absolute bottom-4 right-4 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-sm animate-fade-in group hover:bg-emerald-100 transition-colors cursor-default z-10">
-                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]"></div>
-                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Live GPS Telemetry</span>
+            <div className="absolute bottom-6 right-6 bg-[#0F172A]/80 backdrop-blur-md border border-white/10 px-4 py-2 rounded-2xl flex items-center gap-3 shadow-2xl cursor-default z-10">
+                <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.8)]"></div>
+                <span className="text-xs font-black text-white uppercase tracking-widest">Global Telemetry Active</span>
             </div>
+
+            <style>{`
+                @keyframes sweep {
+                    0% { left: -10%; }
+                    100% { left: 110%; }
+                }
+            `}</style>
         </div>
     );
 }
