@@ -7,3 +7,10 @@ const useAppContext = () => {
     }
     return context;
 };
+
+// Simple translation helper
+const t = (key, lang = 'en') => {
+    return window.translations?.[lang]?.[key] || window.translations?.['en']?.[key] || key;
+};
+
+window.t = t;

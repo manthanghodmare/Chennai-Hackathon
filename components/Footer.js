@@ -6,22 +6,22 @@ function Footer() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 w-full items-center gap-8 pt-4">
                     <div className="text-center md:text-left text-slate-400 dark:text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] order-2 md:order-1">
-                        <p>&copy; 2026 NEXUS Mobility Group • All Rights Reserved</p>
+                        <p>{window.t ? window.t('copyright_text') : '© 2024 NEXUS Mobility Group • All Rights Reserved'}</p>
                     </div>
 
                     <div className="flex justify-center gap-8 flex-wrap order-1 md:order-2">
-                        <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-xs font-bold uppercase tracking-widest transition-colors">Privacy</a>
-                        <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-xs font-bold uppercase tracking-widest transition-colors">Terms</a>
+                        <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-xs font-bold uppercase tracking-widest transition-colors">{window.t ? window.t('privacy') : 'Privacy'}</a>
+                        <a href="#" className="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 text-xs font-bold uppercase tracking-widest transition-colors">{window.t ? window.t('terms') : 'Terms'}</a>
                     </div>
 
                     <div className="flex justify-center md:justify-end gap-6 order-3">
                         <a href="admin.html" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-2 text-xs font-black uppercase tracking-widest transition-all hover:scale-105">
                             <Icon name="lock" size="text-[10px]" />
-                            Admin
+                            {window.t ? window.t('admin') : 'Admin'}
                         </a>
                         <a href="driver.html" className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 flex items-center gap-2 text-xs font-black uppercase tracking-widest transition-all hover:scale-105">
                             <Icon name="bus" size="text-[10px]" />
-                            Portal
+                            {window.t ? window.t('portal') : 'Portal'}
                         </a>
                     </div>
                 </div>

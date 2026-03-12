@@ -1,9 +1,10 @@
 function SustainabilityView() {
+    const { t } = useAppContext();
     const stats = [
-        { id: 1, label: 'CO₂ Saved', value: '1,240', unit: 'kg', icon: 'leaf', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-        { id: 2, label: 'Trees Equiv.', value: '56', unit: 'trees', icon: 'tree-pine', color: 'text-green-600', bg: 'bg-green-50' },
-        { id: 3, label: 'Cars Removed', value: '12', unit: 'cars', icon: 'car-front', color: 'text-blue-600', bg: 'bg-blue-50' },
-        { id: 4, label: 'Eco Points', value: '2,450', unit: 'pts', icon: 'award', color: 'text-amber-600', bg: 'bg-amber-50' }
+        { id: 1, label: t('co2_saved'), value: '1,240', unit: t('kg'), icon: 'leaf', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+        { id: 2, label: t('trees_equiv'), value: '56', unit: t('trees'), icon: 'tree-pine', color: 'text-green-600', bg: 'bg-green-50' },
+        { id: 3, label: t('cars_removed'), value: '12', unit: t('cars'), icon: 'car-front', color: 'text-blue-600', bg: 'bg-blue-50' },
+        { id: 4, label: t('eco_points'), value: '2,450', unit: t('pts'), icon: 'award', color: 'text-amber-600', bg: 'bg-amber-50' }
     ];
 
     const leaderboards = [
@@ -12,12 +13,14 @@ function SustainabilityView() {
         { id: 3, name: 'Westside Express (202)', impact: 'Medium', efficiency: '82%', color: 'bg-emerald-500' }
     ];
 
+    const days = [t('mon'), t('tue'), t('wed'), t('thu'), t('fri'), t('sat'), t('sun')];
+
     return (
         <div className="animate-fade-in space-y-8 pb-12 pt-12 lg:pt-20">
             {/* Header */}
             <div className="text-center max-w-2xl mx-auto mb-12">
-                <h2 className="text-3xl md:text-4xl font-black text-slate-800 dark:text-white mb-4 transition-colors">Your Environmental Impact</h2>
-                <p className="text-slate-500 dark:text-slate-400 text-lg transition-colors">Every trip on Nexus Mobility contributes to a greener, cleaner city. Here's how our community is making a difference today.</p>
+                <h2 className="text-3xl md:text-4xl font-black text-slate-800 dark:text-white mb-4 transition-colors">{t('sustainability_overview')}</h2>
+                <p className="text-slate-500 dark:text-slate-400 text-lg transition-colors">{t('sustainability_desc')}</p>
             </div>
 
             {/* Impact Grid */}
@@ -40,10 +43,10 @@ function SustainabilityView() {
                 {/* Efficiency Chart Placeholder */}
                 <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl p-8 border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-black/50 transition-colors">
                     <div className="flex items-center justify-between mb-8">
-                        <h3 className="text-xl font-black text-slate-800 dark:text-white transition-colors">Weekly Savings Trend</h3>
+                        <h3 className="text-xl font-black text-slate-800 dark:text-white transition-colors">{t('weekly_trend')}</h3>
                         <select className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs font-bold rounded-lg px-3 py-1.5 outline-none focus:border-emerald-500 transition-colors">
-                            <option>Last 7 Days</option>
-                            <option>Last 30 Days</option>
+                            <option>{t('last_7_days')}</option>
+                            <option>{t('last_30_days')}</option>
                         </select>
                     </div>
                     {/* Visual Chart Mock */}
@@ -56,7 +59,7 @@ function SustainabilityView() {
                                     title={`${h}kg saved`}
                                 ></div>
                                 <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase transition-colors">
-                                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][i]}
+                                    {days[i]}
                                 </span>
                             </div>
                         ))}
@@ -69,7 +72,7 @@ function SustainabilityView() {
                     <div className="relative z-10">
                         <h3 className="text-xl font-black mb-6 flex items-center gap-2">
                             <Icon name="trophy" className="text-amber-400" />
-                            Eco-Route Ranking
+                            {t('eco_leaderboard')}
                         </h3>
                         <div className="space-y-6">
                             {leaderboards.map((r, i) => (
@@ -91,7 +94,7 @@ function SustainabilityView() {
                             ))}
                         </div>
                         <button className="w-full mt-8 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-sm font-bold transition-all uppercase tracking-widest shadow-lg shadow-black/20">
-                            View Full Report
+                            {t('full_report')}
                         </button>
                     </div>
                 </div>
@@ -103,10 +106,10 @@ function SustainabilityView() {
                     <Icon name="lightbulb" size="text-3xl" />
                 </div>
                 <div className="flex-1 text-center md:text-left">
-                    <h4 className="text-xl font-bold text-indigo-900 dark:text-indigo-300 mb-2 transition-colors">Did you know?</h4>
-                    <p className="text-indigo-700 dark:text-indigo-400 transition-colors">Shifting just two car commutes per week to public transit can reduce your personal carbon footprint by over <span className="font-bold text-indigo-900 dark:text-indigo-200">1,000 kg</span> per year.</p>
+                    <h4 className="text-xl font-bold text-indigo-900 dark:text-indigo-300 mb-2 transition-colors">{t('did_you_know')}</h4>
+                    <p className="text-indigo-700 dark:text-indigo-400 transition-colors">{t('eco_tip')}</p>
                 </div>
-                <button className="btn-primary bg-indigo-600 dark:bg-indigo-700 hover:bg-indigo-700 dark:hover:bg-indigo-600 whitespace-nowrap shadow-xl shadow-indigo-500/20 active:scale-95 transition-all">Plan Green Route</button>
+                <button className="btn-primary bg-indigo-600 dark:bg-indigo-700 hover:bg-indigo-700 dark:hover:bg-indigo-600 whitespace-nowrap shadow-xl shadow-indigo-500/20 active:scale-95 transition-all">{t('plan_green_route')}</button>
             </div>
         </div>
     );

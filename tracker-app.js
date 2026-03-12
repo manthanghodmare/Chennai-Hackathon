@@ -42,6 +42,12 @@ function App() {
     const [toasts, setToasts] = React.useState([]);
     const [currentView, setCurrentView] = React.useState('home'); // 'home', 'routes', 'map', 'alerts'
     const [isAIChatOpen, setIsAIChatOpen] = React.useState(false);
+    const [language, setLanguage] = React.useState(localStorage.getItem('preferredLanguage') || 'en');
+
+    const handleSetLanguage = (lang) => {
+        setLanguage(lang);
+        localStorage.setItem('preferredLanguage', lang);
+    };
 
     // Toast Helper
     const showToast = (message, type = 'info') => {
@@ -102,7 +108,10 @@ function App() {
         openModal,
         scrollTo: handleScrollTo,
         currentView,
-        setView: setCurrentView
+        setView: setCurrentView,
+        language,
+        setLanguage: handleSetLanguage,
+        t: (key) => t(key, language)
     };
 
     // Global View Switcher
@@ -133,22 +142,22 @@ function App() {
                             <div className="max-w-3xl">
                                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-[0.3em] mb-6 backdrop-blur-md">
                                     <Icon name="globe" size="text-[10px]" />
-                                    Next-Gen Urban Transit
+                                    {contextValue.t('hero_tagline')}
                                 </div>
                                 <h1 className="text-5xl md:text-6xl lg:text-8xl font-black tracking-tighter mb-6 leading-[0.9] text-white">
-                                    Smart Mobility <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">For Smart Cities</span>
+                                    {contextValue.t('hero_title_1')} <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">{contextValue.t('hero_title_2')}</span>
                                 </h1>
                                 <p className="text-lg md:text-xl text-slate-300 max-w-xl mb-10 leading-relaxed font-medium">
-                                    Experience the future of urban transit with real-time tracking, accurate ETAs, and high-precision route planning at your fingertips.
+                                    {contextValue.t('hero_desc')}
                                 </p>
                                 <div className="flex flex-wrap gap-4">
                                     <button onClick={() => setCurrentView('map')} className="px-8 py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-full font-black uppercase tracking-widest text-xs shadow-2xl shadow-blue-600/40 active:scale-95 transition-all flex items-center gap-3">
-                                        Start Live Tracking
+                                        {contextValue.t('start_tracking')}
                                         <Icon name="arrow-right" size="text-xs" />
                                     </button>
                                     <button onClick={() => openModal('search')} className="px-8 py-4 bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20 rounded-full font-black uppercase tracking-widest text-xs backdrop-blur-md active:scale-95 transition-all flex items-center gap-3">
                                         <Icon name="search" size="text-xs" />
-                                        Find Your Route
+                                        {contextValue.t('find_route')}
                                     </button>
                                 </div>
                             </div>
@@ -185,17 +194,17 @@ function App() {
                                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                                                 </span>
-                                                LIVE CONNECTED
+                                                {contextValue.t('live_connected')}
                                             </div>
-                                            <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight leading-none">Track Your Ride <br /><span className="text-slate-500 opacity-50 underline decoration-blue-500 underline-offset-8">In Real-Time</span></h2>
-                                            <p className="text-slate-400 mb-10 max-w-md text-lg leading-relaxed font-medium">Get precise locations of every vehicle and accurate arrival predictions powered by our smart city network.</p>
+                                            <h2 className="text-4xl lg:text-5xl font-black text-white mb-6 tracking-tight leading-none">{contextValue.t('track_ride_title')} <br /><span className="text-slate-500 opacity-50 underline decoration-blue-500 underline-offset-8">{contextValue.t('track_ride_subtitle')}</span></h2>
+                                            <p className="text-slate-400 mb-10 max-w-md text-lg leading-relaxed font-medium">{contextValue.t('track_ride_desc')}</p>
                                             <button
                                                 onClick={() => setCurrentView('map')}
                                                 className="group/btn relative px-10 py-5 bg-white text-slate-950 rounded-2xl font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-4 overflow-hidden transition-all hover:scale-105 hover:shadow-[0_0_40px_rgba(59,130,246,0.2)] active:scale-95 self-start"
                                             >
                                                 <span className="relative z-10 flex items-center gap-3">
                                                     <Icon name="map-pin" />
-                                                    Explore Live Map
+                                                    {contextValue.t('explore_map')}
                                                 </span>
                                                 <div className="absolute inset-0 bg-blue-500 opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
                                             </button>
@@ -210,15 +219,15 @@ function App() {
                                                 <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-all">
                                                     <Icon name="route" />
                                                 </div>
-                                                <h3 className="font-bold text-slate-800 dark:text-white mb-1 transition-colors">Browse Routes</h3>
-                                                <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors">Full schedules and stop timings for all lines.</p>
+                                                <h3 className="font-bold text-slate-800 dark:text-white mb-1 transition-colors">{contextValue.t('browse_routes')}</h3>
+                                                <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors">{contextValue.t('browse_routes_desc')}</p>
                                             </div>
                                             <div className="card group cursor-pointer bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 hover:border-amber-200 dark:hover:border-amber-900 transition-all duration-300" onClick={() => setCurrentView('alerts')}>
                                                 <div className="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center mb-4 group-hover:bg-amber-600 group-hover:text-white transition-all">
                                                     <Icon name="bell" />
                                                 </div>
-                                                <h3 className="font-bold text-slate-800 dark:text-white mb-1 transition-colors">Service Alerts</h3>
-                                                <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors">Stay updated on delays and roadworks.</p>
+                                                <h3 className="font-bold text-slate-800 dark:text-white mb-1 transition-colors">{contextValue.t('service_alerts')}</h3>
+                                                <p className="text-slate-500 dark:text-slate-400 text-sm transition-colors">{contextValue.t('service_alerts_desc')}</p>
                                             </div>
                                         </div>
 
@@ -230,16 +239,16 @@ function App() {
                                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
                                                         <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
                                                     </span>
-                                                    Live Activity Feed
+                                                    {contextValue.t('live_activity_feed')}
                                                 </h3>
-                                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">Real-time</span>
+                                                <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">{contextValue.t('real_time')}</span>
                                             </div>
                                             <div className="space-y-4">
                                                 {[
-                                                    { id: 1, type: 'status', msg: 'Vehicle #402 just left Central Station', time: '1 min ago', icon: 'bus-front', color: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' },
-                                                    { id: 2, type: 'delay', msg: 'Route 12B experiencing slight delays', time: '4 mins ago', icon: 'clock', color: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20' },
-                                                    { id: 3, type: 'success', msg: 'New schedule for Weekend transit published', time: '12 mins ago', icon: 'calendar-check', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20' },
-                                                    { id: 4, type: 'info', msg: 'High occupancy reported on Route 10A', time: '15 mins ago', icon: 'users', color: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' }
+                                                    { id: 1, type: 'status', msg: contextValue.t('feed_msg_1'), time: contextValue.t('feed_time_1'), icon: 'bus-front', color: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' },
+                                                    { id: 2, type: 'delay', msg: contextValue.t('feed_msg_2'), time: contextValue.t('feed_time_2'), icon: 'clock', color: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20' },
+                                                    { id: 3, type: 'success', msg: contextValue.t('feed_msg_3'), time: contextValue.t('feed_time_3'), icon: 'calendar-check', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20' },
+                                                    { id: 4, type: 'info', msg: contextValue.t('feed_msg_4'), time: contextValue.t('feed_time_4'), icon: 'users', color: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' }
                                                 ].map(item => (
                                                     <div key={item.id} className="flex items-start gap-4 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors group cursor-default">
                                                         <div className={`w-10 h-10 rounded-lg flex items-center justify-center shadow-sm ${item.color} transition-colors`}>
@@ -264,13 +273,13 @@ function App() {
                                         <EcoWidget />
                                         <div className="bg-blue-900 dark:bg-blue-950 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden transition-colors">
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
-                                            <h3 className="font-bold mb-2">Need Help?</h3>
-                                            <p className="text-blue-100 text-sm mb-4">Our AI assistant is ready to help you plan your commute.</p>
+                                            <h3 className="font-bold mb-2">{contextValue.t('need_help')}</h3>
+                                            <p className="text-blue-100 text-sm mb-4">{contextValue.t('ai_help_desc')}</p>
                                             <button
                                                 onClick={() => setIsAIChatOpen(true)}
                                                 className="w-full py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white transition-colors font-bold rounded-lg text-sm shadow-md"
                                             >
-                                                Open Chat
+                                                {contextValue.t('open_chat')}
                                             </button>
                                         </div>
                                     </div>
@@ -302,8 +311,8 @@ function App() {
                         {currentView === 'alerts' && (
                             <div className="max-w-3xl mx-auto space-y-6 animate-fade-in pt-12 lg:pt-20">
                                 <div className="flex items-center justify-between mb-2">
-                                    <h2 className="text-2xl font-black text-slate-800 dark:text-white transition-colors">Service Alerts</h2>
-                                    <span className="badge bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 transition-colors">{ALERTS.length} Active</span>
+                                    <h2 className="text-2xl font-black text-slate-800 dark:text-white transition-colors">{contextValue.t('service_alerts')}</h2>
+                                    <span className="badge bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 transition-colors">{ALERTS.length} {contextValue.t('operational')}</span>
                                 </div>
                                 {ALERTS.map(alert => (
                                     <div key={alert.id} className={`p-6 rounded-2xl border-2 shadow-sm flex gap-4 transition-all duration-300 ${alert.type === 'warning'

@@ -22,6 +22,7 @@ const AnimatedCounter = ({ value, duration = 1500 }) => {
 };
 
 function DashboardStats({ activeRoutes, vehiclesOnRoad, alertsCount }) {
+    const { t } = useAppContext();
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-in relative z-10">
             <div className="bg-[#0F172A]/40 backdrop-blur-xl p-8 rounded-[2rem] border border-white/5 shadow-2xl flex flex-col gap-6 transition-all hover:scale-[1.02] hover:border-blue-500/30 group cursor-default overflow-hidden relative">
@@ -30,12 +31,12 @@ function DashboardStats({ activeRoutes, vehiclesOnRoad, alertsCount }) {
                     <Icon name="route" size="text-2xl" />
                 </div>
                 <div>
-                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">Network Scope</p>
+                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">{t('network_scope')}</p>
                     <div className="flex items-baseline gap-2">
                         <p className="text-5xl font-black text-white tracking-tighter">
                             <AnimatedCounter value={activeRoutes} />
                         </p>
-                        <span className="text-xs font-bold text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full border border-blue-400/20">Active Lines</span>
+                        <span className="text-xs font-bold text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full border border-blue-400/20">{t('active_lines')}</span>
                     </div>
                 </div>
             </div>
@@ -50,12 +51,12 @@ function DashboardStats({ activeRoutes, vehiclesOnRoad, alertsCount }) {
                     </span>
                 </div>
                 <div className="relative">
-                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">Fleet Online</p>
+                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">{t('fleet_online')}</p>
                     <div className="flex items-baseline gap-2">
                         <p className="text-5xl font-black text-white tracking-tighter">
                             <AnimatedCounter value={vehiclesOnRoad} />
                         </p>
-                        <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-400/20">Live Sync</span>
+                        <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-3 py-1 rounded-full border border-emerald-400/20">{t('live_sync')}</span>
                     </div>
                 </div>
             </div>
@@ -66,12 +67,12 @@ function DashboardStats({ activeRoutes, vehiclesOnRoad, alertsCount }) {
                     <Icon name="triangle-alert" size="text-2xl" />
                 </div>
                 <div>
-                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">Safety Desk</p>
+                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2">{t('safety_desk')}</p>
                     <div className="flex items-baseline gap-2">
                         <p className="text-5xl font-black text-white tracking-tighter">
                             <AnimatedCounter value={alertsCount} />
                         </p>
-                        <span className="text-xs font-bold text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">Service Alerts</span>
+                        <span className="text-xs font-bold text-amber-400 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">{t('service_alerts')}</span>
                     </div>
                 </div>
             </div>

@@ -6,12 +6,20 @@ function LoginApp() {
     const [error, setError] = React.useState('');
     const [isLoading, setIsLoading] = React.useState(false);
     const [greeting, setGreeting] = React.useState('');
+    const [language, setLanguage] = React.useState(localStorage.getItem('preferredLanguage') || 'en');
+
+    const handleSetLanguage = (lang) => {
+        setLanguage(lang);
+        localStorage.setItem('preferredLanguage', lang);
+    };
+
+    const translate = (key) => t(key, language);
 
     React.useEffect(() => {
         const hour = new Date().getHours();
-        if (hour < 12) setGreeting('Good Morning');
-        else if (hour < 17) setGreeting('Good Afternoon');
-        else setGreeting('Good Evening');
+        if (hour < 12) setGreeting(translate('good_morning'));
+        else if (hour < 17) setGreeting(translate('good_afternoon'));
+        else setGreeting(translate('good_evening'));
     }, []);
 
     const validatePassword = (pass) => {
@@ -66,18 +74,18 @@ function LoginApp() {
 
     const roleData = {
         passenger: {
-            label: 'Citizen',
-            description: 'Access live bus tracking, ticket bookings, and personal transport history.',
+            label: translate('citizen'),
+            description: translate('citizen_desc'),
             icon: 'user'
         },
         admin: {
-            label: 'Authority',
-            description: 'Full access to fleet management, driver dispatch, and network analytics.',
+            label: translate('authority'),
+            description: translate('authority_desc'),
             icon: 'shield-check'
         },
         driver: {
-            label: 'Driver',
-            description: 'Open the console to manage your assigned route and passenger capacity.',
+            label: translate('driver'),
+            description: translate('driver_desc'),
             icon: 'bus-front'
         }
     };
@@ -94,12 +102,13 @@ function LoginApp() {
                     <div className="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-2"></div>
                     <select
                         className="bg-transparent text-slate-700 dark:text-slate-200 text-xs font-black rounded-lg py-1.5 px-2 outline-none cursor-pointer uppercase tracking-widest transition-colors"
-                        defaultValue="en"
+                        value={language}
+                        onChange={(e) => handleSetLanguage(e.target.value)}
                     >
-                        <option value="en" className="bg-white dark:bg-slate-900">EN</option>
-                        <option value="hi" className="bg-white dark:bg-slate-900">HI</option>
-                        <option value="mr" className="bg-white dark:bg-slate-900">MR</option>
-                        <option value="ta" className="bg-white dark:bg-slate-900">TA</option>
+                        <option value="en" className="bg-white dark:bg-slate-900">ENG</option>
+                        <option value="hi" className="bg-white dark:bg-slate-900">HIN</option>
+                        <option value="mr" className="bg-white dark:bg-slate-900">MAR</option>
+                        <option value="ta" className="bg-white dark:bg-slate-900">TAM</option>
                     </select>
                 </div>
 
@@ -119,7 +128,7 @@ function LoginApp() {
 
                     <div className="mb-10 transition-all duration-500">
                         <span className="text-[#F59E0B] font-bold text-sm tracking-widest uppercase mb-2 block">{greeting},</span>
-                        <h2 className="text-3xl font-black text-[#1E3A8A] dark:text-blue-400 mb-2">Sign In to Dashboard</h2>
+                        <h2 className="text-3xl font-black text-[#1E3A8A] dark:text-blue-400 mb-2">{translate('sign_in_title')}</h2>
                         <p className="text-slate-500 dark:text-slate-400 font-medium text-sm flex items-center gap-2">
                             <span className="w-2 h-2 rounded-full bg-[#F59E0B] animate-ping"></span>
                             {roleData[role].description}
@@ -140,26 +149,26 @@ function LoginApp() {
                                 onClick={() => setRole('passenger')}
                                 className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'passenger' ? 'border-[#1E3A8A] dark:border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-[#1E3A8A] dark:text-blue-400' : 'border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600 hover:border-slate-200 dark:hover:border-slate-700'}`}
                             >
-                                Citizen
+                                {translate('citizen')}
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setRole('admin')}
                                 className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'admin' ? 'border-[#1E3A8A] dark:border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-[#1E3A8A] dark:text-blue-400' : 'border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600 hover:border-slate-200 dark:hover:border-slate-700'}`}
                             >
-                                Authority
+                                {translate('authority')}
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setRole('driver')}
                                 className={`py-3 px-2 rounded-xl text-[11px] font-bold border-2 transition-all ${role === 'driver' ? 'border-[#1E3A8A] dark:border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-[#1E3A8A] dark:text-blue-400' : 'border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-600 hover:border-slate-200 dark:hover:border-slate-700'}`}
                             >
-                                Driver
+                                {translate('driver')}
                             </button>
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block ml-1">User ID / Registered Mobile</label>
+                            <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block ml-1">{translate('user_id_label')}</label>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-600 group-focus-within:text-[#1E3A8A] dark:group-focus-within:text-blue-400 transition-colors">
                                     <Icon name="user" size="text-sm" />
@@ -176,8 +185,8 @@ function LoginApp() {
 
                         <div className="space-y-2">
                             <div className="flex justify-between items-center ml-1">
-                                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">Password</label>
-                                <a href="#" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">Forgot Password?</a>
+                                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">{translate('password_label')}</label>
+                                <a href="#" className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors">{translate('forgot_password')}</a>
                             </div>
                             <div className="relative group">
                                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 dark:text-slate-600 group-focus-within:text-[#1E3A8A] dark:group-focus-within:text-blue-400 transition-colors">
@@ -229,7 +238,7 @@ function LoginApp() {
                                     </>
                                 ) : (
                                     <>
-                                        <span>Access Dashboard</span>
+                                        <span>{translate('access_dashboard')}</span>
                                         <Icon name="arrow-right" className="group-hover:translate-x-1 transition-transform" />
                                     </>
                                 )}
@@ -238,9 +247,9 @@ function LoginApp() {
 
                         <div className="text-center mt-6">
                             <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
-                                Don't have an account?{' '}
+                                {translate('no_account')}{' '}
                                 <a href="#" className="text-[#3B82F6] dark:text-blue-400 font-bold hover:text-[#1E3A8A] dark:hover:text-blue-300 transition-colors">
-                                    Create New Account
+                                    {translate('create_account')}
                                 </a>
                             </p>
                         </div>
@@ -250,7 +259,7 @@ function LoginApp() {
                                 <Icon name="shield-alert" size="text-lg" />
                             </div>
                             <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-tight font-semibold">
-                                WARNING: This is a secure Government System. Authorized users only. Activity is monitored and logged.
+                                {translate('secure_gov_warning')}
                             </p>
                         </div>
                     </form>
@@ -276,16 +285,16 @@ function LoginApp() {
                             </div>
                         </div>
                         <div>
-                            <h4 className="font-bold mb-6 text-xs uppercase tracking-[0.2em] text-teal-400">Policy & Legal</h4>
+                            <h4 className="font-bold mb-6 text-xs uppercase tracking-[0.2em] text-teal-400">{translate('policy_legal')}</h4>
                             <ul className="text-sm space-y-4 text-blue-100/60 font-medium">
-                                <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> Privacy Policy</li>
-                                <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> Terms of Use</li>
-                                <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> Hyperlink Policy</li>
-                                <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> Data Protection Bill</li>
+                                <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> {translate('privacy_policy_legal')}</li>
+                                <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> {translate('terms_of_use')}</li>
+                                <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> {translate('hyperlink_policy')}</li>
+                                <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> {translate('data_protection_bill')}</li>
                             </ul>
                         </div>
                         <div>
-                            <h4 className="font-bold mb-6 text-xs uppercase tracking-[0.2em] text-teal-400">Institutional</h4>
+                            <h4 className="font-bold mb-6 text-xs uppercase tracking-[0.2em] text-teal-400">{translate('institutional')}</h4>
                             <ul className="text-sm space-y-4 text-blue-100/60 font-medium">
                                 <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> PM India</li>
                                 <li className="hover:text-teal-300 cursor-pointer transition-colors flex items-center gap-2"><span>&rsaquo;</span> NIC Global</li>
@@ -294,10 +303,10 @@ function LoginApp() {
                             </ul>
                         </div>
                         <div>
-                            <h4 className="font-bold mb-6 text-xs uppercase tracking-[0.2em] text-teal-400">Helpdesk</h4>
+                            <h4 className="font-bold mb-6 text-xs uppercase tracking-[0.2em] text-teal-400">{translate('helpdesk')}</h4>
                             <div className="space-y-4">
                                 <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                                    <p className="text-[10px] text-teal-400 font-bold uppercase mb-1">National Toll-Free</p>
+                                    <p className="text-[10px] text-teal-400 font-bold uppercase mb-1">{translate('national_toll_free')}</p>
                                     <p className="text-lg font-black text-white">1800-245-8888</p>
                                 </div>
                                 <p className="text-sm text-blue-100/60 font-medium pl-2">support@nexusmobility.gov.in</p>

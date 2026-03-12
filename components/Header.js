@@ -1,5 +1,5 @@
 function Header() {
-    const { currentView, setView, scrollTo, openModal, showToast } = useAppContext();
+    const { currentView, setView, scrollTo, openModal, showToast, language, setLanguage, t } = useAppContext();
     const { user, logout } = Auth.useAuth();
 
     return (
@@ -16,35 +16,35 @@ function Header() {
                             className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'home' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="home" size="text-xs" />
-                            Home
+                            {t('home')}
                         </button>
                         <button
                             onClick={() => setView('routes')}
                             className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'routes' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="route" size="text-xs" />
-                            Routes
+                            {t('routes')}
                         </button>
                         <button
                             onClick={() => setView('map')}
                             className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'map' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="map" size="text-xs" />
-                            Live Map
+                            {t('live_map')}
                         </button>
                         <button
                             onClick={() => setView('alerts')}
                             className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'alerts' ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="bell" size="text-xs" />
-                            Alerts
+                            {t('alerts')}
                         </button>
                         <button
                             onClick={() => setView('sustainability')}
                             className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'sustainability' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                         >
                             <Icon name="leaf" size="text-xs" />
-                            Sustainability
+                            {t('sustainability')}
                         </button>
                     </div>
 
@@ -58,10 +58,12 @@ function Header() {
                             <div className="w-px h-3 bg-white/10 mx-1"></div>
                             <select
                                 className="bg-transparent text-slate-400 hover:text-white text-[10px] font-black rounded-lg py-1 px-2 outline-none cursor-pointer uppercase tracking-widest transition-colors"
-                                defaultValue="en"
+                                value={language}
+                                onChange={(e) => setLanguage(e.target.value)}
                             >
                                 <option className="bg-slate-900" value="en">ENG</option>
                                 <option className="bg-slate-900" value="hi">HIN</option>
+                                <option className="bg-slate-900" value="mr">MAR</option>
                                 <option className="bg-slate-900" value="ta">TAM</option>
                             </select>
                         </div>
@@ -81,7 +83,7 @@ function Header() {
                                     <div className="absolute right-0 top-full pt-3 w-60 hidden group-hover:block animate-fade-in z-[60]">
                                         <div className="bg-[#0F172A] rounded-2xl shadow-2xl border border-white/5 py-2 overflow-hidden backdrop-blur-2xl">
                                             <div className="px-5 py-4 border-b border-white/5 bg-white/5 mb-1">
-                                                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] mb-1">Authenticated Account</p>
+                                                <p className="text-[9px] font-black text-slate-500 uppercase tracking-[0.3em] mb-1">{t('authenticated_account')}</p>
                                                 <p className="text-sm font-bold text-white truncate">{user.name}</p>
                                             </div>
                                             <button onClick={() => {
@@ -89,14 +91,14 @@ function Header() {
                                                 else if (user.role === 'driver') window.location.href = 'driver.html';
                                                 else setView('profile');
                                             }} className="w-full text-left px-5 py-3 text-xs font-bold text-slate-300 hover:bg-white/5 flex items-center gap-3 transition-colors uppercase tracking-widest">
-                                                <Icon name="layout-dashboard" size="text-xs" className="text-blue-500" /> Dashboard
+                                                <Icon name="layout-dashboard" size="text-xs" className="text-blue-500" /> {t('dashboard')}
                                             </button>
                                             <div className="h-px bg-white/5 my-1 mx-3"></div>
                                             <button
                                                 onClick={() => { logout(); window.location.href = 'index.html'; }}
                                                 className="w-full text-left px-5 py-3 text-[10px] text-red-500 hover:bg-red-500/10 flex items-center gap-3 transition-colors font-black uppercase tracking-[0.3em]"
                                             >
-                                                <Icon name="log-out" size="text-xs" /> Sign Out
+                                                <Icon name="log-out" size="text-xs" /> {t('sign_out')}
                                             </button>
                                         </div>
                                     </div>
@@ -107,7 +109,7 @@ function Header() {
                                 href="index.html"
                                 className="px-6 py-2.5 rounded-full bg-blue-600 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-500 transition-all shadow-lg shadow-blue-500/25 active:scale-95"
                             >
-                                Login
+                                {t('login')}
                             </a>
                         )}
                     </div>
