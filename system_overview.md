@@ -22,6 +22,7 @@ This is the main view for citizens. It focuses on **Real-Time Information**. The
   - **Eco-Impact:** Shows CO2 saved by taking the bus vs. a car.
   - **Live Activity Feed:** Updates like "Bus #402 left Central Station 1 min ago."
   - **AI Chat Assistant:** A prominent "Need Help?" card for future AI integration and crowdsourced reporting.
+  - **Demand-Responsive Check-in:** Passengers can click "I am waiting here" which feeds live data to the driver and admin.
 
 ## 4. The Driver Console (`driver-console.js`)
 A simplified, high-visibility interface for bus drivers on the move.
@@ -30,6 +31,7 @@ A simplified, high-visibility interface for bus drivers on the move.
   - **Big "Start/End Trip" Button:** The primary action is massive and color-coded (Green/Red).
   - **Geofenced Auto-Start:** To address human error, the driver's phone acts as a GPS sensor. If the driver leaves the terminal radius near the scheduled departure time, the system *automatically* starts the trip in the background. The manual button is just a backup override.
   - **Route Info Card:** Clearly shows "Next Stop" and "Scheduled Arrival Time."
+  - **Live Passenger Demand:** The console pulls "waiting passenger" data in real-time. The driver can see exactly how many people are waiting at the next stop, allowing them to bypass empty stops completely to save time.
 - **Quick Actions:** One-tap buttons for **"Report Delay"** and **"Request Maintenance"**.
 - **SOS Dual-Dispatch System:** A dedicated emergency button that triggers a confirmation modal. Once confirmed, it operates on a dual-dispatch protocol: it instantly flags the Admin Hub with a high-priority alert AND can automatically trigger a backend alert to local emergency services/police with the exact GPS coordinates.
 - **Standardized Header:** Aligned with other apps, featuring the language selector and profile actions.
@@ -37,6 +39,7 @@ A simplified, high-visibility interface for bus drivers on the move.
 ## 5. The Admin Hub (`admin-app.js`)
 The command center for transport authorities to manage the fleet.
 - **Fleet Overview Cards:** Instant stats on **Total Fleet**, **On-Time %**, **Current Load**, and **Critical Alerts**.
+- **Live Demand Hotspots:** A real-time widget showing which bus stops have the highest concentration of waiting passengers, allowing the admin to dynamically dispatch extra buses to those specific locations.
 - **Analytics Chart:** A visual graph showing Passenger Load vs. Active Fleet usage throughout the day.
 - **Live Fleet Table:** A detailed list of every vehicle with status (On Time, Delayed), capacity, and action buttons.
 - **Broadcast System:** A tool to send alerts to specific groups (e.g., "All Passengers on Route 101").

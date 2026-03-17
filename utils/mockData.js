@@ -15,12 +15,12 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '8 min',
                 stops: [
-                    { id: 's1', name: 'Koyambedu Bus Terminus', timeOffset: 0 },
-                    { id: 's2', name: 'Anna Nagar Tower', timeOffset: 7 },
-                    { id: 's3', name: 'Vadapalani Signal', timeOffset: 15 },
-                    { id: 's4', name: 'Ashok Nagar', timeOffset: 22 },
-                    { id: 's5', name: 'Chrompet Junction', timeOffset: 35 },
-                    { id: 's6', name: 'Tambaram Sanatorium', timeOffset: 48 }
+                    { id: 's1', name: 'Koyambedu Bus Terminus', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's2', name: 'Anna Nagar Tower', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's3', name: 'Vadapalani Signal', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's4', name: 'Ashok Nagar', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's5', name: 'Chrompet Junction', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's6', name: 'Tambaram Sanatorium', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -33,11 +33,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '12 min',
                 stops: [
-                    { id: 's7', name: 'Broadway Bus Terminus', timeOffset: 0 },
-                    { id: 's8', name: 'Parry\'s Corner', timeOffset: 5 },
-                    { id: 's9', name: 'Adyar Signal', timeOffset: 20 },
-                    { id: 's10', name: 'Tidel Park', timeOffset: 28 },
-                    { id: 's11', name: 'Thiruvanmiyur', timeOffset: 38 }
+                    { id: 's7', name: 'Broadway Bus Terminus', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's8', name: 'Parry\'s Corner', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's9', name: 'Adyar Signal', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's10', name: 'Tidel Park', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's11', name: 'Thiruvanmiyur', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -50,11 +50,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '20 min',
                 stops: [
-                    { id: 's12', name: 'Chennai Central', timeOffset: 0 },
-                    { id: 's13', name: 'T.Nagar Panagal Park', timeOffset: 18 },
-                    { id: 's14', name: 'Velachery', timeOffset: 30 },
-                    { id: 's15', name: 'Sholinganallur', timeOffset: 45 },
-                    { id: 's16', name: 'Kelambakkam', timeOffset: 60 }
+                    { id: 's12', name: 'Chennai Central', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's13', name: 'T.Nagar Panagal Park', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's14', name: 'Velachery', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's15', name: 'Sholinganallur', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's16', name: 'Kelambakkam', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             }
         ],
@@ -84,11 +84,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '5 min',
                 stops: [
-                    { id: 's1', name: 'CST Bus Depot', timeOffset: 0 },
-                    { id: 's2', name: 'Churchgate', timeOffset: 8 },
-                    { id: 's3', name: 'Haji Ali', timeOffset: 18 },
-                    { id: 's4', name: 'Worli Sea Face', timeOffset: 25 },
-                    { id: 's5', name: 'Bandra Station', timeOffset: 40 }
+                    { id: 's1', name: 'CST Bus Depot', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's2', name: 'Churchgate', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's3', name: 'Haji Ali', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's4', name: 'Worli Sea Face', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's5', name: 'Bandra Station', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -101,11 +101,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '10 min',
                 stops: [
-                    { id: 's6', name: 'Borivali Station (W)', timeOffset: 0 },
-                    { id: 's7', name: 'Dahisar', timeOffset: 10 },
-                    { id: 's8', name: 'Kandivali', timeOffset: 18 },
-                    { id: 's9', name: 'Malad', timeOffset: 26 },
-                    { id: 's10', name: 'Andheri Station', timeOffset: 38 }
+                    { id: 's6', name: 'Borivali Station (W)', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's7', name: 'Dahisar', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's8', name: 'Kandivali', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's9', name: 'Malad', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's10', name: 'Andheri Station', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -118,10 +118,10 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '15 min',
                 stops: [
-                    { id: 's11', name: 'Kurla Bus Terminal', timeOffset: 0 },
-                    { id: 's12', name: 'Ghatkopar', timeOffset: 12 },
-                    { id: 's13', name: 'Mulund Check Naka', timeOffset: 25 },
-                    { id: 's14', name: 'Thane Station', timeOffset: 40 }
+                    { id: 's11', name: 'Kurla Bus Terminal', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's12', name: 'Ghatkopar', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's13', name: 'Mulund Check Naka', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's14', name: 'Thane Station', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             }
         ],
@@ -151,11 +151,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '10 min',
                 stops: [
-                    { id: 's1', name: 'Swargate Bus Stand', timeOffset: 0 },
-                    { id: 's2', name: 'Deccan Gymkhana', timeOffset: 10 },
-                    { id: 's3', name: 'Shivajinagar', timeOffset: 18 },
-                    { id: 's4', name: 'Aundh', timeOffset: 28 },
-                    { id: 's5', name: 'Hinjawadi IT Park', timeOffset: 45 }
+                    { id: 's1', name: 'Swargate Bus Stand', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's2', name: 'Deccan Gymkhana', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's3', name: 'Shivajinagar', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's4', name: 'Aundh', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's5', name: 'Hinjawadi IT Park', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -168,11 +168,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '15 min',
                 stops: [
-                    { id: 's6', name: 'Katraj Bus Depot', timeOffset: 0 },
-                    { id: 's7', name: 'Bibwewadi', timeOffset: 10 },
-                    { id: 's8', name: 'Pune Station', timeOffset: 20 },
-                    { id: 's9', name: 'Pimpri', timeOffset: 35 },
-                    { id: 's10', name: 'Wakad', timeOffset: 50 }
+                    { id: 's6', name: 'Katraj Bus Depot', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's7', name: 'Bibwewadi', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's8', name: 'Pune Station', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's9', name: 'Pimpri', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's10', name: 'Wakad', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -185,11 +185,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '20 min',
                 stops: [
-                    { id: 's11', name: 'Hadapsar Depot', timeOffset: 0 },
-                    { id: 's12', name: 'Fatima Nagar', timeOffset: 8 },
-                    { id: 's13', name: 'Market Yard', timeOffset: 18 },
-                    { id: 's14', name: 'Karve Road', timeOffset: 28 },
-                    { id: 's15', name: 'Kothrud Depot', timeOffset: 38 }
+                    { id: 's11', name: 'Hadapsar Depot', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's12', name: 'Fatima Nagar', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's13', name: 'Market Yard', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's14', name: 'Karve Road', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's15', name: 'Kothrud Depot', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             }
         ],
@@ -219,11 +219,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '12 min',
                 stops: [
-                    { id: 's1', name: 'Sitabuldi Bus Stand', timeOffset: 0 },
-                    { id: 's2', name: 'Cotton Market', timeOffset: 8 },
-                    { id: 's3', name: 'Jaripatka', timeOffset: 16 },
-                    { id: 's4', name: 'Wadi', timeOffset: 28 },
-                    { id: 's5', name: 'MIDC Hingna', timeOffset: 40 }
+                    { id: 's1', name: 'Sitabuldi Bus Stand', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's2', name: 'Cotton Market', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's3', name: 'Jaripatka', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's4', name: 'Wadi', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's5', name: 'MIDC Hingna', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -236,11 +236,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '25 min',
                 stops: [
-                    { id: 's6', name: 'Nagpur Railway Station', timeOffset: 0 },
-                    { id: 's7', name: 'Residency Road', timeOffset: 8 },
-                    { id: 's8', name: 'Wardha Road', timeOffset: 20 },
-                    { id: 's9', name: 'Dr. Ambedkar Chowk', timeOffset: 30 },
-                    { id: 's10', name: 'Dr. Babasaheb Ambedkar Int\'l Airport', timeOffset: 42 }
+                    { id: 's6', name: 'Nagpur Railway Station', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's7', name: 'Residency Road', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's8', name: 'Wardha Road', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's9', name: 'Dr. Ambedkar Chowk', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's10', name: 'Dr. Babasaheb Ambedkar Int\'l Airport', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -253,10 +253,10 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '18 min',
                 stops: [
-                    { id: 's11', name: 'Kamptee Bus Terminus', timeOffset: 0 },
-                    { id: 's12', name: 'Kalamna Market', timeOffset: 12 },
-                    { id: 's13', name: 'Civil Lines', timeOffset: 24 },
-                    { id: 's14', name: 'Dharampeth', timeOffset: 35 }
+                    { id: 's11', name: 'Kamptee Bus Terminus', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's12', name: 'Kalamna Market', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's13', name: 'Civil Lines', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's14', name: 'Dharampeth', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             }
         ],
@@ -286,11 +286,11 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '15 min',
                 stops: [
-                    { id: 's1', name: 'Wardha Railway Station', timeOffset: 0 },
-                    { id: 's2', name: 'Bajaj Chowk', timeOffset: 5 },
-                    { id: 's3', name: 'MG Antarrashtriya Hindi Vishwavidyalaya', timeOffset: 15 },
-                    { id: 's4', name: 'Bapu Kuti', timeOffset: 25 },
-                    { id: 's5', name: 'Sevagram Ashram', timeOffset: 35 }
+                    { id: 's1', name: 'Wardha Railway Station', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's2', name: 'Bajaj Chowk', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's3', name: 'MG Antarrashtriya Hindi Vishwavidyalaya', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's4', name: 'Bapu Kuti', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's5', name: 'Sevagram Ashram', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             },
             {
@@ -303,10 +303,10 @@ const CITY_DATA = {
                 type: 'Bus',
                 frequency: '20 min',
                 stops: [
-                    { id: 's6', name: 'Main Bus Stand', timeOffset: 0 },
-                    { id: 's7', name: 'Arvi Naka', timeOffset: 8 },
-                    { id: 's8', name: 'Datta Meghe Institute', timeOffset: 16 },
-                    { id: 's9', name: 'Pavnar Ashram', timeOffset: 25 }
+                    { id: 's6', name: 'Main Bus Stand', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's7', name: 'Arvi Naka', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's8', name: 'Datta Meghe Institute', timeOffset: , waitingCount: Math.floor(Math.random() * 45) },
+                    { id: 's9', name: 'Pavnar Ashram', timeOffset: , waitingCount: Math.floor(Math.random() * 45) }
                 ]
             }
         ],

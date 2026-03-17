@@ -377,10 +377,19 @@ function DriverConsole() {
                                                         <p className="text-[11px] font-black uppercase tracking-[0.3em] text-blue-300">Terminal Sequence</p>
                                                         <div className="flex items-center gap-2 text-blue-100 font-mono font-bold text-lg">
                                                             <Icon name="clock-3" size="text-sm" />
-                                                            04:52
+                                                            {nextStop?.timeOffset || 0} min
                                                         </div>
                                                     </div>
-                                                    <p className="text-5xl font-black tracking-tighter drop-shadow-lg">{nextStop?.name || 'End of Mission'}</p>
+                                                    <div className="flex justify-between items-center pr-4">
+                                                        <p className="text-5xl font-black tracking-tighter drop-shadow-lg leading-tight">{nextStop?.name || 'End of Mission'}</p>
+                                                        {nextStop && (
+                                                            <div className="flex flex-col items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20 shadow-lg">
+                                                                <Icon name="users" size="text-xl" className="text-emerald-400 mb-1" />
+                                                                <span className="text-2xl font-black font-mono leading-none">{nextStop.waitingCount || 0}</span>
+                                                                <span className="text-[9px] uppercase tracking-widest font-black text-slate-300 mt-1">Waiting</span>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

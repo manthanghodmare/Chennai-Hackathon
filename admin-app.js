@@ -454,6 +454,53 @@ function AdminApp() {
                                     <AnalyticsChart />
                                 </div>
                             </div>
+                            
+                            {/* Demand Hotspots Widget (X-Factor Feature) */}
+                            <div className="mt-8 card bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 transition-colors">
+                                <div className="flex justify-between items-center mb-6">
+                                    <h3 className="font-black text-slate-800 dark:text-white uppercase tracking-wider text-sm flex items-center gap-2">
+                                        <Icon name="users" className="text-emerald-500" />
+                                        Live Demand Hotspots
+                                    </h3>
+                                    <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-[10px] font-black uppercase text-emerald-600 dark:text-emerald-400 rounded-full animate-pulse">
+                                        Real-Time Passenger Aggregation Active
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    {(() => {
+                                        // Aggregate all stops and sort by waitingCount
+                                        let allStops = [];
+                                        ROUTES.forEach(r => {
+                                            r.stops.forEach(s => {
+                                                allStops.push({ ...s, routeName: r.name, routeColor: r.color, routeNumber: r.number });
+                                            });
+                                        });
+                                        allStops.sort((a, b) => (b.waitingCount || 0) - (a.waitingCount || 0));
+                                        
+                                        // Take top 4 hotspots
+                                        return allStops.slice(0, 4).map((stop, i) => (
+                                            <div key={`${stop.id}-${i}`} className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50 flex flex-col justify-between group hover:border-emerald-500/50 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 transition-all cursor-pointer">
+                                                <div className="flex justify-between items-start mb-4">
+                                                    <div>
+                                                        <p className="font-black text-slate-800 dark:text-white mb-1 line-clamp-1">{stop.name}</p>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className={`w-2 h-2 rounded-full ${stop.routeColor}`}></span>
+                                                            <p className="text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400">Route {stop.routeNumber}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex flex-col items-center justify-center bg-white dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                                                        <span className="text-xl font-black font-mono text-emerald-600 dark:text-emerald-400 leading-none">{stop.waitingCount || 0}</span>
+                                                        <span className="text-[8px] font-black uppercase text-slate-400 mt-0.5">Waiting</span>
+                                                    </div>
+                                                </div>
+                                                <button className="w-full py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg text-xs font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:-translate-y-1">
+                                                    Dispatch Extra Unit
+                                                </button>
+                                            </div>
+                                        ));
+                                    })()}
+                                </div>
+                            </div>
                         </div>
                     )}
 
