@@ -9,6 +9,8 @@ function DriverConsole() {
     const [lastPosition, setLastPosition] = React.useState(null);
     const [tripProgress, setTripProgress] = React.useState(0);
     const [occupancy, setOccupancy] = React.useState('Low'); // Low, Medium, High
+    const [showScanner, setShowScanner] = React.useState(false);
+    const [scanState, setScanState] = React.useState('idle'); // idle, scanning, found
     const dropdownRef = React.useRef(null);
 
     React.useEffect(() => {
@@ -42,24 +44,46 @@ function DriverConsole() {
             return;
         }
 
+        if (isOnTrip) {
+            // Instead of ending immediately, trigger the AI Scanner
+            setShowScanner(true);
+            setScanState('scanning');
+            
+            // Simulate 3 seconds of scanning, then find the item
+            setTimeout(() => {
+                setScanState('found');
+            }, 3000);
+            return;
+        }
+
         const { db } = window.firebaseApp;
-        const newStatus = !isOnTrip;
+        const newStatus = true;
 
         try {
             await db.collection('vehicles').doc(selectedBus).set({
-                status: newStatus ? 'On Time' : 'Idle',
-                onTrip: newStatus,
+                status: 'On Time',
+                onTrip: true,
                 routeId: selectedRoute?.id || null,
                 capacity: occupancy,
                 lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
             }, { merge: true });
 
-            setIsOnTrip(newStatus);
-            if (!newStatus) {
-                await db.collection('vehicles').doc(selectedBus).delete();
-                setCurrentSpeed(0);
-                setTripProgress(0);
-            }
+            setIsOnTrip(true);
+        } catch (err) {
+            console.error("Firestore Update Error:", err);
+        }
+    };
+
+    const confirmEndTrip = async () => {
+        setIsOnTrip(false);
+        setShowScanner(false);
+        setScanState('idle');
+        
+        const { db } = window.firebaseApp;
+        try {
+            await db.collection('vehicles').doc(selectedBus).delete();
+            setCurrentSpeed(0);
+            setTripProgress(0);
         } catch (err) {
             console.error("Firestore Update Error:", err);
         }
@@ -462,6 +486,59 @@ function DriverConsole() {
                                 <button className="w-full py-6 bg-red-600 text-white rounded-3xl font-black uppercase tracking-[0.3em] shadow-2xl shadow-red-600/40 hover:bg-red-700 transition-all active:scale-95 text-xl">Confirm Alert</button>
                                 <button onClick={() => setShowSOS(false)} className="w-full py-5 bg-white/5 text-slate-400 rounded-3xl font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all text-xs">Abort Signal</button>
                             </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* AI Vision Scanner Modal */}
+                {showScanner && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#020617]/95 backdrop-blur-3xl animate-fade-in">
+                        <div className="bg-[#0F172A] rounded-[3.5rem] p-10 max-w-lg w-full shadow-[0_0_100px_rgba(59,130,246,0.2)] border border-blue-500/20 relative overflow-hidden flex flex-col items-center text-center">
+                            
+                            {/* Scanner Reticle UI */}
+                            <div className="relative w-64 h-64 mb-8">
+                                {/* Corners */}
+                                <div className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-blue-500"></div>
+                                <div className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-blue-500"></div>
+                                <div className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-blue-500"></div>
+                                <div className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-blue-500"></div>
+                                
+                                {scanState === 'scanning' && (
+                                    <>
+                                        <div className="absolute inset-0 bg-blue-500/10 animate-pulse"></div>
+                                        <div className="absolute top-0 left-0 w-full h-1 bg-blue-400 shadow-[0_0_15px_rgba(96,165,250,0.8)] animate-scan"></div>
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <Icon name="scan-face" size="text-6xl" className="text-blue-500 opacity-50 animate-pulse" />
+                                        </div>
+                                    </>
+                                )}
+                                
+                                {scanState === 'found' && (
+                                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-emerald-500/10 border border-emerald-500/30 rounded-xl animate-fade-in">
+                                        <Icon name="box" size="text-6xl" className="text-emerald-500 mb-2" />
+                                        <div className="px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-black uppercase tracking-widest rounded-full border border-emerald-500/30">
+                                            98.4% Match
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {scanState === 'scanning' ? (
+                                <>
+                                    <h2 className="text-3xl font-black text-white mb-2 tracking-tighter">AI Cabin Scan</h2>
+                                    <p className="text-blue-400 font-mono text-sm uppercase tracking-widest animate-pulse">Analyzing Video Feed...</p>
+                                    <p className="text-slate-500 mt-4 text-xs font-bold w-3/4">Please pan the device camera across all passenger seating areas.</p>
+                                </>
+                            ) : (
+                                <>
+                                    <h2 className="text-3xl font-black text-emerald-400 mb-2 tracking-tighter">Object Detected</h2>
+                                    <p className="text-white font-black text-xl mb-4">Red Tupperware Box (Seat 4)</p>
+                                    <p className="text-slate-400 text-sm font-medium mb-8">Matches active passenger lost-item report #RX-782. Please secure item for depot return.</p>
+                                    <div className="w-full flex gap-4">
+                                        <button onClick={confirmEndTrip} className="flex-1 py-4 bg-emerald-600 text-white rounded-2xl font-black uppercase tracking-widest hover:bg-emerald-500 transition-all shadow-lg shadow-emerald-500/20">Secure & End Trip</button>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 )}

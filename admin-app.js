@@ -501,6 +501,60 @@ function AdminApp() {
                                     })()}
                                 </div>
                             </div>
+                            
+                            {/* Vision AI Recovery Logs (Hackathon Demo Feature) */}
+                            <div className="mt-8 card bg-slate-900 border border-slate-800 relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                                <div className="flex justify-between items-center mb-6 relative z-10">
+                                    <h3 className="font-black text-white uppercase tracking-wider text-sm flex items-center gap-2">
+                                        <Icon name="scan-face" className="text-blue-500" />
+                                        Vision AI Recovery Logs
+                                    </h3>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-blue-400">Scan Network Active</span>
+                                    </div>
+                                </div>
+                                <div className="space-y-4 relative z-10">
+                                    {/* Mock Recovered Item */}
+                                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-slate-800/50 border border-slate-700 rounded-xl hover:border-blue-500/30 transition-colors">
+                                        <div className="flex items-start gap-4 mb-4 md:mb-0">
+                                            <div className="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+                                                <Icon name="check-circle-2" />
+                                            </div>
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-widest rounded border border-blue-500/30">Bus 12B</span>
+                                                    <span className="text-[10px] text-slate-400 font-mono">ID: #RX-782</span>
+                                                </div>
+                                                <p className="text-white font-black">Red Tupperware Box</p>
+                                                <p className="text-xs text-slate-400">Detected on Seat 4 • Matched with active passenger report.</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center gap-4 w-full md:w-auto mt-4 md:mt-0 pt-4 md:pt-0 border-t border-slate-700 md:border-t-0">
+                                            <div className="flex flex-col items-end hidden md:flex">
+                                                <span className="text-[10px] uppercase font-black text-emerald-400 tracking-widest">Status</span>
+                                                <span className="text-sm text-white font-bold">Secured at Depot</span>
+                                            </div>
+                                            <button className="w-full md:w-auto px-6 py-2 bg-white text-slate-900 font-black text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-colors">
+                                                View Item
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {/* Mock Empty Scan */}
+                                    <div className="flex items-center justify-between p-4 bg-slate-800/30 border border-slate-700/50 rounded-xl opacity-60">
+                                        <div className="flex items-center gap-4">
+                                            <div className="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center text-slate-500 shrink-0">
+                                                <Icon name="search" size="text-sm" />
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-300 font-bold text-sm">Routine Cabin Scan</p>
+                                                <p className="text-xs text-slate-500">Bus 101 • No lost items detected.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     )}
 
