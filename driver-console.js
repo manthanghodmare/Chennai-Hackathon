@@ -134,6 +134,22 @@ function DriverConsole() {
                                 </div>
                             </div>
 
+                            <div className="hidden sm:flex items-center bg-white/5 backdrop-blur-md rounded-xl p-1 border border-white/10 shadow-sm transition-all duration-500 mr-2">
+                                <select
+                                    className="bg-transparent text-white text-[10px] font-black rounded-lg py-1 px-1.5 outline-none cursor-pointer uppercase tracking-tight"
+                                    value={localStorage.getItem('selectedCity') || 'chennai'}
+                                    onChange={(e) => {
+                                        localStorage.setItem('selectedCity', e.target.value);
+                                        window.location.reload();
+                                    }}
+                                >
+                                    <option className="bg-slate-900" value="chennai">CHN</option>
+                                    <option className="bg-slate-900" value="mumbai">MUM</option>
+                                    <option className="bg-slate-900" value="pune">PUN</option>
+                                    <option className="bg-slate-900" value="nagpur">NAG</option>
+                                </select>
+                            </div>
+
                             <div className="relative group" ref={dropdownRef}>
                                 <button
                                     onClick={() => setShowDropdown(!showDropdown)}

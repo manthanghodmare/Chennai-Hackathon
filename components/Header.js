@@ -58,6 +58,20 @@ function Header() {
                             <div className="w-px h-3 bg-white/10 mx-1"></div>
                             <select
                                 className="bg-transparent text-slate-400 hover:text-white text-[10px] font-black rounded-lg py-1 px-2 outline-none cursor-pointer uppercase tracking-widest transition-colors"
+                                value={localStorage.getItem('selectedCity') || 'chennai'}
+                                onChange={(e) => {
+                                    localStorage.setItem('selectedCity', e.target.value);
+                                    window.location.reload();
+                                }}
+                            >
+                                <option className="bg-slate-900" value="chennai">CHN</option>
+                                <option className="bg-slate-900" value="mumbai">MUM</option>
+                                <option className="bg-slate-900" value="pune">PUN</option>
+                                <option className="bg-slate-900" value="nagpur">NAG</option>
+                            </select>
+                            <div className="w-px h-3 bg-white/10 mx-1"></div>
+                            <select
+                                className="bg-transparent text-slate-400 hover:text-white text-[10px] font-black rounded-lg py-1 px-2 outline-none cursor-pointer uppercase tracking-widest transition-colors"
                                 value={language}
                                 onChange={(e) => setLanguage(e.target.value)}
                             >

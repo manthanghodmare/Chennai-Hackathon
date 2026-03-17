@@ -7,10 +7,16 @@ function LoginApp() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [greeting, setGreeting] = React.useState('');
     const [language, setLanguage] = React.useState(localStorage.getItem('preferredLanguage') || 'en');
+    const [selectedCity, setSelectedCity] = React.useState(localStorage.getItem('selectedCity') || 'chennai');
 
     const handleSetLanguage = (lang) => {
         setLanguage(lang);
         localStorage.setItem('preferredLanguage', lang);
+    };
+
+    const handleSetCity = (city) => {
+        setSelectedCity(city);
+        localStorage.setItem('selectedCity', city);
     };
 
     const translate = (key) => t(key, language);
@@ -99,6 +105,17 @@ function LoginApp() {
                 {/* Theme and Language Controls - Moved Outside for better visibility */}
                 <div className="absolute top-8 right-8 z-50 flex items-center bg-white/40 dark:bg-slate-900/40 backdrop-blur-xl rounded-2xl p-2 border border-white/20 dark:border-slate-800/20 shadow-2xl transition-all duration-500 hover:scale-105 hover:bg-white/60 dark:hover:bg-slate-800/60">
                     <ThemeToggle />
+                    <div className="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-2"></div>
+                    <select
+                        className="bg-transparent text-slate-700 dark:text-slate-200 text-xs font-black rounded-lg py-1.5 px-2 outline-none cursor-pointer uppercase tracking-widest transition-colors mr-1"
+                        value={selectedCity}
+                        onChange={(e) => handleSetCity(e.target.value)}
+                    >
+                        <option value="chennai" className="bg-white dark:bg-slate-900">Chennai</option>
+                        <option value="mumbai" className="bg-white dark:bg-slate-900">Mumbai</option>
+                        <option value="pune" className="bg-white dark:bg-slate-900">Pune</option>
+                        <option value="nagpur" className="bg-white dark:bg-slate-900">Nagpur</option>
+                    </select>
                     <div className="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-2"></div>
                     <select
                         className="bg-transparent text-slate-700 dark:text-slate-200 text-xs font-black rounded-lg py-1.5 px-2 outline-none cursor-pointer uppercase tracking-widest transition-colors"

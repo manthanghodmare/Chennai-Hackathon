@@ -64,6 +64,20 @@ function DriverApp() {
                             <div className="w-px h-3 bg-slate-200 dark:bg-slate-700 mx-1"></div>
                             <select
                                 className="bg-transparent text-slate-600 dark:text-slate-300 text-[10px] font-black rounded-lg py-1 px-1.5 outline-none cursor-pointer uppercase tracking-tight transition-colors"
+                                value={localStorage.getItem('selectedCity') || 'chennai'}
+                                onChange={(e) => {
+                                    localStorage.setItem('selectedCity', e.target.value);
+                                    window.location.reload();
+                                }}
+                            >
+                                <option value="chennai">CHN</option>
+                                <option value="mumbai">MUM</option>
+                                <option value="pune">PUN</option>
+                                <option value="nagpur">NAG</option>
+                            </select>
+                            <div className="w-px h-3 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+                            <select
+                                className="bg-transparent text-slate-600 dark:text-slate-300 text-[10px] font-black rounded-lg py-1 px-1.5 outline-none cursor-pointer uppercase tracking-tight transition-colors"
                                 defaultValue="en"
                             >
                                 <option value="en">ENG</option>
