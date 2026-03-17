@@ -43,6 +43,23 @@ function App() {
     const [currentView, setCurrentView] = React.useState('home'); // 'home', 'routes', 'map', 'alerts'
     const [isAIChatOpen, setIsAIChatOpen] = React.useState(false);
     const [language, setLanguage] = React.useState(localStorage.getItem('preferredLanguage') || 'en');
+    
+    // Favorites State
+    const [favorites, setFavorites] = React.useState(() => {
+        const saved = localStorage.getItem('nexus_favorites');
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    const toggleFavorite = (routeId) => {
+        setFavorites(prev => {
+            const newFavorites = prev.includes(routeId)
+                ? prev.filter(id => id !== routeId)
+                : [...prev, routeId];
+            localStorage.setItem('nexus_favorites', JSON.stringify(newFavorites));
+            return newFavorites;
+        });
+        showToast(favorites.includes(routeId) ? 'Route removed from favorites' : 'Route added to favorites', 'success');
+    };
 
     const handleSetLanguage = (lang) => {
         setLanguage(lang);
@@ -111,7 +128,9 @@ function App() {
         setView: setCurrentView,
         language,
         setLanguage: handleSetLanguage,
-        t: (key) => t(key, language)
+        t: (key) => t(key, language),
+        favorites,
+        toggleFavorite
     };
 
     // Global View Switcher
@@ -271,6 +290,52 @@ function App() {
 
                                     <div className="space-y-6">
                                         <EcoWidget />
+                                        
+                                        {/* Favorited Routes Box */}
+                                        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-6 border border-slate-100 dark:border-slate-800 transition-colors">
+                                            <div className="flex items-center justify-between mb-4">
+                                                <h3 className="font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                                                    <Icon name="star" className="text-amber-400 fill-amber-400" size="text-lg" />
+                                                    Favorite Routes
+                                                </h3>
+                                                <span className="text-xs font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">{favorites.length} saved</span>
+                                            </div>
+                                            
+                                            {favorites.length > 0 ? (
+                                                <div className="space-y-3">
+                                                    {favorites.map(routeId => {
+                                                        const route = ROUTES.find(r => r.id === routeId);
+                                                        if (!route) return null;
+                                                        return (
+                                                            <button 
+                                                                key={route.id}
+                                                                onClick={() => {
+                                                                    window.dispatchEvent(new CustomEvent('set-route', { detail: route.id }));
+                                                                    window.dispatchEvent(new CustomEvent('set-view', { detail: 'routes' }));
+                                                                }}
+                                                                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-100 dark:border-slate-800 transition-all text-left group"
+                                                            >
+                                                                <span className={`w-10 h-10 flex items-center justify-center rounded-lg text-xs font-black text-white shadow-sm ${route.color}`}>
+                                                                    {route.number}
+                                                                </span>
+                                                                <div className="flex-1 min-w-0">
+                                                                    <p className="font-bold text-slate-800 dark:text-slate-200 text-sm truncate">{route.name}</p>
+                                                                    <p className="text-xs text-slate-500">{route.defaultFrequency || route.frequency} freq</p>
+                                                                </div>
+                                                                <Icon name="chevron-right" size="text-xs" className="text-slate-300 group-hover:translate-x-1 transition-transform" />
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
+                                            ) : (
+                                                <div className="text-center py-6 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+                                                    <Icon name="star" size="text-2xl" className="mx-auto mb-2 text-slate-300 dark:text-slate-600" />
+                                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">No favorite routes yet</p>
+                                                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Star routes to quickly access them here</p>
+                                                </div>
+                                            )}
+                                        </div>
+
                                         <div className="bg-blue-900 dark:bg-blue-950 rounded-2xl p-6 text-white shadow-xl relative overflow-hidden transition-colors">
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
                                             <h3 className="font-bold mb-2">{contextValue.t('need_help')}</h3>

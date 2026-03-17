@@ -1,11 +1,6 @@
 function RouteDetail({ route, vehicles, fullScreen }) {
-    const { openModal, showToast } = useAppContext();
-    const [isFavorite, setIsFavorite] = React.useState(false);
-
-    const toggleFavorite = () => {
-        setIsFavorite(!isFavorite);
-        showToast(!isFavorite ? 'Route added to favorites' : 'Route removed from favorites', 'success');
-    };
+    const { openModal, showToast, favorites, toggleFavorite } = useAppContext();
+    const isFavorite = favorites?.includes(route?.id);
 
     if (!route) return (
         <div className="flex flex-col items-center justify-center h-full min-h-[500px] bg-white rounded-xl border border-slate-200 border-dashed animate-fade-in">
@@ -86,7 +81,7 @@ function RouteDetail({ route, vehicles, fullScreen }) {
                         Full Schedule
                     </button>
                     <button
-                        onClick={toggleFavorite}
+                        onClick={() => toggleFavorite(route.id)}
                         className={`w-10 h-10 rounded-lg border flex items-center justify-center transition-all ${isFavorite
                             ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800 text-amber-500 shadow-sm'
                             : 'border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:text-amber-400 hover:border-amber-200 bg-white dark:bg-slate-800'
