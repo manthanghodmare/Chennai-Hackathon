@@ -25,6 +25,7 @@ This is the main view for citizens. It focuses on **Real-Time Information**. The
   - **Demand-Responsive Check-in:** Passengers can click "I am waiting here" which feeds live data to the driver and admin.
   - **AI Lost & Found Chat:** A passenger can report a lost item by describing it to the AI Chat.
   - **🧠 Transport Decision Assistant:** The AI acts as a personal advisor. When a user asks "Which bus should I take?" it reads the live `waitingCount` data, compares options side-by-side, and delivers a recommendation: *"Wait 5 minutes for Bus 27C — far fewer people on board."*
+  - **📜 Detailed Travel History:** A comprehensive log of past trips including the specific Bus Registration ID (e.g. TN-01-MTC-2451), route, segments (From-To), and CO2 impact.
 
 ## 4. The Driver Console (`driver-console.js`)
 A simplified, high-visibility interface for bus drivers on the move.

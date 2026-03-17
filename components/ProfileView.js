@@ -8,9 +8,10 @@ function ProfileView() {
     ];
 
     const history = [
-        { id: 1, route: '101', date: 'Today, 08:30 AM', spent: '₹20', impact: '2.4kg CO₂ saved', from: 'Central Station', to: 'Tech Park' },
-        { id: 2, route: '305', date: 'Yesterday, 05:45 PM', spent: '₹40', impact: '4.8kg CO₂ saved', from: 'Airport T1', to: 'Central Station' },
-        { id: 3, route: '202', date: 'Mar 1, 09:15 AM', spent: '₹15', impact: '1.2kg CO₂ saved', from: 'West Terminal', to: 'Shopping Mall' }
+        { id: 1, route: '12B', busId: 'TN-01-MTC-2451', date: 'Today, 08:30 AM', spent: '₹20', impact: '2.4kg CO₂ saved', from: 'Koyambedu', to: 'Vadapalani', status: 'Verified' },
+        { id: 2, route: '27C', busId: 'TN-01-MTC-8892', date: 'Yesterday, 05:45 PM', spent: '₹40', impact: '4.8kg CO₂ saved', from: 'Broadway', to: 'Adyar Signal', status: 'Verified' },
+        { id: 3, route: '47D', busId: 'TN-01-MTC-1104', date: 'Mar 15, 09:15 AM', spent: '₹15', impact: '1.2kg CO₂ saved', from: 'Chennai Central', to: 'Velachery', status: 'Verified' },
+        { id: 4, route: '12B', busId: 'TN-01-MTC-2451', date: 'Mar 14, 08:35 AM', spent: '₹20', impact: '2.4kg CO₂ saved', from: 'Koyambedu', to: 'Vadapalani', status: 'Verified' }
     ];
 
     const badges = [
@@ -59,32 +60,54 @@ function ProfileView() {
                 {/* Trip History */}
                 <div className="lg:col-span-2 space-y-6">
                     <div className="flex items-center justify-between">
-                        <h3 className="text-xl font-black text-slate-800 dark:text-white transition-colors">Trip History</h3>
+                        <h3 className="text-xl font-black text-slate-800 dark:text-white transition-colors">Recent Travel History</h3>
                         <button className="text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline">Download CSV</button>
                     </div>
                     <div className="space-y-4">
                         {history.map(trip => (
-                            <div key={trip.id} className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md dark:shadow-black/50 transition-all group cursor-default">
+                            <div key={trip.id} className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md dark:shadow-black/50 transition-all group cursor-default relative overflow-hidden">
+                                <div className="absolute top-0 left-0 w-1 h-full bg-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                 <div className="flex items-center justify-between mb-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 bg-slate-50 dark:bg-slate-800 rounded-lg flex items-center justify-center text-slate-500 dark:text-slate-400 font-bold transition-colors">
-                                            {trip.route}
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-xl flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 transition-colors border border-blue-100 dark:border-blue-900/30">
+                                            <span className="text-[10px] uppercase font-black tracking-tighter opacity-70">Route</span>
+                                            <span className="font-black text-lg leading-none">{trip.route}</span>
                                         </div>
                                         <div>
                                             <p className="font-bold text-slate-900 dark:text-white transition-colors">{trip.date}</p>
-                                            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium transition-colors">{trip.from} → {trip.to}</p>
+                                            <div className="flex items-center gap-2 mt-0.5">
+                                                <span className="text-xs font-mono text-slate-400 dark:text-slate-500">{trip.busId}</span>
+                                                <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-700"></span>
+                                                <span className="text-[10px] font-black uppercase text-emerald-500 flex items-center gap-1">
+                                                    <Icon name="check-circle-2" size="text-[10px]" /> {trip.status}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="text-right">
-                                        <p className="font-black text-slate-900 dark:text-white transition-colors">{trip.spent}</p>
-                                        <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">{trip.impact}</p>
+                                        <p className="font-black text-slate-900 dark:text-white transition-colors text-lg">{trip.spent}</p>
+                                        <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-end gap-1">
+                                            <Icon name="leaf" size="text-[8px]" /> {trip.impact}
+                                        </p>
                                     </div>
                                 </div>
-                                <div className="h-px bg-slate-50 dark:bg-slate-800 w-full mb-3 transition-colors"></div>
+                                
+                                <div className="bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 mb-4 flex items-center justify-between transition-colors border border-slate-100 dark:border-slate-800/50">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-blue-500/40"></div>
+                                        <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">{trip.from}</span>
+                                    </div>
+                                    <Icon name="arrow-right" size="text-[10px]" className="text-slate-300 dark:text-slate-600" />
+                                    <div className="flex items-center gap-2 text-right">
+                                        <span className="text-xs text-slate-600 dark:text-slate-400 font-medium">{trip.to}</span>
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500/40"></div>
+                                    </div>
+                                </div>
+
                                 <div className="flex items-center justify-between">
-                                    <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">Transaction ID: #TXN-{trip.id}829</span>
-                                    <button className="text-xs font-bold text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-1">
-                                        View Receipt <Icon name="chevron-right" size="text-[10px]" />
+                                    <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest transition-colors">NEXUS-TKT-{trip.id}X902</span>
+                                    <button className="text-xs font-bold text-slate-500 dark:text-slate-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors flex items-center gap-1">
+                                        Digital Receipt <Icon name="external-link" size="text-[10px]" />
                                     </button>
                                 </div>
                             </div>
