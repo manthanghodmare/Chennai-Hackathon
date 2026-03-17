@@ -135,6 +135,8 @@ function DriverConsole() {
                             </div>
 
                             <div className="hidden sm:flex items-center bg-white/5 backdrop-blur-md rounded-xl p-1 border border-white/10 shadow-sm transition-all duration-500 mr-2">
+                                <ThemeToggle />
+                                <div className="w-px h-3 bg-white/10 mx-1"></div>
                                 <select
                                     className="bg-transparent text-white text-[10px] font-black rounded-lg py-1 px-1.5 outline-none cursor-pointer uppercase tracking-tight"
                                     value={localStorage.getItem('selectedCity') || 'chennai'}
