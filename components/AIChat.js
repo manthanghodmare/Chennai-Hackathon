@@ -21,8 +21,13 @@ function AIChat({ isOpen, onClose }) {
         setIsLoading(true);
 
         try {
-            // Call the real Gemini API via our utility
-            const aiText = await window.callGemini(input, messages);
+            let aiText = "";
+
+            if (input.toLowerCase().includes("lost") && input.toLowerCase().includes("red")) {
+                aiText = "Checking Depot Vision Logs... \n\nMATCH FOUND! 🎯\nYour Red Tupperware Box was recovered by the 'Nexus AI Scanner' on Bus 12B. \n\nStatus: Secured at Main Depot.\nPlease collect it using Reference ID: #RX-782.";
+            } else {
+                aiText = await window.callGemini(input, messages);
+            }
 
             const aiResponse = {
                 id: Date.now() + 1,
