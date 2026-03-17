@@ -260,7 +260,7 @@ function DriverConsole() {
                                         }`}
                                 >
                                     <span className="flex items-center justify-center gap-4">
-                                        Initialize Mission
+                                        Initialize Mission / Auto-Start Active
                                         <Icon name="arrow-right" className="group-hover:translate-x-2 transition-transform" />
                                     </span>
                                 </button>
@@ -448,7 +448,7 @@ function DriverConsole() {
                                 <Icon name="siren" size="text-5xl" />
                             </div>
                             <h2 className="text-4xl font-black text-white mb-4 tracking-tighter">Emergency?</h2>
-                            <p className="text-slate-500 font-medium mb-10 text-lg leading-relaxed px-4">Instant broadcast to central command and emergency responders with your precise telemetry data.</p>
+                            <p className="text-slate-500 font-medium mb-10 text-lg leading-relaxed px-4">Instant broadcast to Admin Command and Local Responders via GPS transmission. Initiating Dual-Dispatch protocol...</p>
                             <div className="flex flex-col gap-4">
                                 <button className="w-full py-6 bg-red-600 text-white rounded-3xl font-black uppercase tracking-[0.3em] shadow-2xl shadow-red-600/40 hover:bg-red-700 transition-all active:scale-95 text-xl">Confirm Alert</button>
                                 <button onClick={() => setShowSOS(false)} className="w-full py-5 bg-white/5 text-slate-400 rounded-3xl font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all text-xs">Abort Signal</button>

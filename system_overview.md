@@ -14,23 +14,24 @@ The entry point is designed to be secure, professional, and accessible.
   - **Security Warning:** Animated badge reminding users this is a monitored government system.
 
 ## 3. The Passenger Dashboard (`tracker-app.js`)
-This is the main view for citizens. It focuses on **Real-Time Information**.
+This is the main view for citizens. It focuses on **Real-Time Information**. The passenger acts primarily as a passive consumer of information but can also act as an active contributor by reporting issues via the AI chat (crowdsourcing).
 - **Live Map:** Shows vehicles moving in real-time across the city.
 - **Route Planner:** Users can search for routes (e.g., "101 Downtown Loop") and see stops.
 - **Service Alerts:** A dedicated section for delays, roadworks, or schedule changes.
 - **Smart Widgets:**
   - **Eco-Impact:** Shows CO2 saved by taking the bus vs. a car.
   - **Live Activity Feed:** Updates like "Bus #402 left Central Station 1 min ago."
-  - **AI Chat Assistant:** A prominent "Need Help?" card for future AI integration.
+  - **AI Chat Assistant:** A prominent "Need Help?" card for future AI integration and crowdsourced reporting.
 
 ## 4. The Driver Console (`driver-console.js`)
 A simplified, high-visibility interface for bus drivers on the move.
 - **Clean White Theme:** High contrast for readability in daylight (New Design).
-- **Control Center:**
+- **Control Center & Auto-Start Failsafe:**
   - **Big "Start/End Trip" Button:** The primary action is massive and color-coded (Green/Red).
+  - **Geofenced Auto-Start:** To address human error, the driver's phone acts as a GPS sensor. If the driver leaves the terminal radius near the scheduled departure time, the system *automatically* starts the trip in the background. The manual button is just a backup override.
   - **Route Info Card:** Clearly shows "Next Stop" and "Scheduled Arrival Time."
 - **Quick Actions:** One-tap buttons for **"Report Delay"** and **"Request Maintenance"**.
-- **SOS Button:** A dedicated emergency button that triggers a confirmation modal to prevent accidental presses.
+- **SOS Dual-Dispatch System:** A dedicated emergency button that triggers a confirmation modal. Once confirmed, it operates on a dual-dispatch protocol: it instantly flags the Admin Hub with a high-priority alert AND can automatically trigger a backend alert to local emergency services/police with the exact GPS coordinates.
 - **Standardized Header:** Aligned with other apps, featuring the language selector and profile actions.
 
 ## 5. The Admin Hub (`admin-app.js`)

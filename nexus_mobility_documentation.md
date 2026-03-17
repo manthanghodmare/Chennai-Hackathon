@@ -28,11 +28,12 @@ The platform connects to several cloud services to provide a real-time, intellig
     *   **Authentication**: Secure, role-based login (Citizen, Driver, Admin).
     *   **Firestore**: Real-time NoSQL database using **Snapshot Listeners** for sub-second updates.
     *   **Hosting**: High-performance delivery of assets and applications.
-2.  **Google Maps Platform**:
+2.  **Google Maps Platform & Failsafe Geofencing**:
     *   **Maps JavaScript API**: Renders the live tracking interface and route previews.
     *   **Geometry Library**: Used for smooth vehicle movement and distance calculations.
+    *   **Geofenced Auto-Start (Failsafe)**: To prevent reliance on manual driver inputs or hardware sensors that can fail, the system uses the driver's mobile device GPS as the ultimate sensor. If a device leaves the terminal geofence during a scheduled departure window, the trip initiates automatically.
 3.  **Google Gemini AI (Generative AI)**:
-    *   **Gemini Pro/Flash API**: Powers the **AI Chat Assistant** in the Passenger Dashboard for natural language queries about routes and schedules.
+    *   **Gemini Pro/Flash API**: Powers the **AI Chat Assistant** in the Passenger Dashboard for natural language queries and future crowdsourced passenger reporting.
 
 ---
 
@@ -61,6 +62,7 @@ The platform connects to several cloud services to provide a real-time, intellig
 - **Analytics Charts**: Visualizes demand patterns and passenger load over time.
 - **Cloud Broadcast**: Global alert system to send notifications to drivers or passengers.
 - **Live Fleet Table**: A master list for tracking every active unit's telemetry and status.
+- **Emergency Dual-Dispatch Protocol**: Upon receiving a driver SOS, the dashboard instantly flashes the GPS coordinates. This system is designed to integrate with SMS gateways (like Twilio) to automatically relay this data to local emergency services.
 
 ---
 
