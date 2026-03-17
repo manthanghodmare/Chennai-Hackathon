@@ -115,6 +115,7 @@ function LoginApp() {
                         <option value="mumbai" className="bg-white dark:bg-slate-900">Mumbai</option>
                         <option value="pune" className="bg-white dark:bg-slate-900">Pune</option>
                         <option value="nagpur" className="bg-white dark:bg-slate-900">Nagpur</option>
+                        <option value="wardha" className="bg-white dark:bg-slate-900">Wardha</option>
                     </select>
                     <div className="w-px h-4 bg-slate-300 dark:bg-slate-700 mx-2"></div>
                     <select

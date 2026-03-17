@@ -1,6 +1,6 @@
 # 🏙️ Nexus Mobility: Project Documentation & System Architecture
 
-This document provides a comprehensive overview of the **Nexus Mobility** platform—a Smart City Transit System designed to bridge the gap between citizens, drivers, and transport authorities.
+This document provides a comprehensive overview of the **Nexus Mobility** platform—a Smart City Transit System designed to bridge the gap between citizens, drivers, and transport authorities, with a special focus on serving Tier-2 and Tier-3 cities and towns (such as Wardha).
 
 ---
 

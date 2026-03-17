@@ -147,6 +147,7 @@ function DriverConsole() {
                                     <option className="bg-slate-900" value="mumbai">MUM</option>
                                     <option className="bg-slate-900" value="pune">PUN</option>
                                     <option className="bg-slate-900" value="nagpur">NAG</option>
+                                    <option className="bg-slate-900" value="wardha">WAR</option>
                                 </select>
                             </div>
 

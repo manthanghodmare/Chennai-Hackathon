@@ -74,6 +74,7 @@ function DriverApp() {
                                 <option value="mumbai">MUM</option>
                                 <option value="pune">PUN</option>
                                 <option value="nagpur">NAG</option>
+                                <option value="wardha">WAR</option>
                             </select>
                             <div className="w-px h-3 bg-slate-200 dark:bg-slate-700 mx-1"></div>
                             <select

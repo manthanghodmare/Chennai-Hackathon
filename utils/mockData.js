@@ -270,6 +270,53 @@ const CITY_DATA = {
             { id: 'a1', type: 'warning', message: 'VIP movement near Civil Lines — Route N7 may face 15 min delay.', routeId: 'N7' },
             { id: 'a2', type: 'info', message: 'NMC Metro Feeder buses operational from Nagpur Metro Phase-2 stations.', routeId: 'all' }
         ]
+    },
+
+    wardha: {
+        name: 'Wardha',
+        operator: 'Wardha City Bus Service',
+        routes: [
+            {
+                id: 'W1',
+                name: 'Wardha Station – Sevagram',
+                number: 'W1',
+                color: 'bg-indigo-500',
+                textColor: 'text-indigo-500',
+                borderColor: 'border-indigo-500',
+                type: 'Bus',
+                frequency: '15 min',
+                stops: [
+                    { id: 's1', name: 'Wardha Railway Station', timeOffset: 0 },
+                    { id: 's2', name: 'Bajaj Chowk', timeOffset: 5 },
+                    { id: 's3', name: 'MG Antarrashtriya Hindi Vishwavidyalaya', timeOffset: 15 },
+                    { id: 's4', name: 'Bapu Kuti', timeOffset: 25 },
+                    { id: 's5', name: 'Sevagram Ashram', timeOffset: 35 }
+                ]
+            },
+            {
+                id: 'W2',
+                name: 'Bus Stand – Pavnar',
+                number: 'W2',
+                color: 'bg-emerald-500',
+                textColor: 'text-emerald-500',
+                borderColor: 'border-emerald-500',
+                type: 'Bus',
+                frequency: '20 min',
+                stops: [
+                    { id: 's6', name: 'Main Bus Stand', timeOffset: 0 },
+                    { id: 's7', name: 'Arvi Naka', timeOffset: 8 },
+                    { id: 's8', name: 'Datta Meghe Institute', timeOffset: 16 },
+                    { id: 's9', name: 'Pavnar Ashram', timeOffset: 25 }
+                ]
+            }
+        ],
+        vehicles: [
+            { id: 'v1', routeId: 'W1', currentStopIndex: 1, progress: 0.5, status: 'On Time', capacity: 'Medium' },
+            { id: 'v2', routeId: 'W2', currentStopIndex: 2, progress: 0.2, status: 'On Time', capacity: 'Low' }
+        ],
+        alerts: [
+            { id: 'a1', type: 'info', message: 'Special buses running for Gandhi Jayanti via Sevagram.', routeId: 'all' }
+        ]
     }
 };
 

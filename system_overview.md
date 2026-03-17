@@ -1,7 +1,7 @@
 # Nexus Mobility Dashboard - System Overview
 
 ## 1. Introduction: What is Nexus Mobility?
-This is a **Smart City Transit Management System** designed for modern metropolitan needs. It connects **Citizens**, **Drivers**, and **Authorities** on a single platform to improve public transport efficiency.
+This is a **Smart City Transit Management System** designed for modern metropolitan needs as well as Tier-2 and Tier-3 cities (e.g., Wardha). It connects **Citizens**, **Drivers**, and **Authorities** on a single platform to improve public transport efficiency.
 
 ## 2. The Login Portal (`login-app.js`)
 The entry point is designed to be secure, professional, and accessible.
