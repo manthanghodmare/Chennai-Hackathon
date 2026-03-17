@@ -23,7 +23,8 @@ This is the main view for citizens. It focuses on **Real-Time Information**. The
   - **Live Activity Feed:** Updates like "Bus #402 left Central Station 1 min ago."
   - **AI Chat Assistant:** A prominent "Need Help?" card for future AI integration and crowdsourced reporting.
   - **Demand-Responsive Check-in:** Passengers can click "I am waiting here" which feeds live data to the driver and admin.
-  - **AI Lost & Found Chat:** A passenger can report a lost item by describing it to the AI Chat (e.g. "I lost my red tiffin box on Bus 12B"). The system logs the report and automatically matches it with the Vision AI Scan.
+  - **AI Lost & Found Chat:** A passenger can report a lost item by describing it to the AI Chat.
+  - **🧠 Transport Decision Assistant:** The AI acts as a personal advisor. When a user asks "Which bus should I take?" it reads the live `waitingCount` data, compares options side-by-side, and delivers a recommendation: *"Wait 5 minutes for Bus 27C — far fewer people on board."*
 
 ## 4. The Driver Console (`driver-console.js`)
 A simplified, high-visibility interface for bus drivers on the move.
@@ -52,6 +53,7 @@ These features make Nexus Mobility stand apart from all other transit apps:
 - **Demand-Responsive Routing:** Shows drivers how many passengers are waiting at each stop, enabling dynamic detour decisions.
 - **AI Vision Lost & Found:** End-of-shift camera scan uses Gemini Vision AI to detect lost items and auto-match them to passenger reports via the chat.
 - **SOS Dual-Dispatch:** Driver emergency button simultaneously alerts the Admin Hub and queues a GPS-tagged alert to local authorities.
+- **🧠 Transport Decision Assistant:** The AI moves beyond showing data — it makes decisions *for* the passenger by comparing real-time crowd levels and ETAs, recommending the best bus to take right now.
 
 ## 6. Detailed Feature Checklist (Everything Built)
 Here is the exhaustive list of every feature currently implemented in the system, organized by module.
