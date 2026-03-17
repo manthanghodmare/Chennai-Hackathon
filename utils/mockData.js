@@ -14,6 +14,7 @@ const CITY_DATA = {
                 borderColor: 'border-blue-500',
                 type: 'Bus',
                 frequency: '8 min',
+                pathPoints: [ {x:200, y:100}, {x:400, y:200}, {x:600, y:300}, {x:700, y:400}, {x:800, y:450}, {x:900, y:500} ],
                 stops: [
                     { id: 's1', name: 'Koyambedu Bus Terminus', timeOffset: 0, waitingCount: 38 },
                     { id: 's2', name: 'Anna Nagar Tower', timeOffset: 5, waitingCount: 12 },
@@ -32,6 +33,7 @@ const CITY_DATA = {
                 borderColor: 'border-emerald-500',
                 type: 'Bus',
                 frequency: '12 min',
+                pathPoints: [ {x:800, y:100}, {x:850, y:200}, {x:850, y:300}, {x:900, y:400}, {x:950, y:550} ],
                 stops: [
                     { id: 's7', name: 'Broadway Bus Terminus', timeOffset: 0, waitingCount: 31 },
                     { id: 's8', name: 'Parry\'s Corner', timeOffset: 4, waitingCount: 8 },
@@ -49,6 +51,7 @@ const CITY_DATA = {
                 borderColor: 'border-purple-500',
                 type: 'Bus',
                 frequency: '20 min',
+                pathPoints: [ {x:750, y:150}, {x:600, y:250}, {x:700, y:400}, {x:700, y:500}, {x:650, y:580} ],
                 stops: [
                     { id: 's12', name: 'Chennai Central', timeOffset: 0, waitingCount: 36 },
                     { id: 's13', name: 'T.Nagar Panagal Park', timeOffset: 7, waitingCount: 14 },
@@ -83,6 +86,7 @@ const CITY_DATA = {
                 borderColor: 'border-red-500',
                 type: 'Bus',
                 frequency: '5 min',
+                pathPoints: [ {x:300, y:500}, {x:250, y:400}, {x:200, y:300}, {x:150, y:200}, {x:250, y:100} ],
                 stops: [
                     { id: 's1', name: 'CST Bus Depot', timeOffset: 0, waitingCount: 40 },
                     { id: 's2', name: 'Churchgate', timeOffset: 6, waitingCount: 33 },
@@ -100,6 +104,7 @@ const CITY_DATA = {
                 borderColor: 'border-orange-500',
                 type: 'Bus',
                 frequency: '10 min',
+                pathPoints: [ {x:100, y:50}, {x:150, y:150}, {x:200, y:250}, {x:200, y:350}, {x:250, y:450} ],
                 stops: [
                     { id: 's6', name: 'Borivali Station (W)', timeOffset: 0, waitingCount: 22 },
                     { id: 's7', name: 'Dahisar', timeOffset: 8, waitingCount: 11 },
@@ -117,6 +122,7 @@ const CITY_DATA = {
                 borderColor: 'border-sky-500',
                 type: 'Bus',
                 frequency: '15 min',
+                pathPoints: [ {x:500, y:300}, {x:600, y:250}, {x:700, y:200}, {x:800, y:150} ],
                 stops: [
                     { id: 's11', name: 'Kurla Bus Terminal', timeOffset: 0, waitingCount: 17 },
                     { id: 's12', name: 'Ghatkopar', timeOffset: 9, waitingCount: 30 },
@@ -150,6 +156,7 @@ const CITY_DATA = {
                 borderColor: 'border-lime-500',
                 type: 'Bus',
                 frequency: '10 min',
+                pathPoints: [ {x:500, y:400}, {x:450, y:350}, {x:450, y:250}, {x:300, y:200}, {x:150, y:150} ],
                 stops: [
                     { id: 's1', name: 'Swargate Bus Stand', timeOffset: 0, waitingCount: 26 },
                     { id: 's2', name: 'Deccan Gymkhana', timeOffset: 7, waitingCount: 13 },
@@ -167,6 +174,7 @@ const CITY_DATA = {
                 borderColor: 'border-teal-500',
                 type: 'Bus',
                 frequency: '15 min',
+                pathPoints: [ {x:550, y:550}, {x:550, y:450}, {x:650, y:300}, {x:400, y:150}, {x:300, y:150} ],
                 stops: [
                     { id: 's6', name: 'Katraj Bus Depot', timeOffset: 0, waitingCount: 32 },
                     { id: 's7', name: 'Bibwewadi', timeOffset: 6, waitingCount: 20 },
@@ -184,6 +192,7 @@ const CITY_DATA = {
                 borderColor: 'border-indigo-500',
                 type: 'Bus',
                 frequency: '20 min',
+                pathPoints: [ {x:800, y:400}, {x:650, y:400}, {x:550, y:450}, {x:400, y:350}, {x:300, y:350} ],
                 stops: [
                     { id: 's11', name: 'Hadapsar Depot', timeOffset: 0, waitingCount: 24 },
                     { id: 's12', name: 'Fatima Nagar', timeOffset: 8, waitingCount: 37 },
@@ -218,6 +227,7 @@ const CITY_DATA = {
                 borderColor: 'border-yellow-500',
                 type: 'Bus',
                 frequency: '12 min',
+                pathPoints: [ {x:500, y:300}, {x:550, y:300}, {x:550, y:200}, {x:300, y:250}, {x:150, y:250} ],
                 stops: [
                     { id: 's1', name: 'Sitabuldi Bus Stand', timeOffset: 0, waitingCount: 16 },
                     { id: 's2', name: 'Cotton Market', timeOffset: 6, waitingCount: 34 },
@@ -235,6 +245,7 @@ const CITY_DATA = {
                 borderColor: 'border-rose-500',
                 type: 'Bus',
                 frequency: '25 min',
+                pathPoints: [ {x:600, y:300}, {x:600, y:350}, {x:600, y:450}, {x:550, y:500}, {x:550, y:550} ],
                 stops: [
                     { id: 's6', name: 'Nagpur Railway Station', timeOffset: 0, waitingCount: 30 },
                     { id: 's7', name: 'Residency Road', timeOffset: 8, waitingCount: 12 },
@@ -252,6 +263,7 @@ const CITY_DATA = {
                 borderColor: 'border-cyan-500',
                 type: 'Bus',
                 frequency: '18 min',
+                pathPoints: [ {x:700, y:150}, {x:750, y:250}, {x:500, y:300}, {x:400, y:350} ],
                 stops: [
                     { id: 's11', name: 'Kamptee Bus Terminus', timeOffset: 0, waitingCount: 22 },
                     { id: 's12', name: 'Kalamna Market', timeOffset: 7, waitingCount: 40 },
@@ -285,6 +297,7 @@ const CITY_DATA = {
                 borderColor: 'border-indigo-500',
                 type: 'Bus',
                 frequency: '15 min',
+                pathPoints: [ {x:400, y:300}, {x:450, y:300}, {x:500, y:250}, {x:600, y:200}, {x:700, y:250} ],
                 stops: [
                     { id: 's1', name: 'Wardha Railway Station', timeOffset: 0, waitingCount: 28 },
                     { id: 's2', name: 'Bajaj Chowk', timeOffset: 5, waitingCount: 11 },
@@ -302,6 +315,7 @@ const CITY_DATA = {
                 borderColor: 'border-emerald-500',
                 type: 'Bus',
                 frequency: '20 min',
+                pathPoints: [ {x:450, y:350}, {x:500, y:450}, {x:450, y:500}, {x:400, y:600} ],
                 stops: [
                     { id: 's6', name: 'Main Bus Stand', timeOffset: 0, waitingCount: 23 },
                     { id: 's7', name: 'Arvi Naka', timeOffset: 7, waitingCount: 9 },

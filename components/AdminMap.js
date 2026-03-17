@@ -1,22 +1,42 @@
 function AdminMap({ vehicles }) {
+  const [selectedRouteId, setSelectedRouteId] = React.useState(null);
+
+  const getMapTransform = () => {
+      if (!selectedRouteId) return 'scale(1) translate(0%, 0%)';
+      const route = ROUTES.find(r => r.id === selectedRouteId);
+      if (!route || !route.pathPoints || route.pathPoints.length === 0) return 'scale(1) translate(0%, 0%)';
+      
+      let minX = 1000, minY = 600, maxX = 0, maxY = 0;
+      route.pathPoints.forEach(p => {
+          if (p.x < minX) minX = p.x;
+          if (p.x > maxX) maxX = p.x;
+          if (p.y < minY) minY = p.y;
+          if (p.y > maxY) maxY = p.y;
+      });
+      
+      const centerX = (minX + maxX) / 2;
+      const centerY = (minY + maxY) / 2;
+      
+      const translateX = ((500 - centerX) / 1000) * 100;
+      const translateY = ((300 - centerY) / 600) * 100;
+      
+      return `scale(2.5) translate(${translateX}%, ${translateY}%)`;
+  };
+
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden flex flex-col min-h-[800px] animate-fade-in transition-colors duration-500">
+    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl flex flex-col min-h-[800px] animate-fade-in transition-colors duration-500 relative">
       {/* Header */}
-      <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50 transition-colors">
+      <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-800/50 transition-colors z-10 relative">
         <div>
           <h3 className="text-lg font-bold text-slate-800 dark:text-white transition-colors">Global Fleet Tracking</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 transition-colors">Live positions of all active vehicles across the network</p>
         </div>
         <div className="flex gap-4">
-          <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 transition-colors">
-            <span className="w-3 h-3 rounded-full bg-blue-500"></span> Route 101
-          </div>
-          <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 transition-colors">
-            <span className="w-3 h-3 rounded-full bg-emerald-500"></span> Route 202
-          </div>
-          <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 transition-colors">
-            <span className="w-3 h-3 rounded-full bg-purple-500"></span> Route 305
-          </div>
+          {typeof ROUTES !== 'undefined' && ROUTES.map(r => (
+            <div key={r.id} className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 transition-colors cursor-pointer hover:text-slate-900 dark:hover:text-white" onClick={() => setSelectedRouteId(selectedRouteId === r.id ? null : r.id)}>
+              <span className={`w-3 h-3 rounded-full ${r.color}`}></span> Route {r.number || r.id}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -27,46 +47,91 @@ function AdminMap({ vehicles }) {
         </div>
 
         <div className="relative w-full h-full max-w-5xl mx-auto flex items-center justify-center">
+          <div className="absolute inset-0 w-full h-full origin-center transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]" style={{ transform: getMapTransform() }}>
           {/* Visualizing Routes */}
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
             {/* Route paths */}
-            <path d="M200 100 L800 100 L800 500 L200 500 Z" fill="none" stroke="#3B82F6" strokeWidth="8" strokeLinecap="round" strokeLinejoin="round" className="opacity-20 dark:opacity-30 transition-opacity" />
-            <path d="M100 300 L900 300" fill="none" stroke="#10B981" strokeWidth="8" strokeLinecap="round" className="opacity-20 dark:opacity-30 transition-opacity" />
-            <path d="M500 50 L500 550" fill="none" stroke="#A855F7" strokeWidth="8" strokeLinecap="round" className="opacity-20 dark:opacity-30 transition-opacity" />
+            {typeof ROUTES !== 'undefined' && ROUTES.map(route => {
+                if (!route.pathPoints || route.pathPoints.length < 2) return null;
+                const d = `M ${route.pathPoints.map(p => `${p.x} ${p.y}`).join(' L ')}`;
+                const isSelected = selectedRouteId === route.id;
+                const opacity = selectedRouteId ? (isSelected ? 1 : 0.1) : 0.2;
+                return (
+                    <path 
+                        key={route.id} 
+                        d={d} 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth={isSelected ? 12 : 8} 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        className={`${route.textColor} transition-all duration-500 cursor-pointer hover:opacity-100 hover:stroke-[12px] dark:hover:opacity-100`} 
+                        style={{ opacity }}
+                        onClick={() => setSelectedRouteId(route.id)}
+                    />
+                );
+            })}
 
             {/* Rendering Vehicles */}
             {vehicles.map(v => {
               let x, y;
               const route = ROUTES.find(r => r.id === v.routeId);
-              const progressTotal = (v.currentStopIndex + v.progress) / (route?.stops.length || 1);
-
-              if (v.routeId === '101') {
-                const p = progressTotal * 4;
-                if (p < 1) { x = 200 + p * 600; y = 100; }
-                else if (p < 2) { x = 800; y = 100 + (p - 1) * 400; }
-                else if (p < 3) { x = 800 - (p - 2) * 600; y = 500; }
-                else { x = 200; y = 500 - (p - 3) * 400; }
-              } else if (v.routeId === '202') {
-                x = 100 + progressTotal * 800; y = 300;
+              
+              if (!route || !route.pathPoints || route.pathPoints.length < 2) {
+                  x = 500; y = 300;
               } else {
-                x = 500; y = 50 + progressTotal * 500;
+                  let totalLength = 0;
+                  const segments = [];
+                  for (let i = 0; i < route.pathPoints.length - 1; i++) {
+                      const p1 = route.pathPoints[i];
+                      const p2 = route.pathPoints[i + 1];
+                      const len = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+                      totalLength += len;
+                      segments.push({ p1, p2, len, accum: totalLength });
+                  }
+                  
+                  let ratio = (v.currentStopIndex + (v.progress || 0)) / Math.max(1, route.stops.length);
+                  if (ratio > 1) ratio = ratio % 1;
+                  
+                  const targetLength = ratio * totalLength;
+                  let seg = segments.find(s => s.accum >= targetLength) || segments[segments.length - 1];
+                  
+                  const segStart = seg.accum - seg.len;
+                  const segRatio = (targetLength - segStart) / Math.max(0.1, seg.len);
+                  
+                  x = seg.p1.x + (seg.p2.x - seg.p1.x) * segRatio;
+                  y = seg.p1.y + (seg.p2.y - seg.p1.y) * segRatio;
               }
 
+              const isSelected = !selectedRouteId || selectedRouteId === v.routeId;
+              const opacity = isSelected ? 1 : 0;
+              
               return (
-                <g key={v.id} className="transition-all duration-1000">
-                  <circle cx={x} cy={y} r="12" className={`${v.routeId === '101' ? 'fill-blue-500' : v.routeId === '202' ? 'fill-emerald-500' : 'fill-purple-500'} transition-colors`} />
-                  <circle cx={x} cy={y} r="20" className={`${v.routeId === '101' ? 'fill-blue-500/20' : v.routeId === '202' ? 'fill-emerald-500/20' : 'fill-purple-500/20'} ${v.status === 'Delayed' ? 'animate-pulse' : ''} transition-colors`} />
+                <g key={v.id} className="transition-all duration-1000" style={{ opacity, pointerEvents: isSelected ? 'auto' : 'none' }}>
+                  <circle cx={x} cy={y} r="12" className={`${route?.textColor || 'text-slate-500'} fill-current transition-colors`} />
+                  <circle cx={x} cy={y} r="20" className={`${route?.textColor || 'text-slate-500'} fill-current opacity-20 ${v.status === 'Delayed' ? 'animate-pulse' : ''} transition-colors`} />
                   <text x={x} y={y - 20} textAnchor="middle" className="text-[14px] font-black fill-slate-700 dark:fill-slate-300 transition-colors">{v.id}</text>
                   <circle cx={x} cy={y} r="4" fill="white" />
                 </g>
               );
             })}
           </svg>
+          </div>
 
           {/* Landmarks Labeling */}
-          <div className="absolute top-10 left-[200px] text-[10px] font-bold text-slate-400 uppercase tracking-widest transition-colors">Central Station</div>
-          <div className="absolute bottom-10 right-[200px] text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right transition-colors">Riverfront</div>
-          <div className="absolute top-1/2 left-[100px] -translate-y-1/2 text-[10px] font-bold text-slate-400 uppercase tracking-widest transition-colors">West Terminal</div>
+          <div className="absolute top-10 left-[200px] text-[10px] font-bold text-slate-400 uppercase tracking-widest transition-colors pointer-events-none">Central Station</div>
+          <div className="absolute bottom-10 right-[200px] text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right transition-colors pointer-events-none">Riverfront</div>
+          <div className="absolute top-1/2 left-[100px] -translate-y-1/2 text-[10px] font-bold text-slate-400 uppercase tracking-widest transition-colors pointer-events-none">West Terminal</div>
+          
+          {selectedRouteId && (
+              <button 
+                  onClick={() => setSelectedRouteId(null)}
+                  className="absolute bottom-6 right-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 hover:scale-105 active:scale-95 transition-all z-20"
+              >
+                  <Icon name="arrow-left" className="text-slate-700 dark:text-slate-300" size="text-sm" />
+                  <span className="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs">Reset View</span>
+              </button>
+          )}
         </div>
       </div>
 
@@ -105,7 +170,7 @@ function AdminMap({ vehicles }) {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black text-white ${v.routeId === '101' ? 'bg-blue-500' : v.routeId === '202' ? 'bg-emerald-500' : 'bg-purple-500'} transition-colors`}>
+                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black text-white ${route?.color || 'bg-slate-500'} transition-colors`}>
                       RT-{v.routeId}
                     </div>
                   </td>

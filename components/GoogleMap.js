@@ -1,8 +1,67 @@
 function MockMap({ vehicles }) {
+    const [selectedRouteId, setSelectedRouteId] = React.useState(null);
+
+    const getMapTransform = () => {
+        if (!selectedRouteId) return 'scale(1) translate(0%, 0%)';
+        const route = ROUTES.find(r => r.id === selectedRouteId);
+        if (!route || !route.pathPoints || route.pathPoints.length === 0) return 'scale(1) translate(0%, 0%)';
+        
+        let minX = 1000, minY = 600, maxX = 0, maxY = 0;
+        route.pathPoints.forEach(p => {
+            if (p.x < minX) minX = p.x;
+            if (p.x > maxX) maxX = p.x;
+            if (p.y < minY) minY = p.y;
+            if (p.y > maxY) maxY = p.y;
+        });
+        
+        const centerX = (minX + maxX) / 2;
+        const centerY = (minY + maxY) / 2;
+        
+        const translateX = ((500 - centerX) / 1000) * 100;
+        const translateY = ((300 - centerY) / 600) * 100;
+        
+        return `scale(2.5) translate(${translateX}%, ${translateY}%)`;
+    };
+
+    const getVehiclePosition = (v) => {
+        const route = ROUTES.find(r => r.id === v.routeId);
+        if (!route || !route.pathPoints || route.pathPoints.length < 2) {
+            return { x: 50, y: 50 };
+        }
+        
+        let totalLength = 0;
+        const segments = [];
+        for (let i = 0; i < route.pathPoints.length - 1; i++) {
+            const p1 = route.pathPoints[i];
+            const p2 = route.pathPoints[i + 1];
+            const len = Math.hypot(p2.x - p1.x, p2.y - p1.y);
+            totalLength += len;
+            segments.push({ p1, p2, len, accum: totalLength });
+        }
+        
+        let ratio = (v.currentStopIndex + (v.progress || 0)) / Math.max(1, route.stops.length);
+        if (ratio > 1) ratio = ratio % 1;
+        
+        const targetLength = ratio * totalLength;
+        let seg = segments.find(s => s.accum >= targetLength) || segments[segments.length - 1];
+        
+        const segStart = seg.accum - seg.len;
+        const segRatio = (targetLength - segStart) / Math.max(0.1, seg.len);
+        
+        const vx = seg.p1.x + (seg.p2.x - seg.p1.x) * segRatio;
+        const vy = seg.p1.y + (seg.p2.y - seg.p1.y) * segRatio;
+        
+        return {
+            x: (vx / 1000) * 100,
+            y: (vy / 600) * 100
+        };
+    };
+
     return (
-        <div className="w-full h-full bg-[#f4f5f6] relative overflow-hidden flex items-center justify-center cursor-default group/mockmap">
+        <div className="w-full h-full bg-[#f4f5f6] relative overflow-hidden flex items-center justify-center cursor-default bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-950">
+            <div className="absolute inset-0 w-full h-full origin-center transition-transform duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)]" style={{ transform: getMapTransform() }}>
             {/* Detailed City Infrastructure SVG (Light Theme) */}
-            <svg className="absolute inset-0 w-full h-full opacity-100 transition-transform duration-[20s] ease-in-out group-hover/mockmap:scale-105" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+            <svg className="absolute inset-0 w-full h-full opacity-100" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
                 {/* Background Base */}
                 <rect width="1000" height="600" fill="#f4f5f6" />
 
@@ -43,29 +102,58 @@ function MockMap({ vehicles }) {
                         />
                     ))}
                 </g>
+
+                {/* Route Lines */}
+                {typeof ROUTES !== 'undefined' && ROUTES.map(route => {
+                    if (!route.pathPoints || route.pathPoints.length < 2) return null;
+                    const d = `M ${route.pathPoints.map(p => `${p.x} ${p.y}`).join(' L ')}`;
+                    const isSelected = selectedRouteId === route.id;
+                    const opacity = selectedRouteId ? (isSelected ? 1 : 0.2) : 0.8;
+                    const isHoverable = !selectedRouteId;
+                    
+                    return (
+                        <path 
+                            key={`route-${route.id}`} 
+                            d={d} 
+                            fill="none" 
+                            strokeWidth={isSelected ? 12 : 8} 
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            className={`${route.textColor} transition-all duration-500 cursor-pointer ${isHoverable ? 'hover:stroke-[14px] hover:opacity-100' : ''}`}
+                            style={{ opacity, stroke: 'currentColor' }}
+                            onClick={() => setSelectedRouteId(route.id)}
+                        />
+                    );
+                })}
             </svg>
 
             {/* Vehicle Markers */}
             <div className="relative w-full h-full">
                 {vehicles.map((v, i) => {
-                    let x, y;
+                    let pos;
                     if (v.latitude && v.longitude) {
                         const latDiff = v.latitude - 13.0827;
                         const lngDiff = v.longitude - 80.2707;
-                        x = 50 + (lngDiff * 4000);
-                        y = 50 - (latDiff * 4000);
-                        x = Math.max(5, Math.min(95, x));
-                        y = Math.max(5, Math.min(95, y));
+                        let px = 50 + (lngDiff * 4000);
+                        let py = 50 - (latDiff * 4000);
+                        pos = { 
+                            x: Math.max(5, Math.min(95, px)), 
+                            y: Math.max(5, Math.min(95, py)) 
+                        };
                     } else {
-                        x = 20 + (parseInt(v.id.replace(/\D/g, '') || i) * 17) % 60;
-                        y = 20 + (parseInt(v.id.replace(/\D/g, '') || i) * 23) % 60;
+                        pos = getVehiclePosition(v);
                     }
+                    
+                    // Fade out vehicles not on the selected route
+                    const isSelected = !selectedRouteId || selectedRouteId === v.routeId;
+                    const opacity = isSelected ? 1 : 0;
+                    const pointerEvents = isSelected ? 'auto' : 'none';
 
                     return (
                         <div
                             key={v.id}
                             className="absolute transition-all duration-1000 ease-linear"
-                            style={{ left: `${x}%`, top: `${y}%` }}
+                            style={{ left: `${pos.x}%`, top: `${pos.y}%`, opacity, pointerEvents }}
                         >
                             <div className="relative group cursor-pointer">
                                 {/* Beacon Glow */}
@@ -97,6 +185,17 @@ function MockMap({ vehicles }) {
             <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-md border border-slate-200 px-4 py-2 rounded-2xl flex items-center gap-3 shadow-lg cursor-default z-10">
                 <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
                 <span className="text-xs font-black text-slate-700 uppercase tracking-widest">Mock Telemetry Active</span>
+            </div>
+
+            {selectedRouteId && (
+                <button 
+                    onClick={() => setSelectedRouteId(null)}
+                    className="absolute top-6 left-6 bg-white/95 backdrop-blur-md border border-slate-200 px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 hover:scale-105 active:scale-95 transition-all z-20"
+                >
+                    <Icon name="arrow-left" className="text-slate-700" size="text-sm" />
+                    <span className="font-black text-slate-900 uppercase tracking-widest text-xs">Reset View</span>
+                </button>
+            )}
             </div>
         </div>
     );

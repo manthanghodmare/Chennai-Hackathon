@@ -1,7 +1,10 @@
-function AdminHeader({ currentView, setView }) {
+function AdminHeader({ currentView, setView, onOpenSettings }) {
     const { user, logout } = Auth.useAuth();
     const [showDropdown, setShowDropdown] = React.useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
     const dropdownRef = React.useRef(null);
+    const lang = localStorage.getItem('preferredLanguage') || 'en';
+    const t = (key) => window.t(key, lang);
 
     React.useEffect(() => {
         function handleClickOutside(event) {
@@ -14,9 +17,9 @@ function AdminHeader({ currentView, setView }) {
     }, []);
 
     const navItems = [
-        { id: 'overview', label: 'Overview' },
-        { id: 'fleet', label: 'Fleet Map' },
-        { id: 'alerts', label: 'Alerts' },
+        { id: 'overview', label: t('dashboard') },
+        { id: 'fleet', label: t('live_map') },
+        { id: 'alerts', label: t('alerts') },
         { id: 'reports', label: 'Reports' }
     ];
 
@@ -24,6 +27,12 @@ function AdminHeader({ currentView, setView }) {
         <header className="sticky top-0 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 shadow-md w-full transition-colors duration-500">
             <div className="max-w-7xl mx-auto px-4 h-24 flex items-center justify-between">
                 <div className="flex items-center gap-4">
+                    <button 
+                        className="md:hidden p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    >
+                        <Icon name={isMobileMenuOpen ? "x" : "menu"} size="text-2xl" />
+                    </button>
                     <Logo size="lg" />
                 </div>
                 <nav className="hidden md:flex items-center gap-3">
@@ -40,6 +49,28 @@ function AdminHeader({ currentView, setView }) {
                         </button>
                     ))}
                 </nav>
+
+                {/* Mobile Menu Dropdown */}
+                {isMobileMenuOpen && (
+                    <div className="md:hidden absolute top-24 left-0 right-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-lg py-4 px-4 flex flex-col gap-2 z-50 animate-fade-in">
+                        {navItems.map(item => (
+                            <button
+                                key={item.id}
+                                onClick={() => {
+                                    setView(item.id);
+                                    setIsMobileMenuOpen(false);
+                                }}
+                                className={`px-4 py-3 rounded-xl font-bold text-left transition-colors ${currentView === item.id
+                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+                                    }`}
+                            >
+                                {item.label}
+                            </button>
+                        ))}
+                    </div>
+                )}
+
                 <div className="flex items-center gap-4">
                     {/* Settings Group */}
                     <div className="hidden sm:flex items-center bg-slate-100/50 dark:bg-slate-800/50 backdrop-blur-md rounded-xl p-1 border border-slate-200/50 dark:border-slate-700/50 shadow-sm transition-all duration-500">
@@ -62,7 +93,11 @@ function AdminHeader({ currentView, setView }) {
                         <div className="w-px h-3 bg-slate-200 dark:bg-slate-700 mx-1"></div>
                         <select
                             className="bg-transparent text-slate-600 dark:text-slate-300 text-[10px] font-black rounded-lg py-1 px-1.5 outline-none cursor-pointer uppercase tracking-tight transition-colors"
-                            defaultValue="en"
+                            value={localStorage.getItem('preferredLanguage') || 'en'}
+                            onChange={(e) => {
+                                localStorage.setItem('preferredLanguage', e.target.value);
+                                window.location.reload();
+                            }}
                         >
                             <option value="en">ENG</option>
                             <option value="hi">HIN</option>
@@ -91,7 +126,13 @@ function AdminHeader({ currentView, setView }) {
                                         <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Signed in as</p>
                                         <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{user?.name || 'Admin'}</p>
                                     </div>
-                                    <button className="w-full text-left px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-3 transition-colors">
+                                    <button 
+                                        onClick={() => {
+                                            if (onOpenSettings) onOpenSettings();
+                                            setShowDropdown(false);
+                                        }}
+                                        className="w-full text-left px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-3 transition-colors"
+                                    >
                                         <Icon name="settings" size="text-xs" className="text-slate-400" /> Settings
                                     </button>
                                     <div className="h-px bg-slate-100 dark:bg-slate-800 my-1 mx-2"></div>
@@ -99,7 +140,7 @@ function AdminHeader({ currentView, setView }) {
                                         onClick={() => { logout(); window.location.href = 'index.html'; }}
                                         className="w-full text-left px-4 py-2.5 text-[10px] text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-3 transition-colors font-black uppercase tracking-[0.2em]"
                                     >
-                                        <Icon name="log-out" size="text-xs" /> Sign Out
+                                        <Icon name="log-out" size="text-xs" /> {t('sign_out')}
                                     </button>
                                 </div>
                             )}
@@ -111,27 +152,47 @@ function AdminHeader({ currentView, setView }) {
     );
 }
 
-function AnalyticsChart() {
+function AnalyticsChart({ timeframe = 'day' }) {
     const canvasRef = React.useRef(null);
+    const chartInstance = React.useRef(null);
 
     React.useEffect(() => {
         if (!canvasRef.current) return;
+
+        if (chartInstance.current) {
+            chartInstance.current.destroy();
+        }
+
+        const dataSets = {
+            day: {
+                labels: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'],
+                load: [120, 850, 400, 350, 450, 900, 750, 300],
+                fleet: [5, 12, 10, 8, 9, 12, 11, 6]
+            },
+            week: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                load: [4500, 4800, 4600, 5100, 5800, 2200, 1800],
+                fleet: [12, 12, 12, 14, 15, 8, 6]
+            }
+        };
+
+        const currentData = dataSets[timeframe] || dataSets['day'];
 
         const ctx = canvasRef.current.getContext('2d');
         const chart = new ChartJS(ctx, {
             type: 'line',
             data: {
-                labels: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'],
+                labels: currentData.labels,
                 datasets: [{
                     label: 'Passenger Load',
-                    data: [120, 850, 400, 350, 450, 900, 750, 300],
+                    data: currentData.load,
                     borderColor: '#3b82f6',
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     fill: true,
                     tension: 0.4
                 }, {
                     label: 'Fleet Active',
-                    data: [5, 12, 10, 8, 9, 12, 11, 6],
+                    data: currentData.fleet,
                     borderColor: '#10b981',
                     borderDash: [5, 5],
                     tension: 0.1,
@@ -144,23 +205,40 @@ function AnalyticsChart() {
                 plugins: { legend: { position: 'bottom' } },
                 scales: {
                     y: { beginAtZero: true, grid: { display: false } },
-                    y1: { position: 'right', grid: { display: false }, min: 0, max: 20 }
+                    y1: { position: 'right', grid: { display: false }, min: 0 }
                 }
             }
         });
+        
+        chartInstance.current = chart;
 
-        return () => chart.destroy();
-    }, []);
+        return () => {
+            if (chartInstance.current) {
+                chartInstance.current.destroy();
+            }
+        };
+    }, [timeframe]);
 
     return <div className="h-64"><canvas ref={canvasRef}></canvas></div>;
 }
 
 function AdminApp() {
     const [vehicles, setVehicles] = React.useState(VEHICLES);
-    const [currentView, setCurrentView] = React.useState('overview'); // overview, fleet, alerts
+    const [currentView, setCurrentView] = React.useState('overview'); // overview, fleet, alerts, reports
     const [showMap, setShowMap] = React.useState(false);
     const [alertText, setAlertText] = React.useState('');
     const [alertTarget, setAlertTarget] = React.useState('All Passengers');
+    const [chartTimeframe, setChartTimeframe] = React.useState('day');
+    const [showSettings, setShowSettings] = React.useState(false);
+    const [showSchedule, setShowSchedule] = React.useState(false);
+    const [toastMessage, setToastMessage] = React.useState(null);
+
+    const broadcastInputRef = React.useRef(null);
+
+    const showToast = (message) => {
+        setToastMessage(message);
+        setTimeout(() => setToastMessage(null), 3000);
+    };
 
     // Real-time Firestore Sync
     React.useEffect(() => {
@@ -192,10 +270,10 @@ function AdminApp() {
                 active: true
             });
             setAlertText('');
-            alert('Alert broadcasted successfully!');
+            showToast('Alert broadcasted successfully!');
         } catch (error) {
             console.error("Error broadcasting alert:", error);
-            alert('Failed to send broadcast.');
+            showToast('Failed to send broadcast.');
         }
     };
 
@@ -212,11 +290,11 @@ function AdminApp() {
                 await db.collection('vehicles').doc(doc.id).delete();
             }
 
-            alert('All live tracking data has been cleared.');
+            showToast('All live tracking data has been cleared.');
             setVehicles([]);
         } catch (error) {
             console.error("Error clearing tracking data:", error);
-            alert('Failed to clear data. Please check console for details.');
+            showToast('Failed to clear data. Please check console for details.');
         }
     };
 
@@ -246,17 +324,17 @@ function AdminApp() {
                 });
             }
 
-            alert('City successfully seeded with 5 demo vehicles!');
+            showToast('City successfully seeded with demo vehicles!');
         } catch (error) {
             console.error("Seeding Error:", error);
-            alert('Failed to seed city.');
+            showToast('Failed to seed city.');
         }
     };
 
     return (
         <AccessGuard role="admin">
             <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-12 transition-colors duration-500" data-name="admin-app" data-file="admin-app.js">
-                <AdminHeader currentView={currentView} setView={setCurrentView} />
+                <AdminHeader currentView={currentView} setView={setCurrentView} onOpenSettings={() => setShowSettings(true)} />
 
                 <main className="max-w-7xl mx-auto px-4 mt-8 space-y-8 animate-fade-in">
 
@@ -326,7 +404,20 @@ function AdminApp() {
                                                     <button onClick={() => setCurrentView('fleet')} className="px-4 py-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm">
                                                         Track on Map
                                                     </button>
-                                                    <button onClick={() => setCurrentView('alerts')} className="px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700 transition-all shadow-md shadow-red-500/20">
+                                                    <button 
+                                                        onClick={() => {
+                                                            setAlertTarget('By Route Type');
+                                                            setAlertText(`Delay Alert: Bus ${v.id} on Route ${v.routeId} is delayed. Expect increased wait times.`);
+                                                            showToast("Alert pre-filled. Please review and broadcast.");
+                                                            setTimeout(() => {
+                                                                if (broadcastInputRef.current) {
+                                                                    broadcastInputRef.current.focus();
+                                                                    broadcastInputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                                                }
+                                                            }, 100);
+                                                        }} 
+                                                        className="px-4 py-2 bg-red-600 text-white rounded-lg text-xs font-bold hover:bg-red-700 transition-all shadow-md shadow-red-500/20"
+                                                    >
                                                         Notify Users
                                                     </button>
                                                 </div>
@@ -359,7 +450,10 @@ function AdminApp() {
                                             <p className="text-[10px] text-slate-400 font-bold uppercase mb-1">Next Shift Change</p>
                                             <p className="text-sm font-bold text-emerald-300">All Routes - 06:00 AM</p>
                                         </div>
-                                        <button className="w-full py-4 bg-white text-slate-900 font-black rounded-xl text-xs uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-95">
+                                        <button 
+                                            onClick={() => setShowSchedule(true)}
+                                            className="w-full py-4 bg-white text-slate-900 font-black rounded-xl text-xs uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-95"
+                                        >
                                             Manage Full Schedule
                                         </button>
                                     </div>
@@ -372,6 +466,7 @@ function AdminApp() {
                                 <div className="flex flex-col md:flex-row gap-4">
                                     <div className="flex-1 relative">
                                         <input
+                                            ref={broadcastInputRef}
                                             type="text"
                                             value={alertText}
                                             onChange={(e) => setAlertText(e.target.value)}
@@ -431,9 +526,19 @@ function AdminApp() {
                                 <div className="card lg:col-span-2 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 transition-colors">
                                     <div className="flex justify-between items-center mb-6">
                                         <h3 className="font-black text-slate-800 dark:text-white uppercase tracking-wider text-sm">Fleet Performance Analytics</h3>
-                                        <div className="flex gap-2">
-                                            <button className="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-[10px] font-bold text-blue-600 dark:text-blue-400 rounded-lg">Day</button>
-                                            <button className="px-3 py-1 text-[10px] font-bold text-slate-400 dark:text-slate-500">Week</button>
+                                        <div className="flex flex-wrap gap-2 justify-end">
+                                            <button 
+                                                onClick={() => setChartTimeframe('day')}
+                                                className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-colors ${chartTimeframe === 'day' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'}`}
+                                            >
+                                                Day
+                                            </button>
+                                            <button 
+                                                onClick={() => setChartTimeframe('week')}
+                                                className={`px-3 py-1 text-[10px] font-bold rounded-lg transition-colors ${chartTimeframe === 'week' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'text-slate-500 hover:bg-slate-50 dark:hover:bg-slate-800'}`}
+                                            >
+                                                Week
+                                            </button>
                                             <button
                                                 onClick={handleSeedCity}
                                                 className="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg text-xs font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-all border border-emerald-100 dark:border-emerald-900/30"
@@ -451,7 +556,7 @@ function AdminApp() {
                                             <button onClick={() => setCurrentView('fleet')} className="px-4 py-2 bg-[#3B82F6] text-white rounded-lg text-xs font-bold hover:bg-[#2563EB] transition-all shadow-md shadow-blue-500/20">Analyze All</button>
                                         </div>
                                     </div>
-                                    <AnalyticsChart />
+                                    <AnalyticsChart timeframe={chartTimeframe} />
                                 </div>
                             </div>
                             
@@ -582,7 +687,73 @@ function AdminApp() {
                         <AdminAlerts alerts={ALERTS} />
                     )}
 
+                    {currentView === 'reports' && (
+                        <div className="animate-fade-in flex flex-col items-center justify-center py-20 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 transition-colors">
+                            <div className="w-16 h-16 bg-blue-50 dark:bg-blue-900/30 text-blue-500 dark:text-blue-400 rounded-xl flex items-center justify-center mb-4"><Icon name="file-text" size="text-3xl" /></div>
+                            <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-2 transition-colors">Reports Dashboard</h2>
+                            <p className="text-slate-500 dark:text-slate-400 text-center max-w-md transition-colors">Detailed analytical reports are generated weekly. Enhanced reporting tools are coming in the next update.</p>
+                            <button onClick={() => showToast('Report generation queued.')} className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-xl font-black tracking-widest text-xs uppercase hover:bg-blue-500 transition-all shadow-lg active:scale-95">Generate Now</button>
+                        </div>
+                    )}
+
                 </main>
+
+                {/* Modals and Overlays */}
+                {showSettings && (
+                    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[100] animate-fade-in p-4">
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 md:p-8 w-full max-w-md border border-slate-200 dark:border-slate-800 shadow-2xl relative">
+                            <button onClick={() => setShowSettings(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><Icon name="x" /></button>
+                            <h2 className="text-xl font-black text-slate-800 dark:text-white mb-6 uppercase tracking-wider">Admin Settings</h2>
+                            <div className="space-y-4">
+                                <div className="p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+                                    <p className="font-bold text-slate-800 dark:text-white mb-1">Theme Preferences</p>
+                                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Toggle dark mode from the top navigation bar.</p>
+                                </div>
+                                <div className="p-4 rounded-xl border border-slate-100 dark:border-slate-800">
+                                    <p className="font-bold text-slate-800 dark:text-white mb-1">Notification Thresholds</p>
+                                    <div className="flex justify-between items-center mt-3">
+                                        <span className="text-sm text-slate-600 dark:text-slate-400">Delay Alert Limit</span>
+                                        <select className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded block px-2 py-1 text-sm outline-none dark:text-white">
+                                            <option>10 mins</option>
+                                            <option>15 mins</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button onClick={() => { showToast('Settings saved successfully'); setShowSettings(false); }} className="w-full mt-6 py-3 bg-blue-600 text-white rounded-xl font-bold uppercase tracking-widest text-xs hover:bg-blue-700 transition-all">Save Changes</button>
+                        </div>
+                    </div>
+                )}
+
+                {showSchedule && (
+                    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[100] animate-fade-in p-4">
+                        <div className="bg-slate-900 text-white rounded-2xl p-6 md:p-8 w-full max-w-lg border border-slate-800 shadow-2xl relative">
+                            <button onClick={() => setShowSchedule(false)} className="absolute top-4 right-4 text-slate-400 hover:text-white"><Icon name="x" /></button>
+                            <h2 className="text-xl font-black text-[#F59E0B] mb-6 uppercase tracking-wider flex items-center gap-2"><Icon name="calendar" size="text-lg" /> Schedule Management</h2>
+                            <p className="text-slate-400 mb-6">Manage overall fleet assignments and driver schedules.</p>
+                            <div className="space-y-3">
+                                {[1, 2, 3].map(i => (
+                                    <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10 flex justify-between items-center">
+                                        <div>
+                                            <p className="font-bold">Shift {i} - Area East</p>
+                                            <p className="text-xs text-slate-400">12 Routes Active</p>
+                                        </div>
+                                        <button className="px-3 py-1.5 bg-white/10 rounded-lg text-xs font-bold hover:bg-white/20 transition-all">Edit</button>
+                                    </div>
+                                ))}
+                            </div>
+                            <button onClick={() => setShowSchedule(false)} className="w-full mt-6 py-3 bg-white text-slate-900 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-slate-200 transition-all">Done</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Toast Notification */}
+                {toastMessage && (
+                    <div className="fixed bottom-6 right-6 md:left-1/2 md:-translate-x-1/2 md:right-auto bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 animate-fade-in z-[110] border border-slate-800">
+                        <Icon name="info" className="text-blue-400" size="text-sm" />
+                        <span className="font-bold text-sm tracking-wide">{toastMessage}</span>
+                    </div>
+                )}
             </div>
         </AccessGuard>
     );

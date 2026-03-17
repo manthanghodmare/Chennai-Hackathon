@@ -12,6 +12,8 @@ function DriverConsole() {
     const [showScanner, setShowScanner] = React.useState(false);
     const [scanState, setScanState] = React.useState('idle'); // idle, scanning, found
     const dropdownRef = React.useRef(null);
+    const lang = localStorage.getItem('preferredLanguage') || 'en';
+    const t = (key) => window.t(key, lang);
 
     React.useEffect(() => {
         function handleClickOutside(event) {
@@ -175,6 +177,20 @@ function DriverConsole() {
                                     <option className="bg-slate-900" value="nagpur">NAG</option>
                                     <option className="bg-slate-900" value="wardha">WAR</option>
                                 </select>
+                                <div className="w-px h-3 bg-white/10 mx-1"></div>
+                                <select
+                                    className="bg-transparent text-white text-[10px] font-black rounded-lg py-1 px-1.5 outline-none cursor-pointer uppercase tracking-tight transition-colors"
+                                    value={localStorage.getItem('preferredLanguage') || 'en'}
+                                    onChange={(e) => {
+                                        localStorage.setItem('preferredLanguage', e.target.value);
+                                        window.location.reload();
+                                    }}
+                                >
+                                    <option className="bg-slate-900" value="en">ENG</option>
+                                    <option className="bg-slate-900" value="hi">HIN</option>
+                                    <option className="bg-slate-900" value="mr">MAR</option>
+                                    <option className="bg-slate-900" value="ta">TAM</option>
+                                </select>
                             </div>
 
                             <div className="relative group" ref={dropdownRef}>
@@ -202,7 +218,7 @@ function DriverConsole() {
                                             onClick={() => { logout(); window.location.href = 'index.html'; }}
                                             className="w-full text-left px-6 py-4 text-[10px] text-red-400 hover:bg-red-500/10 flex items-center gap-3 transition-colors font-black uppercase tracking-[0.3em]"
                                         >
-                                            <Icon name="log-out" size="text-xs" /> Terminate Session
+                                            <Icon name="log-out" size="text-xs" /> {t('sign_out')}
                                         </button>
                                     </div>
                                 )}

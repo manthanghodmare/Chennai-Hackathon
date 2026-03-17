@@ -518,3 +518,7 @@ const translations = {
 };
 
 window.translations = translations;
+
+window.t = (key, lang = 'en') => {
+    return translations[lang]?.[key] || translations['en']?.[key] || key;
+};
