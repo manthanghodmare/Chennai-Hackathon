@@ -503,54 +503,68 @@ function AdminApp() {
                             </div>
                             
                             {/* Vision AI Recovery Logs (Hackathon Demo Feature) */}
-                            <div className="mt-8 card bg-slate-900 border border-slate-800 relative overflow-hidden group">
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
-                                <div className="flex justify-between items-center mb-6 relative z-10">
-                                    <h3 className="font-black text-white uppercase tracking-wider text-sm flex items-center gap-2">
-                                        <Icon name="scan-face" className="text-blue-500" />
-                                        Vision AI Recovery Logs
-                                    </h3>
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-2 h-2 rounded-full bg-blue-500 animate-ping"></div>
+                            <div className="mt-8 rounded-[1.5rem] bg-[#0A0F1E] border border-blue-500/20 relative overflow-hidden shadow-[0_0_60px_rgba(59,130,246,0.07)]">
+                                {/* Glowing top accent */}
+                                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
+                                <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl -mr-48 -mt-48 pointer-events-none"></div>
+
+                                {/* Header */}
+                                <div className="flex justify-between items-center px-6 pt-5 pb-4 border-b border-white/5 relative z-10">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <Icon name="scan-face" size="text-base" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-black text-white text-sm uppercase tracking-widest">Vision AI Recovery Logs</h3>
+                                            <p className="text-[10px] text-blue-400/60 font-bold">Gemini Vision • End-of-Shift Cabin Scan</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full">
+                                        <span className="relative flex h-2 w-2">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                                        </span>
                                         <span className="text-[10px] font-black uppercase tracking-widest text-blue-400">Scan Network Active</span>
                                     </div>
                                 </div>
-                                <div className="space-y-4 relative z-10">
-                                    {/* Mock Recovered Item */}
-                                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-slate-800/50 border border-slate-700 rounded-xl hover:border-blue-500/30 transition-colors">
-                                        <div className="flex items-start gap-4 mb-4 md:mb-0">
-                                            <div className="w-12 h-12 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
+
+                                {/* Content */}
+                                <div className="p-6 space-y-3 relative z-10">
+                                    {/* Recovered Item — success row */}
+                                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-white/[0.03] border-l-4 border-l-emerald-500 border border-emerald-500/20 rounded-xl hover:bg-white/[0.05] transition-colors">
+                                        <div className="flex items-center gap-4 flex-1 min-w-0">
+                                            <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 shrink-0">
                                                 <Icon name="check-circle-2" />
                                             </div>
-                                            <div>
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 text-[10px] font-black uppercase tracking-widest rounded border border-blue-500/30">Bus 12B</span>
-                                                    <span className="text-[10px] text-slate-400 font-mono">ID: #RX-782</span>
+                                            <div className="min-w-0">
+                                                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                                                    <span className="px-2 py-0.5 bg-blue-500/20 text-blue-300 text-[10px] font-black uppercase tracking-widest rounded border border-blue-500/30">Bus 12B</span>
+                                                    <span className="text-[10px] text-slate-500 font-mono">ID: #RX-782</span>
+                                                    <span className="px-2 py-0.5 bg-emerald-500/15 text-emerald-400 text-[10px] font-black uppercase rounded border border-emerald-500/20">Match 98.4%</span>
                                                 </div>
                                                 <p className="text-white font-black">Red Tupperware Box</p>
-                                                <p className="text-xs text-slate-400">Detected on Seat 4 • Matched with active passenger report.</p>
+                                                <p className="text-xs text-slate-400 truncate">Detected on Seat 4 • Matched with active passenger report.</p>
                                             </div>
                                         </div>
-                                        <div className="flex items-center gap-4 w-full md:w-auto mt-4 md:mt-0 pt-4 md:pt-0 border-t border-slate-700 md:border-t-0">
-                                            <div className="flex flex-col items-end hidden md:flex">
-                                                <span className="text-[10px] uppercase font-black text-emerald-400 tracking-widest">Status</span>
-                                                <span className="text-sm text-white font-bold">Secured at Depot</span>
+                                        <div className="flex items-center gap-4 mt-3 md:mt-0 md:ml-4 shrink-0">
+                                            <div className="text-right hidden md:block">
+                                                <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Status</p>
+                                                <p className="text-sm text-white font-bold">Secured at Depot</p>
                                             </div>
-                                            <button className="w-full md:w-auto px-6 py-2 bg-white text-slate-900 font-black text-xs uppercase tracking-widest rounded-lg hover:bg-slate-200 transition-colors">
+                                            <button className="px-5 py-2 bg-white text-slate-900 font-black text-xs uppercase tracking-widest rounded-lg hover:bg-slate-100 transition-colors shadow-lg">
                                                 View Item
                                             </button>
                                         </div>
                                     </div>
-                                    {/* Mock Empty Scan */}
-                                    <div className="flex items-center justify-between p-4 bg-slate-800/30 border border-slate-700/50 rounded-xl opacity-60">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-lg bg-slate-700 flex items-center justify-center text-slate-500 shrink-0">
-                                                <Icon name="search" size="text-sm" />
-                                            </div>
-                                            <div>
-                                                <p className="text-slate-300 font-bold text-sm">Routine Cabin Scan</p>
-                                                <p className="text-xs text-slate-500">Bus 101 • No lost items detected.</p>
-                                            </div>
+
+                                    {/* Empty scan — dimmed row */}
+                                    <div className="flex items-center gap-4 p-4 bg-white/[0.02] border border-white/5 rounded-xl opacity-50">
+                                        <div className="w-10 h-10 rounded-xl bg-slate-700/50 flex items-center justify-center text-slate-500 shrink-0">
+                                            <Icon name="search" size="text-sm" />
+                                        </div>
+                                        <div>
+                                            <p className="text-slate-300 font-bold text-sm">Routine Cabin Scan</p>
+                                            <p className="text-xs text-slate-500">Bus 101 • No lost items detected.</p>
                                         </div>
                                     </div>
                                 </div>
