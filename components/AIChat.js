@@ -16,9 +16,15 @@ function AIChat({ isOpen, onClose }) {
     const detectIntent = (text) => {
         const t = text.toLowerCase();
 
-        // Lost item
-        if (t.includes('lost') && t.includes('red')) {
-            return 'lost_red_item';
+        // Lost item — handle "lost" specifically for the demo
+        if (t.includes('lost')) {
+            return 'lost_item';
+        }
+
+        // Timing/Schedule — "when", "timing", "schedule", "time"
+        const timingKeywords = ['when', 'timing', 'schedule', 'time', 'next bus'];
+        if (timingKeywords.some(kw => t.includes(kw))) {
+            return 'bus_timing';
         }
 
         // Route comparison — "should I", "or", "which bus", "better", "versus"
@@ -64,10 +70,21 @@ function AIChat({ isOpen, onClose }) {
         try {
             const intent = detectIntent(inputSnapshot);
 
-            if (intent === 'lost_red_item') {
+            if (intent === 'lost_item') {
+                const isRed = inputSnapshot.toLowerCase().includes('red');
                 const aiResponse = {
                     id: Date.now() + 1,
-                    text: "Checking Depot Vision Logs... \n\nMATCH FOUND! 🎯\nYour Red Tupperware Box was recovered by the 'Nexus AI Scanner' on Bus 12B. \n\nStatus: Secured at Main Depot.\nPlease collect it using Reference ID: #RX-782.",
+                    text: isRed 
+                        ? "Checking Depot Vision Logs... \n\nMATCH FOUND! 🎯\nYour Red Tupperware Box was recovered on Bus 12B. \n\nStatus: Secured at Depot.\nPlease collect it using Reference ID: #RX-782."
+                        : "I can help with that! Please describe the item and the bus route. \n\n(Demo Tip: Type 'I lost my red box' to see the AI Vision matching in action!)",
+                    sender: 'ai'
+                };
+                setMessages(prev => [...prev, aiResponse]);
+
+            } else if (intent === 'bus_timing') {
+                const aiResponse = {
+                    id: Date.now() + 1,
+                    text: "Checking live schedules... 🕒\n\n• Bus 12B: 2 mins (Approaching Koyambedu)\n• Bus 27C: 8 mins (Scheduled)\n• Bus 47D: 15 mins (Delayed by traffic)\n\nIs there a specific route you'd like me to track?",
                     sender: 'ai'
                 };
                 setMessages(prev => [...prev, aiResponse]);

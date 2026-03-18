@@ -4,6 +4,11 @@ function MapPreview() {
   React.useEffect(() => {
     if (!mapRef.current) return;
 
+    const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+    const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+    const center = cityData.mapCenter || [13.0827, 80.2707];
+    const zoom = cityData.mapZoom || 13;
+
     const map = L.map(mapRef.current, {
         zoomControl: false,
         attributionControl: false,
@@ -13,7 +18,7 @@ function MapPreview() {
         scrollWheelZoom: false,
         boxZoom: false,
         keyboard: false
-    }).setView([13.0827, 80.2707], 13);
+    }).setView(center, zoom);
 
     L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
         maxZoom: 20,

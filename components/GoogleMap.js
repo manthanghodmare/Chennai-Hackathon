@@ -8,11 +8,16 @@ function GoogleMap({ route, vehicles, fullScreen }) {
     React.useEffect(() => {
         if (!mapRef.current || mapInstanceRef.current) return;
 
+        const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+        const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+        const center = cityData.mapCenter || [13.0827, 80.2707];
+        const zoom = cityData.mapZoom || 13;
+
         // Initialize Native Leaflet Map
         const map = L.map(mapRef.current, {
             zoomControl: false,
             attributionControl: false
-        }).setView([13.0827, 80.2707], 13);
+        }).setView(center, zoom);
         mapInstanceRef.current = map;
 
         // Base Layer: Google Maps Road/Standard (like AgriSync without satellite if requested, but let's use m for standard road, s for satellite)
@@ -195,7 +200,11 @@ function GoogleMap({ route, vehicles, fullScreen }) {
                             if (routeLayerRef.current) {
                                 mapInstanceRef.current.fitBounds(routeLayerRef.current.getBounds(), { padding: [50, 50] });
                             } else {
-                                mapInstanceRef.current.setView([13.0827, 80.2707], 13);
+                                const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+                                const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+                                const center = cityData.mapCenter || [13.0827, 80.2707];
+                                const zoom = cityData.mapZoom || 13;
+                                mapInstanceRef.current.setView(center, zoom);
                             }
                         }
                     }}

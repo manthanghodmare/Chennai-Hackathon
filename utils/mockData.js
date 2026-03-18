@@ -3,6 +3,8 @@
 const CITY_DATA = {
     chennai: {
         name: 'Chennai',
+        mapCenter: [13.0827, 80.2707],
+        mapZoom: 12,
         operator: 'MTC – Metropolitan Transport Corporation',
         routes: [
             {
@@ -75,6 +77,8 @@ const CITY_DATA = {
 
     mumbai: {
         name: 'Mumbai',
+        mapCenter: [19.0760, 72.8777],
+        mapZoom: 11,
         operator: 'BEST – Brihanmumbai Electric Supply & Transport',
         routes: [
             {
@@ -129,13 +133,49 @@ const CITY_DATA = {
                     { id: 's13', name: 'Mulund Check Naka', timeOffset: 18, waitingCount: 6 },
                     { id: 's14', name: 'Thane Station', timeOffset: 28, waitingCount: 38 }
                 ]
+            },
+            {
+                id: 'A1',
+                name: 'Airport T1 – Colaba',
+                number: 'A-1',
+                color: 'bg-indigo-600',
+                textColor: 'text-indigo-600',
+                borderColor: 'border-indigo-600',
+                type: 'AC Bus',
+                frequency: '20 min',
+                pathPoints: [ {x:100, y:100}, {x:200, y:200}, {x:300, y:300}, {x:400, y:400} ],
+                stops: [
+                    { id: 'sa1', name: 'Domestic Airport T1', timeOffset: 0, waitingCount: 55 },
+                    { id: 'sa2', name: 'Santacruz', timeOffset: 8, waitingCount: 12 },
+                    { id: 'sa3', name: 'Mahim', timeOffset: 18, waitingCount: 22 },
+                    { id: 'sa4', name: 'Colaba Causeway', timeOffset: 35, waitingCount: 41 }
+                ]
+            },
+            {
+                id: '123',
+                name: 'Vashi – Gateway of India',
+                number: '123',
+                color: 'bg-emerald-600',
+                textColor: 'text-emerald-600',
+                borderColor: 'border-emerald-600',
+                type: 'Bus',
+                frequency: '30 min',
+                pathPoints: [ {x:700, y:500}, {x:600, y:400}, {x:500, y:300}, {x:400, y:200} ],
+                stops: [
+                    { id: 'sv1', name: 'Vashi Sector 17', timeOffset: 0, waitingCount: 15 },
+                    { id: 'sv2', name: 'Mankhurd', timeOffset: 12, waitingCount: 28 },
+                    { id: 'sv3', name: 'Chembur Naka', timeOffset: 20, waitingCount: 19 },
+                    { id: 'sv4', name: 'Gateway of India', timeOffset: 45, waitingCount: 65 }
+                ]
             }
         ],
         vehicles: [
             { id: 'v1', routeId: '340', currentStopIndex: 2, progress: 0.6, status: 'On Time', capacity: 'High' },
             { id: 'v2', routeId: '340', currentStopIndex: 4, progress: 0.1, status: 'On Time', capacity: 'Medium' },
             { id: 'v3', routeId: '506', currentStopIndex: 1, progress: 0.8, status: 'Delayed', capacity: 'High' },
-            { id: 'v4', routeId: '703', currentStopIndex: 2, progress: 0.3, status: 'On Time', capacity: 'Low' }
+            { id: 'v4', routeId: '703', currentStopIndex: 2, progress: 0.3, status: 'On Time', capacity: 'Low' },
+            { id: 'v5', routeId: 'A1', currentStopIndex: 0, progress: 0.4, status: 'On Time', capacity: 'Low' },
+            { id: 'v6', routeId: '123', currentStopIndex: 1, progress: 0.2, status: 'On Time', capacity: 'Medium' }
         ],
         alerts: [
             { id: 'a1', type: 'warning', message: 'Heavy traffic near Haji Ali junction — Route 340 may run 10 min late.', routeId: '340' },
@@ -145,6 +185,8 @@ const CITY_DATA = {
 
     pune: {
         name: 'Pune',
+        mapCenter: [18.5204, 73.8567],
+        mapZoom: 12,
         operator: 'PMPML – Pune Mahanagar Parivahan Mahamandal Ltd.',
         routes: [
             {
@@ -200,13 +242,47 @@ const CITY_DATA = {
                     { id: 's14', name: 'Karve Road', timeOffset: 22, waitingCount: 28 },
                     { id: 's15', name: 'Kothrud Depot', timeOffset: 30, waitingCount: 4 }
                 ]
+            },
+            {
+                id: '201',
+                name: 'Kothrud – Viman Nagar',
+                number: '201',
+                color: 'bg-rose-500',
+                textColor: 'text-rose-500',
+                borderColor: 'border-rose-500',
+                type: 'Bus',
+                frequency: '15 min',
+                pathPoints: [ {x:200, y:400}, {x:400, y:400}, {x:600, y:300}, {x:800, y:200} ],
+                stops: [
+                    { id: 'pk1', name: 'Kothrud Stand', timeOffset: 0, waitingCount: 18 },
+                    { id: 'pk2', name: 'Deccan Gymkhana', timeOffset: 10, waitingCount: 22 },
+                    { id: 'pk3', name: 'Pune Station', timeOffset: 25, waitingCount: 51 },
+                    { id: 'pk4', name: 'Viman Nagar', timeOffset: 45, waitingCount: 30 }
+                ]
+            },
+            {
+                id: 'E-Way',
+                name: 'Pune Railway Stn – Mumbai (Asiad)',
+                number: 'EXP-1',
+                color: 'bg-blue-700',
+                textColor: 'text-blue-700',
+                borderColor: 'border-blue-700',
+                type: 'Express',
+                frequency: '60 min',
+                pathPoints: [ {x:600, y:150}, {x:300, y:150} ],
+                stops: [
+                    { id: 'ep1', name: 'Pune Railway Station', timeOffset: 0, waitingCount: 88 },
+                    { id: 'ep2', name: 'Wakad Highway', timeOffset: 25, waitingCount: 14 },
+                    { id: 'ep3', name: 'Mumbai Dadar Asiad', timeOffset: 180, waitingCount: 0 }
+                ]
             }
         ],
         vehicles: [
             { id: 'v1', routeId: '11', currentStopIndex: 2, progress: 0.4, status: 'On Time', capacity: 'Medium' },
             { id: 'v2', routeId: '54', currentStopIndex: 1, progress: 0.9, status: 'Delayed', capacity: 'High' },
             { id: 'v3', routeId: '7A', currentStopIndex: 3, progress: 0.2, status: 'On Time', capacity: 'Low' },
-            { id: 'v4', routeId: '11', currentStopIndex: 4, progress: 0.5, status: 'Early', capacity: 'Medium' }
+            { id: 'v4', routeId: '11', currentStopIndex: 4, progress: 0.5, status: 'Early', capacity: 'Medium' },
+            { id: 'v5', routeId: '201', currentStopIndex: 1, progress: 0.6, status: 'On Time', capacity: 'High' }
         ],
         alerts: [
             { id: 'a1', type: 'warning', message: 'Road construction at Shivajinagar — Route 11 diverted via FC Road.', routeId: '11' },
@@ -216,6 +292,8 @@ const CITY_DATA = {
 
     nagpur: {
         name: 'Nagpur',
+        mapCenter: [21.1458, 79.0882],
+        mapZoom: 12,
         operator: 'NMC – Nagpur Municipal Corporation City Bus Service',
         routes: [
             {
@@ -270,13 +348,45 @@ const CITY_DATA = {
                     { id: 's13', name: 'Civil Lines', timeOffset: 14, waitingCount: 14 },
                     { id: 's14', name: 'Dharampeth', timeOffset: 21, waitingCount: 31 }
                 ]
+            },
+            {
+                id: 'N10',
+                name: 'Dighori – Zero Mile',
+                number: 'N10',
+                color: 'bg-orange-600',
+                textColor: 'text-orange-600',
+                borderColor: 'border-orange-600',
+                type: 'Bus',
+                frequency: '15 min',
+                pathPoints: [ {x:800, y:500}, {x:500, y:300} ],
+                stops: [
+                    { id: 'sn10-1', name: 'Dighori Naka', timeOffset: 0, waitingCount: 19 },
+                    { id: 'sn10-2', name: 'Sakkardara', timeOffset: 8, waitingCount: 12 },
+                    { id: 'sn10-3', name: 'Zero Mile Metro Stn', timeOffset: 20, waitingCount: 25 }
+                ]
+            },
+            {
+                id: 'N25',
+                name: 'Kalamna – Pardi',
+                number: 'N25',
+                color: 'bg-teal-600',
+                textColor: 'text-teal-600',
+                borderColor: 'border-teal-600',
+                type: 'Bus',
+                frequency: '20 min',
+                pathPoints: [ {x:900, y:100}, {x:850, y:200} ],
+                stops: [
+                    { id: 'sn25-1', name: 'Kalamna Market', timeOffset: 0, waitingCount: 44 },
+                    { id: 'sn25-2', name: 'Pardi Naka', timeOffset: 12, waitingCount: 18 }
+                ]
             }
         ],
         vehicles: [
             { id: 'v1', routeId: 'N1', currentStopIndex: 1, progress: 0.6, status: 'On Time', capacity: 'Medium' },
             { id: 'v2', routeId: 'N3', currentStopIndex: 2, progress: 0.3, status: 'On Time', capacity: 'Low' },
             { id: 'v3', routeId: 'N7', currentStopIndex: 1, progress: 0.8, status: 'Delayed', capacity: 'High' },
-            { id: 'v4', routeId: 'N1', currentStopIndex: 3, progress: 0.1, status: 'Early', capacity: 'Medium' }
+            { id: 'v4', routeId: 'N1', currentStopIndex: 3, progress: 0.1, status: 'Early', capacity: 'Medium' },
+            { id: 'v5', routeId: 'N10', currentStopIndex: 0, progress: 0.5, status: 'On Time', capacity: 'Low' }
         ],
         alerts: [
             { id: 'a1', type: 'warning', message: 'VIP movement near Civil Lines — Route N7 may face 15 min delay.', routeId: 'N7' },
@@ -286,6 +396,8 @@ const CITY_DATA = {
 
     wardha: {
         name: 'Wardha',
+        mapCenter: [20.7453, 78.6022],
+        mapZoom: 13,
         operator: 'Wardha City Bus Service',
         routes: [
             {
@@ -322,11 +434,43 @@ const CITY_DATA = {
                     { id: 's8', name: 'Datta Meghe Institute', timeOffset: 14, waitingCount: 33 },
                     { id: 's9', name: 'Pavnar Ashram', timeOffset: 21, waitingCount: 15 }
                 ]
+            },
+            {
+                id: 'W5',
+                name: 'Shivaji Chowk – Kelzar',
+                number: 'W5',
+                color: 'bg-orange-500',
+                textColor: 'text-orange-500',
+                borderColor: 'border-orange-500',
+                type: 'Bus',
+                frequency: '45 min',
+                pathPoints: [ {x:500, y:300}, {x:700, y:100} ],
+                stops: [
+                    { id: 'sw5-1', name: 'Shivaji Chowk', timeOffset: 0, waitingCount: 15 },
+                    { id: 'sw5-2', name: 'Seloo', timeOffset: 15, waitingCount: 10 },
+                    { id: 'sw5-3', name: 'Kelzar Ganpati', timeOffset: 30, waitingCount: 22 }
+                ]
+            },
+            {
+                id: 'W10',
+                name: 'District Court – Pulgaon',
+                number: 'W10',
+                color: 'bg-sky-600',
+                textColor: 'text-sky-600',
+                borderColor: 'border-sky-600',
+                type: 'Bus',
+                frequency: '60 min',
+                pathPoints: [ {x:400, y:300}, {x:200, y:300} ],
+                stops: [
+                    { id: 'sw10-1', name: 'District Court', timeOffset: 0, waitingCount: 4 },
+                    { id: 'sw10-2', name: 'Pulgaon Station', timeOffset: 40, waitingCount: 25 }
+                ]
             }
         ],
         vehicles: [
             { id: 'v1', routeId: 'W1', currentStopIndex: 1, progress: 0.5, status: 'On Time', capacity: 'Medium' },
-            { id: 'v2', routeId: 'W2', currentStopIndex: 2, progress: 0.2, status: 'On Time', capacity: 'Low' }
+            { id: 'v2', routeId: 'W2', currentStopIndex: 2, progress: 0.2, status: 'On Time', capacity: 'Low' },
+            { id: 'v3', routeId: 'W5', currentStopIndex: 0, progress: 0.1, status: 'On Time', capacity: 'Low' }
         ],
         alerts: [
             { id: 'a1', type: 'info', message: 'Special buses running for Gandhi Jayanti via Sevagram.', routeId: 'all' }

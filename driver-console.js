@@ -4,6 +4,8 @@ function DriverConsole() {
     const [selectedRoute, setSelectedRoute] = React.useState(null);
     const [isOnTrip, setIsOnTrip] = React.useState(false);
     const [showSOS, setShowSOS] = React.useState(false);
+    const [selectedSOSType, setSelectedSOSType] = React.useState(null);
+    const [sosBroadcasting, setSosBroadcasting] = React.useState(false);
     const [showDropdown, setShowDropdown] = React.useState(false);
     const [currentSpeed, setCurrentSpeed] = React.useState(0);
     const [lastPosition, setLastPosition] = React.useState(null);
@@ -130,6 +132,56 @@ function DriverConsole() {
 
         return () => clearInterval(interval);
     }, [isOnTrip, lastPosition, currentSpeed, selectedBus]);
+
+    const handleSOS = async () => {
+        if (!selectedSOSType) {
+            alert("Please select an emergency category.");
+            return;
+        }
+
+        setSosBroadcasting(true);
+        const { db } = window.firebaseApp;
+        
+        try {
+            await db.collection('emergencies').add({
+                type: selectedSOSType,
+                busId: selectedBus,
+                routeId: selectedRoute?.id || 'Unknown',
+                latitude: lastPosition?.lat || 13.0827,
+                longitude: lastPosition?.lng || 80.2707,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'active',
+                driverName: user?.name || 'Driver'
+            });
+
+            // Also send as a general alert
+            await db.collection('alerts').add({
+                type: 'warning',
+                target: 'All Passengers',
+                message: `CRITICAL SOS: Bus ${selectedBus} reports ${selectedSOSType.toUpperCase()} on Route ${selectedRoute?.number || ''}. Emergency services notified.`,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                active: true
+            });
+
+            setShowSOS(false);
+            setSelectedSOSType(null);
+            alert("SOS SIGNAL BROADCASTED. HELP IS ON THE WAY.");
+        } catch (err) {
+            console.error("SOS Transmission Error:", err);
+            alert("Failed to broadcast SOS. Use manual radio.");
+        } finally {
+            setSosBroadcasting(false);
+        }
+    };
+
+    const SOS_TYPES = [
+        { id: 'fire', label: 'FIRE', icon: 'flame', color: 'bg-red-600' },
+        { id: 'engine', label: 'ENGINE ERROR', icon: 'settings-2', color: 'bg-orange-600' },
+        { id: 'fuel', label: 'FUEL EMPTY', icon: 'fuel', color: 'bg-amber-600' },
+        { id: 'medical', label: 'MEDICAL', icon: 'heart-pulse', color: 'bg-rose-600' },
+        { id: 'passenger', label: 'PASSENGER ISSUE', icon: 'users', color: 'bg-indigo-600' },
+        { id: 'breakdown', label: 'BREAKDOWN', icon: 'wrench', color: 'bg-slate-700' }
+    ];
 
     const currentRouteData = selectedRoute || (ROUTES.length > 0 ? ROUTES[0] : null);
     const nextStopIndex = currentRouteData ? Math.min(Math.floor(tripProgress * currentRouteData.stops.length) + 1, currentRouteData.stops.length - 1) : 0;
@@ -493,16 +545,57 @@ function DriverConsole() {
                 {/* Cyber SOS Interface */}
                 {showSOS && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#020617]/95 backdrop-blur-3xl animate-fade-in">
-                        <div className="bg-[#0F172A] rounded-[3.5rem] p-12 max-w-md w-full text-center shadow-[0_0_100px_rgba(239,68,68,0.3)] border border-red-500/20 relative overflow-hidden">
+                        <div className="bg-[#0F172A] rounded-[3.5rem] p-10 max-w-2xl w-full text-center shadow-[0_0_100px_rgba(239,68,68,0.3)] border border-red-500/20 relative overflow-hidden">
                             <div className="absolute top-0 left-0 w-full h-1 bg-red-600 animate-pulse"></div>
-                            <div className="w-28 h-28 bg-red-500/10 text-red-500 border border-red-500/20 rounded-full flex items-center justify-center mx-auto mb-8 animate-pulse shadow-[0_0_40px_rgba(239,68,68,0.2)]">
-                                <Icon name="siren" size="text-5xl" />
+                            
+                            <div className="flex justify-between items-center mb-8">
+                                <div className="text-left">
+                                    <h2 className="text-4xl font-black text-white tracking-tighter">Emergency Signal</h2>
+                                    <p className="text-slate-500 font-bold uppercase tracking-widest text-[10px]">Select category to initiate dispatch</p>
+                                </div>
+                                <div className="w-16 h-16 bg-red-500/10 text-red-500 border border-red-500/20 rounded-2xl flex items-center justify-center animate-pulse">
+                                    <Icon name="siren" size="text-3xl" />
+                                </div>
                             </div>
-                            <h2 className="text-4xl font-black text-white mb-4 tracking-tighter">Emergency?</h2>
-                            <p className="text-slate-500 font-medium mb-10 text-lg leading-relaxed px-4">Instant broadcast to Admin Command and Local Responders via GPS transmission. Initiating Dual-Dispatch protocol...</p>
+
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+                                {SOS_TYPES.map(type => (
+                                    <button
+                                        key={type.id}
+                                        onClick={() => setSelectedSOSType(type.label)}
+                                        className={`p-6 rounded-3xl border transition-all flex flex-col items-center gap-3 group relative overflow-hidden ${selectedSOSType === type.label 
+                                            ? `${type.color} border-white/20 shadow-lg scale-105` 
+                                            : 'bg-white/5 border-white/5 hover:border-white/10 hover:bg-white/10'}`}
+                                    >
+                                        <Icon name={type.icon} size="text-2xl" className={selectedSOSType === type.label ? 'text-white' : 'text-slate-400 group-hover:text-white transition-colors'} />
+                                        <span className={`text-[10px] font-black uppercase tracking-widest ${selectedSOSType === type.label ? 'text-white' : 'text-slate-500 group-hover:text-slate-300'}`}>{type.label}</span>
+                                        {selectedSOSType === type.label && (
+                                            <div className="absolute top-2 right-2">
+                                                <Icon name="check-circle-2" size="text-xs" className="text-white" />
+                                            </div>
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+
                             <div className="flex flex-col gap-4">
-                                <button className="w-full py-6 bg-red-600 text-white rounded-3xl font-black uppercase tracking-[0.3em] shadow-2xl shadow-red-600/40 hover:bg-red-700 transition-all active:scale-95 text-xl">Confirm Alert</button>
-                                <button onClick={() => setShowSOS(false)} className="w-full py-5 bg-white/5 text-slate-400 rounded-3xl font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all text-xs">Abort Signal</button>
+                                <button 
+                                    onClick={handleSOS}
+                                    disabled={!selectedSOSType || sosBroadcasting}
+                                    className={`w-full py-6 rounded-3xl font-black uppercase tracking-[0.3em] shadow-2xl transition-all active:scale-95 text-xl flex items-center justify-center gap-4 ${selectedSOSType 
+                                        ? 'bg-red-600 text-white shadow-red-600/40 hover:bg-red-700' 
+                                        : 'bg-white/5 text-slate-600 cursor-not-allowed'}`}
+                                >
+                                    {sosBroadcasting ? (
+                                        <>
+                                            <div className="w-5 h-5 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                            Transmitting...
+                                        </>
+                                    ) : (
+                                        <>START BROADCAST</>
+                                    )}
+                                </button>
+                                <button onClick={() => { setShowSOS(false); setSelectedSOSType(null); }} className="w-full py-5 bg-white/5 text-slate-400 rounded-3xl font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all text-xs">Abort Signal</button>
                             </div>
                         </div>
                     </div>

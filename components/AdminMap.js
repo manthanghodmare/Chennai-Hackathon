@@ -10,10 +10,15 @@ function AdminMap({ vehicles }) {
   React.useEffect(() => {
         if (!mapRef.current || mapInstanceRef.current) return;
 
+        const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+        const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+        const center = cityData.mapCenter || [13.0827, 80.2707];
+        const zoom = cityData.mapZoom || 12;
+
         const map = L.map(mapRef.current, {
             zoomControl: false,
             attributionControl: false
-        }).setView([13.0827, 80.2707], 12);
+        }).setView(center, zoom);
         mapInstanceRef.current = map;
 
         // Base Layer: Google Maps Road
@@ -82,7 +87,11 @@ function AdminMap({ vehicles }) {
             map.fitBounds(routesLayerRef.current[selectedRouteId].getBounds(), { padding: [50, 50], animate: true });
         } else if (selectedRouteId === null) {
             // Reset to full view
-            map.setView([13.0827, 80.2707], 12);
+            const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+            const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+            const center = cityData.mapCenter || [13.0827, 80.2707];
+            const zoom = cityData.mapZoom || 12;
+            map.setView(center, zoom);
         }
 
   }, [selectedRouteId]);

@@ -105,10 +105,6 @@ function SearchModal({ onClose, routes, vehicles }) {
     }, [routes]);
 
     const filteredRoutes = routes.filter(r => {
-        // Only show routes that currently have live active buses
-        const hasLiveBus = vehicles && vehicles.some(v => v.routeId === r.id);
-        if (!hasLiveBus) return false;
-
         const matchesQuery = r.name.toLowerCase().includes(query.toLowerCase()) || r.number.includes(query);
 
         if (!source && !destination) return matchesQuery;

@@ -231,6 +231,7 @@ function AdminApp() {
     const [chartTimeframe, setChartTimeframe] = React.useState('day');
     const [showSettings, setShowSettings] = React.useState(false);
     const [showSchedule, setShowSchedule] = React.useState(false);
+    const [emergencies, setEmergencies] = React.useState([]);
     const [toastMessage, setToastMessage] = React.useState(null);
 
     const broadcastInputRef = React.useRef(null);
@@ -240,10 +241,11 @@ function AdminApp() {
         setTimeout(() => setToastMessage(null), 3000);
     };
 
-    // Real-time Firestore Sync
+    // Real-time Firestore Sync for Vehicles and Emergencies
     React.useEffect(() => {
         const { db } = window.firebaseApp;
-        const unsubscribe = db.collection('vehicles').onSnapshot((snapshot) => {
+        
+        const unsubVehicles = db.collection('vehicles').onSnapshot((snapshot) => {
             const updatedVehicles = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
@@ -251,11 +253,34 @@ function AdminApp() {
             if (updatedVehicles.length > 0) {
                 setVehicles(updatedVehicles);
             }
-        }, (error) => {
-            console.error("Admin Firestore Error:", error);
         });
-        return () => unsubscribe();
+
+        const unsubEmergencies = db.collection('emergencies').where('status', '==', 'active').onSnapshot((snapshot) => {
+            const activeEmergencies = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setEmergencies(activeEmergencies);
+        });
+
+        return () => {
+            unsubVehicles();
+            unsubEmergencies();
+        };
     }, []);
+
+    const handleResolveEmergency = async (id) => {
+        const { db } = window.firebaseApp;
+        try {
+            await db.collection('emergencies').doc(id).update({
+                status: 'resolved',
+                resolvedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            showToast('Emergency marked as resolved.');
+        } catch (err) {
+            console.error("Resolution Error:", err);
+        }
+    };
 
     const handleBroadcast = async () => {
         if (!alertText.trim()) return;
@@ -365,9 +390,14 @@ function AdminApp() {
                             <div><p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">System Load</p><p className="text-2xl font-black text-slate-900 dark:text-white transition-colors">Low</p></div>
                         </div>
 
-                        <div className="card bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center gap-4 border-l-4 border-l-red-500 transition-all hover:scale-105 cursor-pointer shadow-sm group" onClick={() => setCurrentView('alerts')}>
-                            <div className="p-3 bg-red-50 dark:bg-red-900/30 rounded-lg text-red-600 dark:text-red-400 group-hover:bg-red-500 group-hover:text-white transition-colors"><Icon name="triangle-alert" /></div>
-                            <div><p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Critical Alerts</p><p className="text-2xl font-black text-slate-900 dark:text-white transition-colors">{ALERTS.length}</p></div>
+                        <div className={`card bg-white dark:bg-slate-900 border flex items-center gap-4 border-l-4 transition-all hover:scale-105 cursor-pointer shadow-sm group ${emergencies.length > 0 ? 'border-l-red-600 animate-pulse ring-2 ring-red-500/20' : 'border-l-red-500'}`} onClick={() => setCurrentView('alerts')}>
+                            <div className={`p-3 rounded-lg group-hover:bg-red-500 group-hover:text-white transition-colors ${emergencies.length > 0 ? 'bg-red-600 text-white' : 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'}`}>
+                                <Icon name="triangle-alert" />
+                            </div>
+                            <div>
+                                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider">Active SOS</p>
+                                <p className={`text-2xl font-black transition-colors ${emergencies.length > 0 ? 'text-red-600' : 'text-slate-900 dark:text-white'}`}>{emergencies.length}</p>
+                            </div>
                         </div>
                     </div>
 
@@ -752,6 +782,45 @@ function AdminApp() {
                     <div className="fixed bottom-6 right-6 md:left-1/2 md:-translate-x-1/2 md:right-auto bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 animate-fade-in z-[110] border border-slate-800">
                         <Icon name="info" className="text-blue-400" size="text-sm" />
                         <span className="font-bold text-sm tracking-wide">{toastMessage}</span>
+                    </div>
+                )}
+
+                {/* Critical Emergency Overlay */}
+                {emergencies.length > 0 && (
+                    <div className="fixed bottom-8 left-8 right-8 md:left-auto md:w-96 z-[120] animate-bounce">
+                        <div className="bg-red-600 text-white rounded-[2rem] p-6 shadow-[0_20px_50px_rgba(220,38,38,0.5)] border border-white/20 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                            <div className="flex items-center gap-4 mb-4">
+                                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-red-600 shadow-lg">
+                                    <Icon name="siren" size="text-2xl" />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-[10px] font-black uppercase tracking-widest opacity-80">Urgent Dispatch Required</p>
+                                    <h4 className="text-xl font-black uppercase italic tracking-tighter">{emergencies[0].type} REPORTED</h4>
+                                </div>
+                            </div>
+                            <div className="bg-black/20 rounded-2xl p-4 mb-6 backdrop-blur-md">
+                                <div className="flex justify-between text-xs mb-1">
+                                    <span className="font-black">VESSEL: {emergencies[0].busId.toUpperCase()}</span>
+                                    <span className="font-mono">{emergencies[0].routeId}</span>
+                                </div>
+                                <p className="text-[10px] opacity-70 font-bold">DRIVER: {emergencies[0].driverName}</p>
+                            </div>
+                            <div className="flex gap-2">
+                                <button
+                                    onClick={() => setCurrentView('fleet')}
+                                    className="flex-1 py-3 bg-white text-red-600 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-100 transition-all shadow-lg active:scale-95"
+                                >
+                                    Intercept on Map
+                                </button>
+                                <button
+                                    onClick={() => handleResolveEmergency(emergencies[0].id)}
+                                    className="px-6 py-3 bg-red-700 text-white border border-white/10 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-red-800 transition-all active:scale-95"
+                                >
+                                    Resolve
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
