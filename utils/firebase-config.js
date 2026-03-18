@@ -61,8 +61,10 @@ if (!isMockMode) {
     };
 
     db = {
-        collection: (name) => ({
-            onSnapshot: (cb) => {
+        collection: (name) => {
+            const coll = {
+                where: () => coll,
+                onSnapshot: (cb) => {
                 const handler = () => {
                     const data = getMockData(name);
                     cb({
@@ -150,7 +152,9 @@ if (!isMockMode) {
                     };
                 }
             })
-        }),
+        };
+        return coll;
+    },
         FieldValue: { serverTimestamp: () => new Date() }
     };
 }
