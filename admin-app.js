@@ -223,7 +223,15 @@ function AnalyticsChart({ timeframe = 'day' }) {
 }
 
 function AdminApp() {
-    const [vehicles, setVehicles] = React.useState(VEHICLES);
+    const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+    const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+    const cityRoutes = cityData.routes;
+    const initialVehicles = cityData.vehicles.map(v => {
+        const pos = window.getVehiclePosition(v, cityRoutes);
+        return { ...v, latitude: pos?.lat, longitude: pos?.lng };
+    });
+
+    const [vehicles, setVehicles] = React.useState(initialVehicles);
     const [currentView, setCurrentView] = React.useState('overview'); // overview, fleet, alerts, reports
     const [showMap, setShowMap] = React.useState(false);
     const [alertText, setAlertText] = React.useState('');
@@ -233,6 +241,20 @@ function AdminApp() {
     const [showSchedule, setShowSchedule] = React.useState(false);
     const [emergencies, setEmergencies] = React.useState([]);
     const [toastMessage, setToastMessage] = React.useState(null);
+
+    // Mock Movement Simulation (if no firestore data)
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setVehicles(prev => {
+                const isMock = prev.some(v => v.id.startsWith('v'));
+                if (isMock) {
+                    return window.simulateMovement(prev, cityRoutes);
+                }
+                return prev;
+            });
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [cityRoutes]);
 
     const broadcastInputRef = React.useRef(null);
 
@@ -250,8 +272,21 @@ function AdminApp() {
                 id: doc.id,
                 ...doc.data()
             }));
-            if (updatedVehicles.length > 0) {
-                setVehicles(updatedVehicles);
+
+            // Filter vehicles to only show those belonging to the current city's routes
+            const cityRouteIds = cityRoutes.map(r => r.id);
+            const filteredVehicles = updatedVehicles.filter(v => cityRouteIds.includes(v.routeId)).map(v => {
+                if (!v.latitude && v.progress !== undefined) {
+                    const pos = window.getVehiclePosition(v, cityRoutes);
+                    return { ...v, latitude: pos?.lat, longitude: pos?.lng };
+                }
+                return v;
+            });
+
+            if (filteredVehicles.length > 0) {
+                setVehicles(filteredVehicles);
+            } else {
+                setVehicles(initialVehicles);
             }
         });
 

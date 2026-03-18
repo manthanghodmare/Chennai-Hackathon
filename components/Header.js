@@ -39,13 +39,6 @@ function Header() {
                             <Icon name="bell" size="text-xs" />
                             {t('alerts')}
                         </button>
-                        <button
-                            onClick={() => setView('sustainability')}
-                            className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-black text-xs uppercase tracking-widest transition-all duration-300 ${currentView === 'sustainability' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
-                        >
-                            <Icon name="leaf" size="text-xs" />
-                            {t('sustainability')}
-                        </button>
                     </div>
 
                     <div className="flex items-center gap-2 sm:gap-4">

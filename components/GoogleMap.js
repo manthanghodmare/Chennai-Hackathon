@@ -64,7 +64,11 @@ function GoogleMap({ route, vehicles, fullScreen }) {
         stopMarkersRef.current = [];
 
         if (route && route.stops && route.stops.length > 0) {
-            const pathCoords = route.stops.map(stop => [stop.lat || 13.0827, stop.lng || 80.2707]);
+            const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+            const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+            const cityCenter = cityData.mapCenter || [13.0827, 80.2707];
+
+            const pathCoords = route.stops.map(stop => [stop.lat || cityCenter[0], stop.lng || cityCenter[1]]);
             
             const routeColor = route.color?.includes('blue') ? '#3B82F6' : (route.color?.includes('emerald') ? '#10B981' : '#8B5CF6');
             const baseColor = route.color?.includes('blue') ? '#1E3A8A' : (route.color?.includes('emerald') ? '#065F46' : '#5B21B6');
@@ -99,7 +103,7 @@ function GoogleMap({ route, vehicles, fullScreen }) {
                     iconAnchor: [20, 40]
                 });
 
-                const marker = L.marker([stop.lat || 13.0827, stop.lng || 80.2707], { icon: stopIcon }).addTo(map);
+                const marker = L.marker([stop.lat || cityCenter[0], stop.lng || cityCenter[1]], { icon: stopIcon }).addTo(map);
                 stopMarkersRef.current.push(marker);
             });
 
@@ -126,9 +130,17 @@ function GoogleMap({ route, vehicles, fullScreen }) {
         const busIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>`;
 
         // Add/Update markers
-        (vehicles || []).forEach(v => {
-            const lat = v.latitude || 13.0827 + (Math.random() - 0.5) * 0.05;
-            const lng = v.longitude || 80.2707 + (Math.random() - 0.5) * 0.05;
+        const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+        const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+        const cityCenter = cityData.mapCenter || [13.0827, 80.2707];
+
+        // Filter vehicles to only show those belonging to the current city's routes
+        const cityRouteIds = cityData.routes.map(r => r.id);
+        const filteredVehicles = (vehicles || []).filter(v => cityRouteIds.includes(v.routeId));
+
+        filteredVehicles.forEach(v => {
+            const lat = v.latitude || cityCenter[0];
+            const lng = v.longitude || cityCenter[1];
             
             const markerColor = v.status === 'delayed' ? 'text-amber-500' : 'text-blue-600';
             const baseColor = v.status === 'delayed' ? '#F59E0B' : '#1E3A8A';

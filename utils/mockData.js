@@ -92,11 +92,11 @@ const CITY_DATA = {
                 frequency: '5 min',
                 pathPoints: [ {x:300, y:500}, {x:250, y:400}, {x:200, y:300}, {x:150, y:200}, {x:250, y:100} ],
                 stops: [
-                    { id: 's1', name: 'CST Bus Depot', timeOffset: 0, waitingCount: 40 },
-                    { id: 's2', name: 'Churchgate', timeOffset: 6, waitingCount: 33 },
-                    { id: 's3', name: 'Haji Ali', timeOffset: 13, waitingCount: 18 },
-                    { id: 's4', name: 'Worli Sea Face', timeOffset: 19, waitingCount: 9 },
-                    { id: 's5', name: 'Bandra Station', timeOffset: 27, waitingCount: 44 }
+                    { id: 's1', name: 'CST Bus Depot', timeOffset: 0, waitingCount: 40, lat: 18.9401, lng: 72.8347 },
+                    { id: 's2', name: 'Churchgate', timeOffset: 6, waitingCount: 33, lat: 18.9322, lng: 72.8264 },
+                    { id: 's3', name: 'Haji Ali', timeOffset: 13, waitingCount: 18, lat: 18.9777, lng: 72.8105 },
+                    { id: 's4', name: 'Worli Sea Face', timeOffset: 19, waitingCount: 9, lat: 19.0125, lng: 72.8156 },
+                    { id: 's5', name: 'Bandra Station', timeOffset: 27, waitingCount: 44, lat: 19.0544, lng: 72.8402 }
                 ]
             },
             {
@@ -110,11 +110,11 @@ const CITY_DATA = {
                 frequency: '10 min',
                 pathPoints: [ {x:100, y:50}, {x:150, y:150}, {x:200, y:250}, {x:200, y:350}, {x:250, y:450} ],
                 stops: [
-                    { id: 's6', name: 'Borivali Station (W)', timeOffset: 0, waitingCount: 22 },
-                    { id: 's7', name: 'Dahisar', timeOffset: 8, waitingCount: 11 },
-                    { id: 's8', name: 'Kandivali', timeOffset: 14, waitingCount: 35 },
-                    { id: 's9', name: 'Malad', timeOffset: 19, waitingCount: 28 },
-                    { id: 's10', name: 'Andheri Station', timeOffset: 26, waitingCount: 43 }
+                    { id: 's6', name: 'Borivali Station (W)', timeOffset: 0, waitingCount: 22, lat: 19.2294, lng: 72.8546 },
+                    { id: 's7', name: 'Dahisar', timeOffset: 8, waitingCount: 11, lat: 19.2494, lng: 72.8596 },
+                    { id: 's8', name: 'Kandivali', timeOffset: 14, waitingCount: 35, lat: 19.2045, lng: 72.8515 },
+                    { id: 's9', name: 'Malad', timeOffset: 19, waitingCount: 28, lat: 19.1874, lng: 72.8484 },
+                    { id: 's10', name: 'Andheri Station', timeOffset: 26, waitingCount: 43, lat: 19.1197, lng: 72.8468 }
                 ]
             },
             {
@@ -128,10 +128,10 @@ const CITY_DATA = {
                 frequency: '15 min',
                 pathPoints: [ {x:500, y:300}, {x:600, y:250}, {x:700, y:200}, {x:800, y:150} ],
                 stops: [
-                    { id: 's11', name: 'Kurla Bus Terminal', timeOffset: 0, waitingCount: 17 },
-                    { id: 's12', name: 'Ghatkopar', timeOffset: 9, waitingCount: 30 },
-                    { id: 's13', name: 'Mulund Check Naka', timeOffset: 18, waitingCount: 6 },
-                    { id: 's14', name: 'Thane Station', timeOffset: 28, waitingCount: 38 }
+                    { id: 's11', name: 'Kurla Bus Terminal', timeOffset: 0, waitingCount: 17, lat: 19.0667, lng: 72.8812 },
+                    { id: 's12', name: 'Ghatkopar', timeOffset: 9, waitingCount: 30, lat: 19.0863, lng: 72.9090 },
+                    { id: 's13', name: 'Mulund Check Naka', timeOffset: 18, waitingCount: 6, lat: 19.1764, lng: 72.9567 },
+                    { id: 's14', name: 'Thane Station', timeOffset: 28, waitingCount: 38, lat: 19.1860, lng: 72.9759 }
                 ]
             },
             {
@@ -145,10 +145,10 @@ const CITY_DATA = {
                 frequency: '20 min',
                 pathPoints: [ {x:100, y:100}, {x:200, y:200}, {x:300, y:300}, {x:400, y:400} ],
                 stops: [
-                    { id: 'sa1', name: 'Domestic Airport T1', timeOffset: 0, waitingCount: 55 },
-                    { id: 'sa2', name: 'Santacruz', timeOffset: 8, waitingCount: 12 },
-                    { id: 'sa3', name: 'Mahim', timeOffset: 18, waitingCount: 22 },
-                    { id: 'sa4', name: 'Colaba Causeway', timeOffset: 35, waitingCount: 41 }
+                    { id: 'sa1', name: 'Domestic Airport T1', timeOffset: 0, waitingCount: 55, lat: 19.0954, lng: 72.8524 },
+                    { id: 'sa2', name: 'Santacruz', timeOffset: 8, waitingCount: 12, lat: 19.0827, lng: 72.8427 },
+                    { id: 'sa3', name: 'Mahim', timeOffset: 18, waitingCount: 22, lat: 19.0354, lng: 72.8402 },
+                    { id: 'sa4', name: 'Colaba Causeway', timeOffset: 35, waitingCount: 41, lat: 18.9150, lng: 72.8258 }
                 ]
             },
             {
@@ -162,10 +162,10 @@ const CITY_DATA = {
                 frequency: '30 min',
                 pathPoints: [ {x:700, y:500}, {x:600, y:400}, {x:500, y:300}, {x:400, y:200} ],
                 stops: [
-                    { id: 'sv1', name: 'Vashi Sector 17', timeOffset: 0, waitingCount: 15 },
-                    { id: 'sv2', name: 'Mankhurd', timeOffset: 12, waitingCount: 28 },
-                    { id: 'sv3', name: 'Chembur Naka', timeOffset: 20, waitingCount: 19 },
-                    { id: 'sv4', name: 'Gateway of India', timeOffset: 45, waitingCount: 65 }
+                    { id: 'sv1', name: 'Vashi Sector 17', timeOffset: 0, waitingCount: 15, lat: 19.0734, lng: 72.9983 },
+                    { id: 'sv2', name: 'Mankhurd', timeOffset: 12, waitingCount: 28, lat: 19.0504, lng: 72.9333 },
+                    { id: 'sv3', name: 'Chembur Naka', timeOffset: 20, waitingCount: 19, lat: 19.0522, lng: 72.8994 },
+                    { id: 'sv4', name: 'Gateway of India', timeOffset: 45, waitingCount: 65, lat: 18.9220, lng: 72.8347 }
                 ]
             }
         ],
@@ -200,11 +200,11 @@ const CITY_DATA = {
                 frequency: '10 min',
                 pathPoints: [ {x:500, y:400}, {x:450, y:350}, {x:450, y:250}, {x:300, y:200}, {x:150, y:150} ],
                 stops: [
-                    { id: 's1', name: 'Swargate Bus Stand', timeOffset: 0, waitingCount: 26 },
-                    { id: 's2', name: 'Deccan Gymkhana', timeOffset: 7, waitingCount: 13 },
-                    { id: 's3', name: 'Shivajinagar', timeOffset: 13, waitingCount: 39 },
-                    { id: 's4', name: 'Aundh', timeOffset: 21, waitingCount: 8 },
-                    { id: 's5', name: 'Hinjawadi IT Park', timeOffset: 30, waitingCount: 44 }
+                    { id: 's1', name: 'Swargate Bus Stand', timeOffset: 0, waitingCount: 26, lat: 18.5018, lng: 73.8636 },
+                    { id: 's2', name: 'Deccan Gymkhana', timeOffset: 7, waitingCount: 13, lat: 18.5165, lng: 73.8430 },
+                    { id: 's3', name: 'Shivajinagar', timeOffset: 13, waitingCount: 39, lat: 18.5308, lng: 73.8475 },
+                    { id: 's4', name: 'Aundh', timeOffset: 21, waitingCount: 8, lat: 18.5580, lng: 73.8075 },
+                    { id: 's5', name: 'Hinjawadi IT Park', timeOffset: 30, waitingCount: 44, lat: 18.5913, lng: 73.7389 }
                 ]
             },
             {
@@ -218,11 +218,11 @@ const CITY_DATA = {
                 frequency: '15 min',
                 pathPoints: [ {x:550, y:550}, {x:550, y:450}, {x:650, y:300}, {x:400, y:150}, {x:300, y:150} ],
                 stops: [
-                    { id: 's6', name: 'Katraj Bus Depot', timeOffset: 0, waitingCount: 32 },
-                    { id: 's7', name: 'Bibwewadi', timeOffset: 6, waitingCount: 20 },
-                    { id: 's8', name: 'Pune Station', timeOffset: 14, waitingCount: 41 },
-                    { id: 's9', name: 'Pimpri', timeOffset: 22, waitingCount: 9 },
-                    { id: 's10', name: 'Wakad', timeOffset: 30, waitingCount: 15 }
+                    { id: 's6', name: 'Katraj Bus Depot', timeOffset: 0, waitingCount: 32, lat: 18.4550, lng: 73.8560 },
+                    { id: 's7', name: 'Bibwewadi', timeOffset: 6, waitingCount: 20, lat: 18.4870, lng: 73.8680 },
+                    { id: 's8', name: 'Pune Station', timeOffset: 14, waitingCount: 41, lat: 18.5289, lng: 73.8744 },
+                    { id: 's9', name: 'Pimpri', timeOffset: 22, waitingCount: 9, lat: 18.6270, lng: 73.8130 },
+                    { id: 's10', name: 'Wakad', timeOffset: 30, waitingCount: 15, lat: 18.5930, lng: 73.7640 }
                 ]
             },
             {
@@ -236,11 +236,11 @@ const CITY_DATA = {
                 frequency: '20 min',
                 pathPoints: [ {x:800, y:400}, {x:650, y:400}, {x:550, y:450}, {x:400, y:350}, {x:300, y:350} ],
                 stops: [
-                    { id: 's11', name: 'Hadapsar Depot', timeOffset: 0, waitingCount: 24 },
-                    { id: 's12', name: 'Fatima Nagar', timeOffset: 8, waitingCount: 37 },
-                    { id: 's13', name: 'Market Yard', timeOffset: 15, waitingCount: 11 },
-                    { id: 's14', name: 'Karve Road', timeOffset: 22, waitingCount: 28 },
-                    { id: 's15', name: 'Kothrud Depot', timeOffset: 30, waitingCount: 4 }
+                    { id: 's11', name: 'Hadapsar Depot', timeOffset: 0, waitingCount: 24, lat: 18.5089, lng: 73.9260 },
+                    { id: 's12', name: 'Fatima Nagar', timeOffset: 8, waitingCount: 37, lat: 18.5050, lng: 73.8960 },
+                    { id: 's13', name: 'Market Yard', timeOffset: 15, waitingCount: 11, lat: 18.4950, lng: 73.8650 },
+                    { id: 's14', name: 'Karve Road', timeOffset: 22, waitingCount: 28, lat: 18.5060, lng: 73.8320 },
+                    { id: 's15', name: 'Kothrud Depot', timeOffset: 30, waitingCount: 4, lat: 18.5074, lng: 73.8077 }
                 ]
             },
             {
@@ -254,10 +254,10 @@ const CITY_DATA = {
                 frequency: '15 min',
                 pathPoints: [ {x:200, y:400}, {x:400, y:400}, {x:600, y:300}, {x:800, y:200} ],
                 stops: [
-                    { id: 'pk1', name: 'Kothrud Stand', timeOffset: 0, waitingCount: 18 },
-                    { id: 'pk2', name: 'Deccan Gymkhana', timeOffset: 10, waitingCount: 22 },
-                    { id: 'pk3', name: 'Pune Station', timeOffset: 25, waitingCount: 51 },
-                    { id: 'pk4', name: 'Viman Nagar', timeOffset: 45, waitingCount: 30 }
+                    { id: 'pk1', name: 'Kothrud Stand', timeOffset: 0, waitingCount: 18, lat: 18.5074, lng: 73.8077 },
+                    { id: 'pk2', name: 'Deccan Gymkhana', timeOffset: 10, waitingCount: 22, lat: 18.5165, lng: 73.8430 },
+                    { id: 'pk3', name: 'Pune Station', timeOffset: 25, waitingCount: 51, lat: 18.5289, lng: 73.8744 },
+                    { id: 'pk4', name: 'Viman Nagar', timeOffset: 45, waitingCount: 30, lat: 18.5679, lng: 73.9143 }
                 ]
             },
             {
@@ -271,9 +271,9 @@ const CITY_DATA = {
                 frequency: '60 min',
                 pathPoints: [ {x:600, y:150}, {x:300, y:150} ],
                 stops: [
-                    { id: 'ep1', name: 'Pune Railway Station', timeOffset: 0, waitingCount: 88 },
-                    { id: 'ep2', name: 'Wakad Highway', timeOffset: 25, waitingCount: 14 },
-                    { id: 'ep3', name: 'Mumbai Dadar Asiad', timeOffset: 180, waitingCount: 0 }
+                    { id: 'ep1', name: 'Pune Railway Station', timeOffset: 0, waitingCount: 88, lat: 18.5289, lng: 73.8744 },
+                    { id: 'ep2', name: 'Wakad Highway', timeOffset: 25, waitingCount: 14, lat: 18.5930, lng: 73.7640 },
+                    { id: 'ep3', name: 'Mumbai Dadar Asiad', timeOffset: 180, waitingCount: 0, lat: 19.0178, lng: 72.8478 }
                 ]
             }
         ],
@@ -307,11 +307,11 @@ const CITY_DATA = {
                 frequency: '12 min',
                 pathPoints: [ {x:500, y:300}, {x:550, y:300}, {x:550, y:200}, {x:300, y:250}, {x:150, y:250} ],
                 stops: [
-                    { id: 's1', name: 'Sitabuldi Bus Stand', timeOffset: 0, waitingCount: 16 },
-                    { id: 's2', name: 'Cotton Market', timeOffset: 6, waitingCount: 34 },
-                    { id: 's3', name: 'Jaripatka', timeOffset: 12, waitingCount: 7 },
-                    { id: 's4', name: 'Wadi', timeOffset: 19, waitingCount: 25 },
-                    { id: 's5', name: 'MIDC Hingna', timeOffset: 28, waitingCount: 42 }
+                    { id: 's1', name: 'Sitabuldi Bus Stand', timeOffset: 0, waitingCount: 16, lat: 21.1448, lng: 79.0831 },
+                    { id: 's2', name: 'Cotton Market', timeOffset: 6, waitingCount: 34, lat: 21.1450, lng: 79.0950 },
+                    { id: 's3', name: 'Jaripatka', timeOffset: 12, waitingCount: 7, lat: 21.1850, lng: 79.1000 },
+                    { id: 's4', name: 'Wadi', timeOffset: 19, waitingCount: 25, lat: 21.1600, lng: 79.0100 },
+                    { id: 's5', name: 'MIDC Hingna', timeOffset: 28, waitingCount: 42, lat: 21.1100, lng: 78.9800 }
                 ]
             },
             {
@@ -325,11 +325,11 @@ const CITY_DATA = {
                 frequency: '25 min',
                 pathPoints: [ {x:600, y:300}, {x:600, y:350}, {x:600, y:450}, {x:550, y:500}, {x:550, y:550} ],
                 stops: [
-                    { id: 's6', name: 'Nagpur Railway Station', timeOffset: 0, waitingCount: 30 },
-                    { id: 's7', name: 'Residency Road', timeOffset: 8, waitingCount: 12 },
-                    { id: 's8', name: 'Wardha Road', timeOffset: 15, waitingCount: 19 },
-                    { id: 's9', name: 'Dr. Ambedkar Chowk', timeOffset: 22, waitingCount: 6 },
-                    { id: 's10', name: 'Dr. Babasaheb Ambedkar Int\'l Airport', timeOffset: 30, waitingCount: 38 }
+                    { id: 's6', name: 'Nagpur Railway Station', timeOffset: 0, waitingCount: 30, lat: 21.1500, lng: 79.0900 },
+                    { id: 's7', name: 'Residency Road', timeOffset: 8, waitingCount: 12, lat: 21.1570, lng: 79.0800 },
+                    { id: 's8', name: 'Wardha Road', timeOffset: 15, waitingCount: 19, lat: 21.1200, lng: 79.0700 },
+                    { id: 's9', name: 'Dr. Ambedkar Chowk', timeOffset: 22, waitingCount: 6, lat: 21.0950, lng: 79.0650 },
+                    { id: 's10', name: 'Dr. Babasaheb Ambedkar Int\'l Airport', timeOffset: 30, waitingCount: 38, lat: 21.0922, lng: 79.0620 }
                 ]
             },
             {
@@ -343,10 +343,10 @@ const CITY_DATA = {
                 frequency: '18 min',
                 pathPoints: [ {x:700, y:150}, {x:750, y:250}, {x:500, y:300}, {x:400, y:350} ],
                 stops: [
-                    { id: 's11', name: 'Kamptee Bus Terminus', timeOffset: 0, waitingCount: 22 },
-                    { id: 's12', name: 'Kalamna Market', timeOffset: 7, waitingCount: 40 },
-                    { id: 's13', name: 'Civil Lines', timeOffset: 14, waitingCount: 14 },
-                    { id: 's14', name: 'Dharampeth', timeOffset: 21, waitingCount: 31 }
+                    { id: 's11', name: 'Kamptee Bus Terminus', timeOffset: 0, waitingCount: 22, lat: 21.2220, lng: 79.1950 },
+                    { id: 's12', name: 'Kalamna Market', timeOffset: 7, waitingCount: 40, lat: 21.1710, lng: 79.1620 },
+                    { id: 's13', name: 'Civil Lines', timeOffset: 14, waitingCount: 14, lat: 21.1490, lng: 79.0750 },
+                    { id: 's14', name: 'Dharampeth', timeOffset: 21, waitingCount: 31, lat: 21.1440, lng: 79.0610 }
                 ]
             },
             {
@@ -360,9 +360,9 @@ const CITY_DATA = {
                 frequency: '15 min',
                 pathPoints: [ {x:800, y:500}, {x:500, y:300} ],
                 stops: [
-                    { id: 'sn10-1', name: 'Dighori Naka', timeOffset: 0, waitingCount: 19 },
-                    { id: 'sn10-2', name: 'Sakkardara', timeOffset: 8, waitingCount: 12 },
-                    { id: 'sn10-3', name: 'Zero Mile Metro Stn', timeOffset: 20, waitingCount: 25 }
+                    { id: 'sn10-1', name: 'Dighori Naka', timeOffset: 0, waitingCount: 19, lat: 21.1150, lng: 79.1350 },
+                    { id: 'sn10-2', name: 'Sakkardara', timeOffset: 8, waitingCount: 12, lat: 21.1210, lng: 79.1150 },
+                    { id: 'sn10-3', name: 'Zero Mile Metro Stn', timeOffset: 20, waitingCount: 25, lat: 21.1470, lng: 79.0880 }
                 ]
             },
             {
@@ -376,8 +376,8 @@ const CITY_DATA = {
                 frequency: '20 min',
                 pathPoints: [ {x:900, y:100}, {x:850, y:200} ],
                 stops: [
-                    { id: 'sn25-1', name: 'Kalamna Market', timeOffset: 0, waitingCount: 44 },
-                    { id: 'sn25-2', name: 'Pardi Naka', timeOffset: 12, waitingCount: 18 }
+                    { id: 'sn25-1', name: 'Kalamna Market', timeOffset: 0, waitingCount: 44, lat: 21.1710, lng: 79.1620 },
+                    { id: 'sn25-2', name: 'Pardi Naka', timeOffset: 12, waitingCount: 18, lat: 21.1550, lng: 79.1680 }
                 ]
             }
         ],
@@ -411,11 +411,11 @@ const CITY_DATA = {
                 frequency: '15 min',
                 pathPoints: [ {x:400, y:300}, {x:450, y:300}, {x:500, y:250}, {x:600, y:200}, {x:700, y:250} ],
                 stops: [
-                    { id: 's1', name: 'Wardha Railway Station', timeOffset: 0, waitingCount: 28 },
-                    { id: 's2', name: 'Bajaj Chowk', timeOffset: 5, waitingCount: 11 },
-                    { id: 's3', name: 'MG Antarrashtriya Hindi Vishwavidyalaya', timeOffset: 11, waitingCount: 36 },
-                    { id: 's4', name: 'Bapu Kuti', timeOffset: 17, waitingCount: 4 },
-                    { id: 's5', name: 'Sevagram Ashram', timeOffset: 23, waitingCount: 18 }
+                    { id: 's1', name: 'Wardha Railway Station', timeOffset: 0, waitingCount: 28, lat: 20.7490, lng: 78.6100 },
+                    { id: 's2', name: 'Bajaj Chowk', timeOffset: 5, waitingCount: 11, lat: 20.7450, lng: 78.6020 },
+                    { id: 's3', name: 'MG Antarrashtriya Hindi Vishwavidyalaya', timeOffset: 11, waitingCount: 36, lat: 20.7250, lng: 78.5800 },
+                    { id: 's4', name: 'Bapu Kuti', timeOffset: 17, waitingCount: 4, lat: 20.7100, lng: 78.5550 },
+                    { id: 's5', name: 'Sevagram Ashram', timeOffset: 23, waitingCount: 18, lat: 20.7070, lng: 78.5520 }
                 ]
             },
             {
@@ -429,10 +429,10 @@ const CITY_DATA = {
                 frequency: '20 min',
                 pathPoints: [ {x:450, y:350}, {x:500, y:450}, {x:450, y:500}, {x:400, y:600} ],
                 stops: [
-                    { id: 's6', name: 'Main Bus Stand', timeOffset: 0, waitingCount: 23 },
-                    { id: 's7', name: 'Arvi Naka', timeOffset: 7, waitingCount: 9 },
-                    { id: 's8', name: 'Datta Meghe Institute', timeOffset: 14, waitingCount: 33 },
-                    { id: 's9', name: 'Pavnar Ashram', timeOffset: 21, waitingCount: 15 }
+                    { id: 's6', name: 'Main Bus Stand', timeOffset: 0, waitingCount: 23, lat: 20.7453, lng: 78.6022 },
+                    { id: 's7', name: 'Arvi Naka', timeOffset: 7, waitingCount: 9, lat: 20.7600, lng: 78.5800 },
+                    { id: 's8', name: 'Datta Meghe Institute', timeOffset: 14, waitingCount: 33, lat: 20.7750, lng: 78.5950 },
+                    { id: 's9', name: 'Pavnar Ashram', timeOffset: 21, waitingCount: 15, lat: 20.7950, lng: 78.6250 }
                 ]
             },
             {
@@ -446,9 +446,9 @@ const CITY_DATA = {
                 frequency: '45 min',
                 pathPoints: [ {x:500, y:300}, {x:700, y:100} ],
                 stops: [
-                    { id: 'sw5-1', name: 'Shivaji Chowk', timeOffset: 0, waitingCount: 15 },
-                    { id: 'sw5-2', name: 'Seloo', timeOffset: 15, waitingCount: 10 },
-                    { id: 'sw5-3', name: 'Kelzar Ganpati', timeOffset: 30, waitingCount: 22 }
+                    { id: 'sw5-1', name: 'Shivaji Chowk', timeOffset: 0, waitingCount: 15, lat: 20.7500, lng: 78.6050 },
+                    { id: 'sw5-2', name: 'Seloo', timeOffset: 15, waitingCount: 10, lat: 20.8500, lng: 78.7500 },
+                    { id: 'sw5-3', name: 'Kelzar Ganpati', timeOffset: 30, waitingCount: 22, lat: 20.9000, lng: 78.8500 }
                 ]
             },
             {
@@ -462,8 +462,8 @@ const CITY_DATA = {
                 frequency: '60 min',
                 pathPoints: [ {x:400, y:300}, {x:200, y:300} ],
                 stops: [
-                    { id: 'sw10-1', name: 'District Court', timeOffset: 0, waitingCount: 4 },
-                    { id: 'sw10-2', name: 'Pulgaon Station', timeOffset: 40, waitingCount: 25 }
+                    { id: 'sw10-1', name: 'District Court', timeOffset: 0, waitingCount: 4, lat: 20.7430, lng: 78.5980 },
+                    { id: 'sw10-2', name: 'Pulgaon Station', timeOffset: 40, waitingCount: 25, lat: 20.7250, lng: 78.3300 }
                 ]
             }
         ],
@@ -490,24 +490,55 @@ const ROUTES = _cityData.routes;
 const VEHICLES = _cityData.vehicles;
 const ALERTS = _cityData.alerts;
 
+// Helper to get interpolated GPS position for a vehicle on its route
+const getVehiclePosition = (vehicle, routes) => {
+    const route = (routes || ROUTES).find(r => r.id === vehicle.routeId);
+    if (!route || !route.stops || route.stops.length === 0) return null;
+
+    const stops = route.stops;
+    const currIdx = vehicle.currentStopIndex;
+    const nextIdx = (currIdx + 1) % stops.length;
+    
+    const currStop = stops[currIdx];
+    const nextStop = stops[nextIdx];
+
+    if (!currStop.lat || !nextStop.lat) return null;
+
+    // Linear interpolation between stops
+    const lat = currStop.lat + (nextStop.lat - currStop.lat) * vehicle.progress;
+    const lng = currStop.lng + (nextStop.lng - currStop.lng) * vehicle.progress;
+
+    return { lat, lng };
+};
+
 // Helper to simulate live movement
 const simulateMovement = (vehicles, routes) => {
     const routeList = routes || ROUTES;
     return vehicles.map(v => {
-        let newProgress = v.progress + 0.05;
+        let newProgress = v.progress + 0.1; // Move 10% between stops each tick
         let newIndex = v.currentStopIndex;
 
         if (newProgress >= 1) {
             newProgress = 0;
-            newIndex += 1;
-            const route = routeList.find(r => r.id === v.routeId);
-            if (route && newIndex >= route.stops.length - 1) {
-                newIndex = 0;
-            }
+            newIndex = (newIndex + 1) % (routeList.find(r => r.id === v.routeId)?.stops.length || 1);
         }
-        return { ...v, currentStopIndex: newIndex, progress: newProgress };
+        
+        const pos = getVehiclePosition({ ...v, currentStopIndex: newIndex, progress: newProgress }, routeList);
+        
+        return { 
+            ...v, 
+            currentStopIndex: newIndex, 
+            progress: newProgress,
+            latitude: pos?.lat || v.latitude,
+            longitude: pos?.lng || v.longitude
+        };
     });
 };
 
 window.CITY_DATA = CITY_DATA;
 window.getCityData = getCityData;
+window.ROUTES = ROUTES;
+window.VEHICLES = VEHICLES;
+window.ALERTS = ALERTS;
+window.getVehiclePosition = getVehiclePosition;
+window.simulateMovement = simulateMovement;

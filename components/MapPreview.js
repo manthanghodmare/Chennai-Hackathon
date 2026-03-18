@@ -27,9 +27,9 @@ function MapPreview() {
 
     // Add a few dummy markers for preview visualization
     const dummyPositions = [
-        [13.0827 + 0.015, 80.2707 + 0.01],
-        [13.0827 - 0.01, 80.2707 + 0.025],
-        [13.0827 + 0.02, 80.2707 - 0.015]
+        [center[0] + 0.015, center[1] + 0.01],
+        [center[0] - 0.01, center[1] + 0.025],
+        [center[0] + 0.02, center[1] - 0.015]
     ];
     const colors = ['#1E3A8A', '#10B981', '#F59E0B'];
 

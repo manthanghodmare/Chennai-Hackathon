@@ -36,8 +36,13 @@ class ErrorBoundary extends React.Component {
 }
 
 function App() {
-    const [activeRouteId, setActiveRouteId] = React.useState(ROUTES[0].id);
-    const [vehicles, setVehicles] = React.useState(VEHICLES);
+    const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+    const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+    const cityRoutes = cityData.routes;
+    const initialVehicles = cityData.vehicles;
+
+    const [activeRouteId, setActiveRouteId] = React.useState(cityRoutes[0]?.id || '12B');
+    const [vehicles, setVehicles] = React.useState(initialVehicles);
     const [activeModal, setActiveModal] = React.useState(null); // 'schedule', 'search'
     const [toasts, setToasts] = React.useState([]);
     const [currentView, setCurrentView] = React.useState('home'); // 'home', 'routes', 'map', 'alerts'
@@ -92,6 +97,21 @@ function App() {
         }
     };
 
+    // Mock Movement Simulation (if no firestore data)
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setVehicles(prev => {
+                // Only simulate if we are using initial/mock vehicles (ids starting with 'v')
+                const isMock = prev.some(v => v.id.startsWith('v'));
+                if (isMock) {
+                    return window.simulateMovement(prev, cityRoutes);
+                }
+                return prev;
+            });
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [cityRoutes]);
+
     // Real-time Firestore Sync
     React.useEffect(() => {
         const { db } = window.firebaseApp;
@@ -103,8 +123,24 @@ function App() {
                 ...doc.data()
             }));
 
-            if (updatedVehicles.length > 0) {
-                setVehicles(updatedVehicles);
+            // Filter vehicles to only show those belonging to the current city's routes
+            const cityRouteIds = cityRoutes.map(r => r.id);
+            const filteredVehicles = updatedVehicles.filter(v => cityRouteIds.includes(v.routeId)).map(v => {
+                // If it doesn't have lat/lng but has progress, compute it
+                if (!v.latitude && v.progress !== undefined) {
+                    const pos = window.getVehiclePosition(v, cityRoutes);
+                    return { ...v, latitude: pos?.lat, longitude: pos?.lng };
+                }
+                return v;
+            });
+
+            if (filteredVehicles.length > 0) {
+                setVehicles(filteredVehicles);
+            } else {
+                setVehicles(initialVehicles.map(v => {
+                    const pos = window.getVehiclePosition(v, cityRoutes);
+                    return { ...v, latitude: pos?.lat, longitude: pos?.lng };
+                }));
             }
         }, (error) => {
             console.error("Firestore Sync Error:", error);
@@ -289,8 +325,8 @@ function App() {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <EcoWidget />
-                                        
+                                        {/* <EcoWidget /> */}
+ arena                                        
                                         {/* Favorited Routes Box */}
                                         <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl p-6 border border-slate-100 dark:border-slate-800 transition-colors">
                                             <div className="flex items-center justify-between mb-4">

@@ -101,7 +101,13 @@ function AdminMap({ vehicles }) {
         if (!mapInstanceRef.current) return;
         const map = mapInstanceRef.current;
 
-        const currentIds = (vehicles || []).map(v => v.id);
+        const selectedCity = localStorage.getItem('selectedCity') || 'chennai';
+        const cityData = window.CITY_DATA[selectedCity] || window.CITY_DATA['chennai'];
+        const cityCenter = cityData.mapCenter || [13.0827, 80.2707];
+        const cityRouteIds = cityData.routes.map(r => r.id);
+
+        const currentVehicles = (vehicles || []).filter(v => cityRouteIds.includes(v.routeId));
+        const currentIds = currentVehicles.map(v => v.id);
 
         // Remove old markers
         Object.keys(markersRef.current).forEach(id => {
@@ -112,9 +118,9 @@ function AdminMap({ vehicles }) {
         });
 
         // Add/Update markers
-        (vehicles || []).forEach(v => {
-            const lat = v.latitude || 13.0827 + (Math.random() - 0.5) * 0.05;
-            const lng = v.longitude || 80.2707 + (Math.random() - 0.5) * 0.05;
+        currentVehicles.forEach(v => {
+            const lat = v.latitude || cityCenter[0];
+            const lng = v.longitude || cityCenter[1];
             
             const isSelected = !selectedRouteId || selectedRouteId === v.routeId;
             const opacityClass = isSelected ? 'opacity-100' : 'opacity-20 pointer-events-none';
