@@ -183,13 +183,20 @@ function RouteDetail({ route, vehicles, fullScreen }) {
                                     {vehiclesInSegment.map(v => (
                                         <div
                                             key={v.id}
-                                            className="absolute left-1.5 top-12 z-20 flex flex-col items-center pointer-events-none"
+                                            className="absolute left-1.5 z-20 flex flex-col items-center pointer-events-none"
                                             style={{
-                                                transform: `translateY(${v.progress * 60}px)`, // Adjusted spacing
-                                                transition: 'transform 1s linear'
+                                                top: '24px',          // Center of the current stop dot
+                                                bottom: '-72px',      // To the center of the next stop dot (space-y-12 = 48px + 24px dot center)
                                             }}
                                         >
-                                            <div className="relative pointer-events-auto group/bus">
+                                            <div 
+                                                className="absolute pointer-events-auto group/bus"
+                                                style={{
+                                                    top: `${v.progress * 100}%`,
+                                                    transform: 'translateY(-50%)',
+                                                    transition: 'top 1s linear'
+                                                }}
+                                            >
                                                 <div
                                                     onClick={() => showToast(`Vehicle ${v.id} is ${v.status} and ${v.capacity.toLowerCase()} capacity`, 'info')}
                                                     className={`relative px-3 py-1.5 rounded-lg shadow-lg flex items-center gap-2 text-white text-xs font-bold border-2 border-white dark:border-slate-700 ${route.color} transition-all hover:scale-110 cursor-pointer z-20`}

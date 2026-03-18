@@ -417,7 +417,7 @@ function App() {
                         <ScheduleModal route={activeModal.data.route} onClose={closeModal} />
                     )}
                     {activeModal?.type === 'search' && (
-                        <SearchModal routes={ROUTES} onClose={closeModal} />
+                        <SearchModal routes={ROUTES} vehicles={vehicles} onClose={closeModal} />
                     )}
                 </div>
             </AccessGuard>

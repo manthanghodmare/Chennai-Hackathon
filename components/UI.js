@@ -83,10 +83,19 @@ function ScheduleModal({ route, onClose }) {
     );
 }
 
-function SearchModal({ onClose, routes }) {
+function SearchModal({ onClose, routes, vehicles }) {
+    const defaultCity = localStorage.getItem('selectedCity') || 'chennai';
+    const [city, setCity] = React.useState(defaultCity);
     const [query, setQuery] = React.useState('');
     const [source, setSource] = React.useState('');
     const [destination, setDestination] = React.useState('');
+
+    const handleCityChange = (e) => {
+        const newCity = e.target.value;
+        setCity(newCity);
+        localStorage.setItem('selectedCity', newCity);
+        window.location.reload(); // Reload to refresh global routes & vehicles
+    };
 
     // Get all unique stops for the dropdowns
     const allStops = React.useMemo(() => {
@@ -96,6 +105,10 @@ function SearchModal({ onClose, routes }) {
     }, [routes]);
 
     const filteredRoutes = routes.filter(r => {
+        // Only show routes that currently have live active buses
+        const hasLiveBus = vehicles && vehicles.some(v => v.routeId === r.id);
+        if (!hasLiveBus) return false;
+
         const matchesQuery = r.name.toLowerCase().includes(query.toLowerCase()) || r.number.includes(query);
 
         if (!source && !destination) return matchesQuery;
@@ -117,6 +130,23 @@ function SearchModal({ onClose, routes }) {
     return (
         <Modal isOpen={true} onClose={onClose} title="Where is my Bus?">
             <div className="space-y-6 mb-8">
+                {/* City Selection Dropdown */}
+                <div className="space-y-2">
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block ml-1">Select City</label>
+                    <div className="relative group">
+                        <select
+                            className="w-full pl-4 pr-10 py-4 bg-white/5 border border-white/5 text-white rounded-2xl outline-none text-sm appearance-none transition-all focus:border-blue-500/50 focus:bg-white/10 font-bold"
+                            value={city}
+                            onChange={handleCityChange}
+                        >
+                            {window.CITY_DATA ? Object.keys(window.CITY_DATA).map(c => (
+                                <option key={c} value={c} className="bg-slate-900">{window.CITY_DATA[c].name}</option>
+                            )) : <option value="chennai" className="bg-slate-900">Chennai</option>}
+                        </select>
+                        <Icon name="chevron-down" className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-hover:text-blue-400 transition-colors" size="text-xs" />
+                    </div>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
                         <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block ml-1">Departure Station</label>
