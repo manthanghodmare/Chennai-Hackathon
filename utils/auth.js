@@ -61,7 +61,7 @@ const Auth = {
 
             // Listen for Firebase Auth state changes
             const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
-                if (!firebaseUser) {
+                if (!firebaseUser && !window.firebaseApp.isMockMode) {
                     localStorage.removeItem(Auth.KEY);
                     setUser(null);
                 }

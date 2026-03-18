@@ -50,7 +50,10 @@ function LoginApp() {
             return;
         }
 
-        if (!isPasswordValid) {
+        const { isMockMode } = window.firebaseApp || {};
+        if (isMockMode) {
+            // Bypass strict requirements for demo
+        } else if (!isPasswordValid) {
             setError('Please fulfill all password security requirements.');
             return;
         }
